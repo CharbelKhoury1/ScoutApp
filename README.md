@@ -1,2 +1,2 @@
 # ScoutApp
-This project is an application for scrouts.
+This project is a website/mobile app for the National Orthodox Scouts and Guides of Lebanon.
