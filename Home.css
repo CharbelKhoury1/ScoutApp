@@ -7,7 +7,7 @@
   
   /* Body styles */ 
   body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins',sans-serif;
     font-size: 16px;
     line-height: 1.5;
     color: #333;
@@ -260,6 +260,37 @@ cursor: pointer;
 
 /* end of sidebar code */
 
+/* scout creator */
+.Scout-Creator {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+}
+
+.Scout-Creator h1 {
+  font-family: 'Poppins';
+  text-align: center;
+}
+
+.Scout-Creator .image {
+  text-align: center;
+}
+
+.Scout-Creator .image img {
+  max-width: 300px;
+  height: auto;
+  border-radius: 20%;
+  margin: 20px;
+}
+
+.Scout-Creator p {
+  font-family: 'Poppins',sans-serif;
+  text-align: center;
+  line-height: 1.5;
+  margin: 10px;
+}
+/* end of scout creator */
 
   /* Testimonials section styles */
   .testimonials {
