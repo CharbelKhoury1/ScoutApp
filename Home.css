@@ -7,7 +7,7 @@
   
   /* Body styles */ 
   body {
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 16px;
     line-height: 1.5;
     color: #333;
@@ -34,7 +34,6 @@ cursor: pointer;
   object-fit: cover;
   border: 2px solid black;
 }
-
 
 
   /* Header styles */
@@ -121,10 +120,9 @@ cursor: pointer;
   
   }
   
-
-  
   /* end of slider code */
   
+
   
   /* Hero section styles */
 
@@ -156,112 +154,6 @@ cursor: pointer;
     margin-bottom: 20px;
   }
 
-
-  
-
-
-  /* Features section styles */
-  .features {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .feature1-container{
-    display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* width: 100%; */
-  width: calc(33.33% - 10px);
-    margin-bottom: 30px;
-  }
-
-  .feature2-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* width: 100%; */
-    width: calc(33.33% - 10px);
-    margin-bottom: 30px;
-  }
-
-  .feature3-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* width: 100%;
-     */
-     width: calc(33.33% - 10px);
-    margin-bottom: 30px;
-  }
-
-  .feature1-image{
-    flex: 1;
-    margin-right: 10px;
-    overflow: hidden;
-    height: 250px;  
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-  
-  }
-
-  .feature2-image{
-    flex:1;
-    margin-right: 10px;
-    overflow: hidden;
-    height: 250px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 40px;
- 
-  }
-
-  .feature3-image{
-    flex:1;
-    margin-right: 10px;
-    overflow: hidden;
-    height: 250px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-
-  }
-
-.feature1-image img{
-  width:100%;
-  height:237px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 10px;
-
-}
-
-.feature2-image img{
-  width:237px;
-  height: 237px;
-  border-radius: 10px;
-  object-fit: cover;
-  object-position: center;
-
-}
-.feature3-image img{
-  width:237px;
-  height: 237px;
-  border-radius: 10px;
-  object-fit: cover;
-  object-position: center;
-
-}
-
-
-  .feature1-content p ,.feature2-content p ,.feature3-content p {
-    padding: 20px;
-    justify-content: center;
-    font-size: 1rem;
-  }
-  .feature1-content h2 ,.feature2-content h2,.feature3-content h2 {
-    padding: 20px;
-    justify-content: center;
-  }
 
   /* Gallery Section */
   .image-grid {
@@ -410,25 +302,84 @@ footer {
     .hidden {
       display: none;
     }
-    
+
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.container1,.container2,.container3{
+  position: relative ;
+    width: 70%;
+    margin: 50px;
+} 
+
+.container1 img{
+  margin: 20px;
+  border: 3px solid black;
+  border-radius: 10px;
+  float:right;
+  width: 50%;
+  height: 20%; 
+}
+.container2 img{
+  margin: 20px;
+  border: 3px solid black;
+  border-radius: 10px;
+  float:left;
+  width: 50%;
+  height: 30%; 
+}
+.container3 img{
+  margin: 20px;
+  border: 3px solid black;
+  border-radius: 10px;
+  float:right;
+  width: 50%;
+  height: 30%;  
+}
 
   /* Responsive styles */
   @media screen and (max-width: 768px) {
-    nav {
-  
-      flex-direction: column;
+
+    .container1 img,.container2 img,.container3 img{
+float: none;
+width: 100%;
     }
+
+    .hero img {
+      max-width: 100%;
+    }
+
+      .feature1-container,
+      .feature2-container ,
+      .feature3-container  {
+        flex-wrap: wrap;
+      }
     
-    nav ul {
-      width: 100%;
-    }
+      .feature1-image,
+      .feature1-content,
+      .feature2-image,
+      .feature2-content,
+      .feature3-image,
+      .feature3-content {
+        flex-basis: 100%;
+      }
     
-    nav li {
-      width: 100%;
-    }
+      .feature1-content,
+      .feature2-content ,
+      .feature3-content  {
+        text-align: center;
+        padding-left: 0;
+      }
+    
+
   } 
   
-
 
   @media (max-width: 480px) {
   
@@ -448,6 +399,7 @@ footer {
       font-size: 0.8rem;
     }
   }
+  
   
 /* mobile devices */
 @media only screen and (max-width: 767px) {
