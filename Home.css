@@ -89,7 +89,7 @@ cursor: pointer;
   }
   
   
-  .image-container {
+  .image-containerr {
     width: 100%;
     /* height: fit-content; changes height to auto to adjust to image's height */
     height: 418px !important;
@@ -100,7 +100,7 @@ cursor: pointer;
     margin: 0 auto; /* centers the container horizontally */
   }
   
-  .image-container img {
+  .image-containerr img {
     display: block; /* adds display block to the image to remove extra padding */
     margin: 0 auto; /* centers the image horizontally */
     max-width: 100%; /* ensures that the image does not exceed the container's width */
@@ -292,6 +292,48 @@ cursor: pointer;
 }
 /* end of scout creator */
 
+/* baden powel quotes */
+.quotes-container{
+margin-bottom: 40px;
+}
+.quotes-container h1,.quotes-container h3{
+  text-align: center;
+  margin:  25px 20px auto;
+}
+
+.image-container{
+  display: flex;
+  justify-content: center;
+  
+}
+
+.image-container img{
+  width: 50%;
+  height: 80%;
+}
+.quote-container {
+  justify-content: center;
+  width: 400px;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.quote {
+  font-size: 18px;
+  /* font-style: italic; */
+  margin: 10px;
+}
+
+.author {
+  font-size: 14px;
+  font-weight: bold;
+}
+/* end of baden powel quotes */
+
   /* Testimonials section styles */
   .testimonials {
     margin-top: 80px;
@@ -434,7 +476,7 @@ width: 100%;
   
 /* mobile devices */
 @media only screen and (max-width: 767px) {
-  .image-container {
+  .image-containerr {
     width: 100%;
     height: fit-content; /* changes height to auto to adjust to image's height */
     max-width: 800px; /* adds a max-width to the container to prevent it from getting too large */
@@ -444,7 +486,7 @@ width: 100%;
     margin: 0 auto; /* centers the container horizontally */
   }
   
-  .image-container img {
+  .image-containerr img {
     display: block; /* adds display block to the image to remove extra padding */
     margin: 0 auto; /* centers the image horizontally */
     max-width: 100%; /* ensures that the image does not exceed the container's width */
@@ -457,7 +499,7 @@ width: 100%;
 }
 
 @media only screen and (max-width: 767px) and (orientation: landscape) {
-  .image-container {
+  .image-containerr {
     width: 100%;
     height: fit-content; /* changes height to auto to adjust to image's height */
     max-width: 800px; /* adds a max-width to the container to prevent it from getting too large */
@@ -467,7 +509,7 @@ width: 100%;
     margin: 0 auto; /* centers the container horizontally */
   }
   
-  .image-container img {
+  .image-containerr img {
     display: block; /* adds display block to the image to remove extra padding */
     margin: 0 auto; /* centers the image horizontally */
     max-width: 100%; /* ensures that the image does not exceed the container's width */
