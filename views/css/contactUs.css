@@ -1,0 +1,125 @@
+.card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 600px;
+    margin: 0 auto;
+    padding-right: 40px;
+}
+
+h1 {
+   text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    flex-grow: 1;
+    margin-right: 20px;
+}
+
+.input-group label {
+    width: 120px;
+    margin-right: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 100px;
+	width: 620px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"]{
+	width: 300px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	margin: 10px 0;
+}
+
+canvas {
+	border: 1px solid #000000;
+	border-radius: 5px;
+	margin-right: 5px;
+	height: 30px;
+	width: 252px;
+	border: 1px solid #ccc;
+}
+
+button#reload-button {
+	font-size: 20px;
+	width: 40px;
+	height: 32px;
+	background-color: dimgray;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+}
+
+.invalid {
+	border-color: red !important;
+}
+
+button[type="submit"] {
+    background-color: dimgray;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 150px;
+}
+
+button:hover {
+    background-color: gray;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+.success-message {
+	color: green;
+}
+.error-input {
+	border-color: red;
+}
+
+
+
