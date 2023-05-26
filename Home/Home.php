@@ -17,34 +17,34 @@
 
 <div class="sidebar">
       <div class="logo">
-        <img src="menu-svgrepo-com.svg" alt="sds">
-        <img src="arrow-right-svgrepo-com.svg" alt="sdsd">
-        <img src="close-md-svgrepo-com.svg" alt="dsd">
+        <img src="../Icons/menu-svgrepo-com.svg" alt="sds">
+        <img src="../Icons/arrow-right-svgrepo-com.svg" alt="sdsd">
+        <img src="../Icons/close-md-svgrepo-com.svg" alt="dsd">
       </div>
       <div class="links">
       <button class="active" onclick="scrollToSection('hero')">
-  <img src="home-alt-svgrepo-com.svg">Home
+  <img src="../Icons/home-alt-svgrepo-com.svg">Home
 </button>
 <button onclick="window.location.href='Requests.html'">
-  <img src="git-pull-request-svgrepo-com.svg">Requests
+  <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
 </button>
 <button onclick="window.location.href='Finance.html'">
-  <img src="finance-currency-dollar-svgrepo-com.svg">Finance
+  <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
 </button>
 <button onclick="scrollToSection('Scout-gallery')">
-  <img src="world-1-svgrepo-com.svg">Social Media
+  <img src="../Icons/world-1-svgrepo-com.svg">Social Media
 </button>
 <button class="" onclick="scrollToSection('testimonials')">
-  <img src="system-help-svgrepo-com.svg">About Us
+  <img src="../Icons/system-help-svgrepo-com.svg">About Us
 </button>
 <button  class="" onclick="scrollToSection('testimonials')">
-  <img src="phone-svgrepo-com.svg">Contact Us
+  <img src="../Icons/phone-svgrepo-com.svg">Contact Us
 </button>
        </div>
       </div>
 
       <div class="profile-icon">
-        <img src="person_icon-removebg-preview.png" alt="Profile Picture">
+        <img src="../Pictures/person_icon-removebg-preview.png" alt="Profile Picture">
       </div>
 
       <div class="login-btn">
@@ -52,14 +52,14 @@
       </div>
 
       <div class="hero">
-        <img src="WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">
+        <img src="../Pictures/WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">
       </div>
 
 <!-- sliders part -->
 <section class="slider">
   <div class="slide active">
     <div class="image-containerr">
-    <img src="ScoutPic4.jpg" alt="ScoutPic4"></div>
+    <img src="../Pictures/ScoutPic4.jpg" alt="ScoutPic4"></div>
     <div class="slide-content">
       <h1>Hello!!</h1>
       <p>Welcome to the National Orthodox Scouts and Guides! Our community is dedicated to helping young people develop their character, leadership skills, and love for God and country. Join us on this adventure!</p>
@@ -67,7 +67,7 @@
   </div>
   <div class="slide">
     <div class="image-containerr">
-      <img src="ScoutPic5.jpg" alt="ScoutPic5"></div>
+      <img src="../Pictures/ScoutPic5.jpg" alt="ScoutPic5"></div>
     <div class="slide-content">
       <h1>Discover Your Talents</h1>
       <p>Explore the great outdoors and discover new talents with the National Orthodox Scouts and Guides. Whether you're interested in camping, hiking, cooking, or art, we have something for you. Come and see what you can achieve!</p>
@@ -75,7 +75,7 @@
   </div>
   <div class="slide">
     <div class="image-containerr">
-      <img src="ScoutPic6_auto_x2.jpg" alt="ScoutPic5"></div>
+      <img src="../Pictures/ScoutPic6_auto_x2.jpg" alt="ScoutPic5"></div>
           <div class="slide-content">
       <h1>Be a Changemaker and More!</h1>
       <p>Are you ready to make a difference in your community and beyond? The National Orthodox Scouts and Guides are committed to serving others and promoting peace, justice, and sustainability. Join us and become a changemaker today!</p>
@@ -87,7 +87,7 @@
   
 <div class="container">
 <div class="container1">
-  <img src="ScoutPic2.jpg" alt="">
+  <img src="../Pictures/ScoutPic2.jpg" alt="">
   <h2>Values and Principles of Scouts and Guides National Orthodox</h2>
   <p>Explore the core values and principles that guide the Scout et Guide National Orthodoxe (SNO) community. 
     Discover how SNO programs instill Orthodox Christian values such as faith, compassion,
@@ -95,13 +95,13 @@
      Delve into the unique blend of religious teachings, traditions, and outdoor experiences that form the foundation of the SNO movement.</p>
 </div>
 <div class="container2">
-  <img src="ScoutPic6.png" alt="">
+  <img src="../Pictures/ScoutPic6.png" alt="">
   <h2>Programs and Activities of Scouts and Guides National Orthodox</h2>
   <p>Discover the diverse range of programs and activities offered by the Scout et Guide National Orthodoxe (SNO) community. Explore the exciting adventures and challenges that SNO members undertake, including camping, hiking, leadership development, community service, and environmental conservation. Learn about the integration of Orthodox Christian teachings
     , rituals, and practices into the SNO programs, providing a holistic approach to personal growth, cultural preservation, and spiritual enrichment.</p>
 </div>
 <div class="container3">
-  <img src="ScoutPic1.png" alt="">
+  <img src="../Pictures/ScoutPic1.png" alt="">
   <h2>Inclusivity and Community in the Scouts and Guides National Orthodox</h2>
   <p>Explore the inclusive nature of the Scout et Guide National Orthodoxe (SNO) community and its commitment 
     to fostering a sense of belonging. Learn how SNO embraces individuals from diverse backgrounds, cultures, and abilities,
@@ -112,18 +112,18 @@
 <div class="Scout-Creator">
   <h1>Robert Stephenson Smyth Lord Baden-Powell  - The Scouts Founder</h1>
   <div class="image">
-    <img src="Lord Baden Powell.gif" alt="Baden Powell">
+    <img src="../Pictures/Lord Baden Powell.gif" alt="Baden Powell">
   </div>
   <p>
     Baden Powell was a British Army officer, writer, and founder of the Scout Movement. He was born on February 22, 1857, in London, England. Powell's passion for outdoor activities and his military background inspired him to develop a youth program that focused on character development, teamwork, and self-reliance.
   </p>
   <div class="image">
-    <img src="brownseascout.gif" alt="">
+    <img src="../Pictures/brownseascout.gif" alt="">
   </div>
   <p>
     In 1907, Powell organized the first experimental camp on Brownsea Island, which marked the beginning of the Scout Movement. His book, "Scouting for Boys," became a bestseller and laid the foundation for the worldwide scouting movement. Powell's contributions to youth development have had a lasting impact, promoting values of integrity, leadership, and service.
     <div class="image">
-      <img src="girlguides.webp" alt="">
+      <img src="../Pictures/girlguides.webp" alt="">
     </div>
   </p>
   <p>
@@ -137,7 +137,7 @@
   <h1>Our founder's most touching quotes:</h1>
   <h3>Dedicated to the Leaders</h3>
   <div class="image-container">
-    <img src="ScoutLeaders.jpg" alt="Leaders">
+    <img src="../Pictures/ScoutLeaders.jpg" alt="Leaders">
     </div>
 <div class="quote-container">
   <div class="quote">
@@ -163,7 +163,7 @@
 </div>
 <h3>Dedicated to the Scouts:</h3>
 <div class="image-container">
-  <img src="Scoutss.jpg" alt="Scouts">
+  <img src="../Pictures/Scoutss.jpg" alt="Scouts">
 </div>
 <div class="quote-container">
   <div class="quote">
@@ -240,17 +240,17 @@
       <section class="testimonials">
         <h2>Our Scouts and Guides Experience</h2>
         <div class="testimonial">
-          <img src="scoutportrait.jpg" alt="Customer 1">
+          <img src="../Pictures/scoutportrait.jpg" alt="Customer 1">
           <blockquote>"The National Orthodox Scouts has changed my life. It taught me leadership, teamwork, and a love for nature. I've made lifelong friends and had incredible adventures. I'm grateful for the impact it has had on me."</blockquote>
           <cite>- John</cite>
         </div>
         <div class="testimonial">
-          <img src="scoutportrait1.jpg" alt="Customer 2">
+          <img src="../Pictures/scoutportrait1.jpg" alt="Customer 2">
           <blockquote>"The Scouts empowered me to break stereotypes and pursue my passions. I gained confidence, resilience, and made lasting friendships. Scouting taught me skills and a love for the outdoors. It's been an amazing journey."</blockquote>
           <cite>- Sarah</cite>
         </div>
         <div class="testimonial">
-          <img src="scoutportrait2.jpg" alt="Customer 3">
+          <img src="../Pictures/scoutportrait2.jpg" alt="Customer 3">
           <blockquote>"The Scouts taught me teamwork, self-reliance, and the joy of giving back. It challenged me and helped me discover my potential. The friendships and adventures I've had are priceless. Scouting made me who I am today."</blockquote>
           <cite>- David</cite>
         </div>
