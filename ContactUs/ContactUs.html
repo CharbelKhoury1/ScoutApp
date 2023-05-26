@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ContactUs.css">
+    <title>Document</title>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo">
+      <img src="menu-svgrepo-com.svg" alt="sds">
+      <img src="arrow-right-svgrepo-com.svg" alt="sdsd">
+      <img src="close-md-svgrepo-com.svg" alt="dsd">
+    </div>
+    <div class="links">
+    <a href="Home.html" >
+      <img src="home-alt-svgrepo-com.svg">Home</a>
+      <a href="Requests.html">
+        <img src="git-pull-request-svgrepo-com.svg">Requests</a>
+        <a href="Finance.html">
+          <img src="finance-currency-dollar-svgrepo-com.svg">Finance</a>
+          <a href="SocialMedia.html">
+            <img src="world-1-svgrepo-com.svg">Social Media</a>
+            <a href="AboutUs.html" >
+              <img src="system-help-svgrepo-com.svg">
+              About Us</a>
+              <a href="ContactUs.html" class="active">
+                <img src="phone-svgrepo-com.svg">Contact Us</a>
+     </div>
+    </div>
+    
+<div class="container">
+    <div class="contact-section">
+      <h2>Contact Us</h2>
+      <p>If you have any questions or comments, please feel free to contact us. hi my name is charbel, contact me</p>
+      <form action="submit-form.php" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <input type="submit" value="Submit your message">
+      </form>
+      <div class="contact-info">
+        <h3>Contact Information:</h3>
+        <p>Address: 123 Main Street, Beirut, Lebanon</p>
+        <p>Phone: +961 123 456</p>
+        <p>Email: info@scoutslebanon.com</p>
+      </div>
+      <div class="home-link hidden">
+        <a href="Home.html">Return to Home Page</a>
+      </div>
+    </div>
+  </div>
+  <script src="ContactUs.js"></script>
+  </body></html>
+  

@@ -1,0 +1,126 @@
+body {
+  background-color: #34568B;
+  font-family: Arial,sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.images img:nth-child(1){
+padding: 20px;
+position: absolute;
+object-fit: cover;
+width: 15%;
+left: 0;
+top:0;
+/* height: 10%; */
+}
+.images img:nth-child(2){
+  padding: 20px;
+position: absolute;
+object-fit: cover;
+width: 15%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.images img:nth-child(3){
+  padding: 20px;
+position: absolute;
+object-fit: cover;
+width: 15%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.images img:nth-child(4){
+  padding: 20px;
+position: absolute;
+object-fit: cover;
+width: 15%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.container {
+  min-width: 500px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  max-height: 80vh;
+  position: absolute;
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: #fff;
+  margin:8px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+.register{
+  text-align: center;
+}
+/* Media Query for Mobile Screens */
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)
+  and (-webkit-device-pixel-ratio: 3)
+  and (orientation: portrait) {
+    /* CSS styles specific to iPhone XS in portrait mode */
+    /* Add your styles here */
+
+    .container {
+  
+     min-width:500px;
+     max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      overflow-y: auto;
+      max-height: 80vh;
+      position: absolute;
+    }
+
+    form {
+      display: flex;
+      flex-direction:column;
+    }
+
+}
