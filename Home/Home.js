@@ -136,15 +136,20 @@ function scrollToSection(sectionClass) {
   const section = document.getElementsByClassName(sectionClass)[0];
   section.scrollIntoView({ behavior: "smooth" });
 
-  const buttons = document.querySelectorAll(".links button");
+ // Get all the buttons
+const buttons = document.querySelectorAll('.links button');
 
-buttons.forEach((button) => {
-  button.addEventListener("click", function () {
-    // Remove the "active" class from all buttons
-    buttons.forEach((btn) => btn.classList.remove("active"));
-    
-    // Add the "active" class to the clicked button
-    this.classList.add("active");
+// Add event listener to each button
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Check if the clicked button is already active
+    if (!button.classList.contains('active')) {
+      // Remove the active class from all buttons
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Add the active class to the clicked button
+      button.classList.add('active');
+    }
   });
 });
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Generate Unique Code and Password</title>
+  <link rel="stylesheet" type="text/css" href="ScoutCode.css">
+</head>
+<body>
+  <h1>Generate Unique Code and Password</h1>
+  <form action="generate.php" method="POST">
+    <table class="input-table">
+      <tr>
+        <td><label for="name">Name:</label></td>
+        <td><input type="text" id="name" name="first-name" required></td>
+      </tr>
+      <tr>
+        <td><label for="last-name">Last Name:</label></td>
+        <td><input type="text" name="last-name" id="last-name" required></td>
+      </tr>
+      <tr>
+        <td><label for="email">Email:</label></td>
+        <td><input type="email" id="email" name="email" required></td>
+      </tr>
+    </table>
+    <button type="submit">Generate</button>
+  </form>
+
+  <table id="result-table">
+    <thead>
+      <tr>
+        <th>Generated Code</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Generated code and password rows will be dynamically added here -->
+    </tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>

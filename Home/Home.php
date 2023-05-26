@@ -12,7 +12,7 @@
   rel="stylesheet">
   </head>
 
-  <body>
+  <body>  
 <!-- facebook embedd -->
 
 <div class="sidebar">
@@ -31,6 +31,9 @@
 <button onclick="window.location.href='Finance.html'">
   <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
 </button>
+<button onclick="window.location.href='../ScoutCodeGenerator/ScoutCode.html'">
+  <img src="../Icons//icons8-password.svg">Scout Code Generator
+</button>
 <button onclick="scrollToSection('Scout-gallery')">
   <img src="../Icons/world-1-svgrepo-com.svg">Social Media
 </button>
@@ -48,7 +51,7 @@
       </div>
 
       <div class="login-btn">
-        <button onclick="window.location.href='Login.html'" >Login</button>
+        <button onclick="window.location.href='../Login/Login.html'" >Login</button>
       </div>
 
       <div class="hero">
