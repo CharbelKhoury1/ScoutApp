@@ -1,0 +1,51 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 80%;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 2px solid grey;
+  padding: 8px;
+  text-align: center;
+}
+.description-column {
+  width: 300px; 
+}
+
+.empty-cell {
+  background-color: grey;
+}
+
+.fas {
+  cursor: pointer;
+}
+
+input[type="text"] {
+  border: none;
+  outline: none;
+}
+
+.submit-button {
+  background-color: grey;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px;
+}

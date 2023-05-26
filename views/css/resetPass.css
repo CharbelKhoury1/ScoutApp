@@ -1,0 +1,88 @@
+.card {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 20px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	width: 400px;
+	margin: 0 auto;
+	padding-right: 40px;
+}
+
+h1 {
+	text-align: center;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	font-size: 16px;
+	width: 100%;
+}
+	
+button[type="submit"] {
+	background-color: dimgray;
+	color: #fff;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 420px;
+}
+button:hover {
+  background-color: gray;
+}
+		
+.centered-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
+}
+
+.success-message,
+	#errorMsg {
+		margin-top: 10px;
+		text-align: center;
+		font-weight: bold;
+	}
+
+	#errorMsg {
+		color: red;
+	}
+
+.success-message {
+	color: green;
+}
+.error-input {
+	border-color: red;
+}
+	.eye-icon {
+		position: absolute;
+		right: 565px;
+		top: 32%;
+		cursor: pointer;
+		color: lightgray;
+	}
+	.eye-icon2 {
+		position: absolute;
+		right: 565px; 
+		top: 43%;
+		cursor: pointer;
+		color: lightgray;
+	}
