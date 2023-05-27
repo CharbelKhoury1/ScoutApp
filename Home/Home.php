@@ -31,8 +31,8 @@
 <button onclick="window.location.href='Finance.html'">
   <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
 </button>
-<button onclick="window.location.href='../ScoutCodeGenerator/ScoutCode.html'">
-  <img src="../Icons//icons8-password.svg">Scout Code Generator
+<button onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php'">
+  <img src="../Icons//icons8-password.svg">Scouts Management
 </button>
 <button onclick="scrollToSection('Scout-gallery')">
   <img src="../Icons/world-1-svgrepo-com.svg">Social Media
