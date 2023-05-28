@@ -28,7 +28,7 @@
 <button onclick="window.location.href='Requests.html'">
   <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
 </button>
-<button onclick="window.location.href='Finance.html'">
+<button onclick="window.location.href='../views/transactionView.php'">
   <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
 </button>
 <button onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php'">
@@ -40,7 +40,7 @@
 <button class="" onclick="scrollToSection('testimonials')">
   <img src="../Icons/system-help-svgrepo-com.svg">About Us
 </button>
-<button  class="" onclick="scrollToSection('testimonials')">
+<button  class="" onclick="window.location.href='../views/contactUsView.php'">
   <img src="../Icons/phone-svgrepo-com.svg">Contact Us
 </button>
        </div>
@@ -51,8 +51,8 @@
       </div>
 
       <div class="login-btn">
-        <button onclick="window.location.href='../Login/Login.html'" >Login</button>
-      </div>
+    <button onclick="window.location.href='../Login/Login.php'">Login</button>
+</div>
 
       <div class="hero">
         <img src="../Pictures/WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">

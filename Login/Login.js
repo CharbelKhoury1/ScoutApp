@@ -1,12 +1,12 @@
 const form = document.querySelector('form');
-const usernameInput = document.getElementById('username');
+const codeInput = document.getElementById('scoutcode');
 const passwordInput = document.getElementById('password');
 const submitBtn = document.getElementById('submit-btn');
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
-  const username = usernameInput.value;
+  const code = codeInput.value;
   const password = passwordInput.value;
   // Perform validation or authentication logic here
-  console.log(`Username: ${username}, Password: ${password}`);
+  console.log(`ScoutCode: ${code}, Password: ${password}`);
 });

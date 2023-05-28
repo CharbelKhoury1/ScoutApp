@@ -9,7 +9,7 @@
 <body>
   <div class="container">
     <h1>Scout Info</h1>
-    <form method="post" action="upload.php">
+    <form method="post" action="InsertUser.php">
 
       <label for="scoutrank">Scout rank (الرتبة الكشفية) with date (from newest to oldest):</label>
       <select id="scoutrank" name="scoutrank">
@@ -36,13 +36,13 @@
       <input type="text" name="scoutunit" id="scoutunit">
 
       <label for="scoutclass">Scout class (الدرجة الكشفية) with date (from newest to oldest):</label>
-      <textarea id="scoutclass" name="scoutrank" rows="10"></textarea>
+      <textarea id="scoutclass" name="scoutclass" rows="10"></textarea>
   
       <label for="affiliationdate">Affiliation Date: (تاريخ الانتساب)</label>
       <input type="date" id="affiliationdate" name="affiliationdate" required>
 
       <label for="promisedate">Oath Date (تاريخ الوعد):</label>
-      <input type="date" id="promisedate" name="promisedate">
+      <input type="date" id="promisedate" name="oathdate">
 
       <label for="scouttitle">Scout Title (اللقب الكشفي):</label>
       <input type="text" id="scouttitle" name="scouttitle">
@@ -56,7 +56,7 @@
       <label for="trainingcourses">Training courses he participated in (what is the course / time (from date to date) / place):</label>    <!-- hle hyde barke mnaamol mtl section lahala bye2dar l moufawad aw hada martabe aalye enno yzid l courses bl database w se3eta byerjaa b na2e l chakhes shu l courses w hasab aya date kmn -->
       <textarea id="trainingcourses" name="trainingcourses" rows="10"></textarea>
       
-      <input type="submit" value="Sign Up" onclick="window.location.href='../HomePage/Home.html'">
+      <input type="submit" name='SignUp2' value="Sign Up">  
     </form>
   
   </div>

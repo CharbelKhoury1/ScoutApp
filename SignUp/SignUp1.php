@@ -1,3 +1,15 @@
+<?php
+
+    // Retrieve the code and password from the query parameters
+    $code = $_GET['code'];
+    $password = $_GET['password'];
+
+    // Use the code and password as needed
+    echo "Code: " . $code . "<br>";
+    echo "Password: " . $password . "<br>";
+    ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,27 +21,27 @@
 <body>
   <div class="container">
     <h1>General Info</h1>
-    <form method="post" action="upload.php">
+    <form method="post" action="InsertUser.php">
       <label for="firstName">First Name:</label>
-      <input type="text" id="firstName" name="firstName" required>
+      <input type="text" id="firstName" name="fname" required>
 
       <label for="lastName">Last Name:</label>
-      <input type="text" id="lastName" name="lastName" required>
+      <input type="text" id="lastName" name="lname" required>
 
       <label for="fathername">Father Name:</label>
-      <input type="text" id="fathername" name="fathername" required>
+      <input type="text" id="fathername" name="father_name" required>
 
       <label for="mothername">Mother Name:</label>
-      <input type="text" id="mothername" name="mothername" required>
+      <input type="text" id="mothername" name="mother_name" required>
 
       <label for="dateofbirth">Date of birth:</label>
-      <input type="date" id="dateofbirth" name="dateofbirth" required>
+      <input type="date" id="dateofbirth" name="birth_date" required>
 
       <label for="placeofbirth">Place of birth:</label>
-      <input type="text" id="placeofbirth" name="placeofbirth" required>
+      <input type="text" id="placeofbirth" name="birth_place" required>
 
       <label for="bloodtype">Blood Type:</label>
-      <select id="bloodtype" name="bloodtype" required>
+      <select id="bloodtype" name="blood_type" required>
         <option value="">Select Blood Type</option>
         <option value="A+">A+</option>
         <option value="A-">A-</option>
@@ -46,19 +58,19 @@
       <input type="tel" id="landline" name="landline" required>
 
       <label for="phonenumber">Phone Number:</label>
-      <input type="tel" id="phonenumber" name="phonenumber" required>
+      <input type="tel" id="phonenumber" name="mobile" required>
 
       <label for="fatherjob">Father Job:</label>
-      <input type="text" id="fatherjob" name="fatherjob" required>
+      <input type="text" id="fatherjob" name="father_job" required>
       
       <label for="fatherphonenumber">Father Phone Number:</label>
-      <input type="tel" id="fatherphonenumber" name="fatherphonenumber" required>
+      <input type="tel" id="fatherphonenumber" name="father_mobile" required>
 
       <label for="motherphonenumber">Mother Phone Number:</label>
-      <input type="tel" id="motherphonenumber" name="motherphonenumber" required>
+      <input type="tel" id="motherphonenumber" name="mother_mobile" required>
 
       <label for="motherjob">Mother Job:</label>
-      <input type="text" id="motherjob" name="motherjob" required>
+      <input type="text" id="motherjob" name="mother_job" required>
 
       <label for="education">Education Level:</label>
       <select id="education" name="education" required>
@@ -76,9 +88,14 @@
       <input type="email" id="email" name="email" required>
 
       <label for="medicalcondition">Medical Condition:</label>
-      <input type="text" id="medicalcondition" name="medicalcondition">
+      <input type="text" id="medicalcondition" name="medical_condition">
 
-      <input type="submit" onclick="window.location.href='SignUp2.html'" value="Continue">
+       <!-- Hidden input fields -->
+      <input type="hidden" name="scoutcode" value="<?php echo $code; ?>">
+      <input type="hidden" name="password" value="<?php echo $password; ?>">
+  
+
+      <input type="submit" name='SignUp1' value="Continue">
     </form>
   </div>
   <script src="SignUp.js"></script>
