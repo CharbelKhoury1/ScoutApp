@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -47,7 +51,16 @@
       </div>
 
       <div class="profile-icon">
-        <img src="../Pictures/person_icon-removebg-preview.png" alt="Profile Picture">
+      <?php
+      if (!isset($_SESSION['user_id'])){
+        echo "<img src='../Pictures/person_icon-removebg-preview.png' alt='Profile Picture'>";
+      }else{
+        $email = $_SESSION['email']; // Replace with the user's email address
+        $gravatarURL = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email)));
+      
+        echo '<img src="' . $gravatarURL . '" alt="Profile Picture">';
+      }
+      ?>
       </div>
 
       <div class="login-btn">
@@ -91,7 +104,11 @@
 <div class="container">
 <div class="container1">
   <img src="../Pictures/ScoutPic2.jpg" alt="">
-  <h2>Values and Principles of Scouts and Guides National Orthodox</h2>
+  <h2><?php 
+  if(isset($_SESSION['user_id'])){
+    echo $_SESSION['user_id'];
+   }
+   ?>Values and Principles of Scouts and Guides National Orthodox</h2>
   <p>Explore the core values and principles that guide the Scout et Guide National Orthodoxe (SNO) community. 
     Discover how SNO programs instill Orthodox Christian values such as faith, compassion,
      integrity, and service. Learn about the emphasis on personal and spiritual development, fostering a sense of morality, and promoting virtues that shape the character of SNO members.

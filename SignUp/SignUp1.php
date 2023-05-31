@@ -1,5 +1,7 @@
 <?php
 
+    session_start();
+    
     // Retrieve the code and password from the query parameters
     $code = $_GET['code'];
     $password = $_GET['password'];
