@@ -31,8 +31,8 @@
       $job = $_POST['job'];
       $email = $_POST['email'];
 
-      //insert the email in the session
-      $_SESSION['email']=$email;
+      // Set the email cookie
+      setcookie('email', $email, time() + (30 * 24 * 60 * 60));
 
       $medicalCondition = $_POST['medical_condition'];
 
@@ -50,8 +50,8 @@
         // Retrieve the auto-incremented 'user_id'
         $userId = mysqli_insert_id($con);
               
-        // Store the 'user_id' in a session variable
-        $_SESSION['user_id'] = $userId;
+        // Store the 'user_id' in a cookie variable
+        setcookie('user_id', $userId , time() + (30 * 24 * 60 * 60));
 
         // Update 'userId' for the existing record in 'usercredentials' table
         $sqlCredentials = "UPDATE usercredentials SET userId = '$userId' WHERE scoutcode = '$code' AND password = '$password'";
@@ -69,30 +69,22 @@
       }
       // Redirect to SignUp2.php
       header('Location: SignUp2.php');
-      // exit();
-
+      
   }
 
   if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     // Check if the 'user_id' is set in the session
     
-    if (isset($_SESSION['user_id'])) {
-      $userId = $_SESSION['user_id'];  
+    if (isset($_COOKIE['user_id'])) {
+      $userId = $_COOKIE['user_id'];  
       }
 
       // Retrieve the form data
-      // $scoutClass = $_POST['scoutclass'];
       $affiliationDate = $_POST['affiliationdate'];
       $oathDate = $_POST['oathdate'];
       $scoutTitle = $_POST['scouttitle'];
       $dateOfTheTitle = $_POST['dateofthetitle'];
       $placeOfTheTitle = $_POST['placeofthetitle'];
-      // $trainingCourses = $_POST['trainingcourses'];
-      
-      // Perform database operations (assumed connection is established)
-      
-      // scoutClass = '$scoutClass',
-      //  trainingCourses = '$trainingCourses'
       
       // Update the 'user' table
       $sqlUpdate = "UPDATE user SET
@@ -111,56 +103,115 @@
         echo "Error updating data in 'user' table: " . mysqli_error($con);
       }
 
-          $scoutRank = $_POST['scoutrank'];
 
-          // Retrieve the rank_id based on the scout rank from the rank table
-          $query = "SELECT rank_id FROM rank WHERE name = '$scoutRank'";
-          $result = mysqli_query($con, $query);
-          if ($result && mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $rankId = $row['rank_id'];
+      $scoutRankPresent = $_POST['scoutrank-present'];
+      $scoutRegimentPresent = $_POST['nameofregiment-present'];
+      $scoutUnitPresent = $_POST['unit-present'];
+      $scoutStartDatePresent = $_POST['startdate-present'];
+      
 
-            // Update the rank_id in the user table
-            $updateQuery = "UPDATE user SET rank_id = '$rankId' WHERE user_id = '$userId'";
-            if (mysqli_query($con, $updateQuery)) {
-              echo "Rank ID updated successfully in the user table";
-            } else {
-              echo "Error updating rank ID: " . mysqli_error($con);
-            }
+      // Retrieve rank_id from the rank table
+      $query = "SELECT rank_id FROM rank WHERE name = '$scoutRankPresent'";
+      $result = mysqli_query($con, $query);
+      if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $rankId = $row['rank_id'];
+      } else {
+        echo "Error: Rank not found.";
+        exit;
+      }
+      
+      // Retrieve regiment_id from the regiment table
+      $query = "SELECT regiment_id FROM regiment WHERE name = '$scoutRegimentPresent'";
+      $result = mysqli_query($con, $query);
+      if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $regimentId = $row['regiment_id'];
+      } else {
+        echo "Error: Regiment not found.";
+        exit;
+      }
+      
+      // Retrieve unit_id from the unit table
+      $query = "SELECT unit_id FROM unit WHERE name = '$scoutUnitPresent'";
+      $result = mysqli_query($con, $query);
+      if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $unitId = $row['unit_id'];
+      } else {
+        echo "Error: Unit not found.";
+        exit;
+      }
+      
+      // Insert data into the unitrankhistory table using the retrieved IDs
+      $query = "INSERT INTO unitrankhistory (start_date,end_date, userId, regimentId, unitId, rankId) 
+                VALUES ('$scoutStartDatePresent', NULL , '$userId', '$regimentId', '$unitId', '$rankId')";
+      
+      if (mysqli_query($con, $query)) {
+        echo "Data inserted into unitrankhistory table successfully.";
+      } else {
+        echo "Error: " . mysqli_error($con);
+      }
+    
+      // Process the dynamic rows
+      $rowCount = count($_POST['regiment']);
+      for ($i = 0; $i < $rowCount; $i++) { 
+          // Assuming you have retrieved and sanitized the dynamic form field values
+          
+          $scoutRegiment=$_POST['regiment'][$i];
+          $scoutUnit=$_POST['unit'][$i];
+          $scoutRank=$_POST['rank'][$i];
+          $scoutStartDate=$_POST['start-date'][$i];
+          $scoutEndDate=$_POST['end-date'][$i];     
+          
+           // Retrieve rank_id from the rank table
+      /*$query = "SELECT rank_id FROM rank WHERE name = '$scoutRank'";
+      $result = mysqli_query($con, $query);
+      if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $rankId = $row['rank_id'];
+      } else {
+        echo "Error: Rank not found.";
+        exit;
+      }*/
+      
+      // Retrieve regiment_id from the regiment table
+      $query = "SELECT regiment_id FROM regiment WHERE name = '$scoutRegiment'";
+      $result = mysqli_query($con, $query);
+      if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $regimentId = $row['regiment_id'];
+      } else {
+        echo "Error: Regiment not found.";
+        exit;
+      }
+      
+      // Retrieve unit_id from the unit table
+      $query = "SELECT unit_id FROM unit WHERE name = '$scoutUnit'";
+      $result = mysqli_query($con, $query);
+      if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $unitId = $row['unit_id'];
+      } else {
+        echo "Error: Unit not found.";
+        exit;
+      }
+
+          // Insert the dynamic form field values into the database
+          $query = "INSERT INTO unitrankhistory (start_date,end_date, userId, regimentId, unitId, rankId) VALUES ('$scoutStartDate', '$scoutEndDate', '$userId', '$regimentId', '$unitId', '$rankId') ";
+          mysqli_query($con, $query);
+          
+          
+          if (mysqli_query($con, $query)) {
+            echo "Data inserted into unitrankhistory table successfully.";
           } else {
-            echo "Error retrieving rank ID from the rank table";
+            echo "Error: " . mysqli_error($con);
           }
 
-
-          // Insert a new record into the regiment table
-          // $scoutUnit = $_POST['scoutunit']; //Assuming you have a select field with the name 'unit'
-        //  $regimentName = $_POST['nameofregiment'];
-
-
-    //   // Retrieve the unit_id based on the unit name from the unit table
-    //   $unitQuery = "SELECT unit_id FROM unit WHERE name = '$unitName'";
-    //   $unitResult = mysqli_query($con, $unitQuery);
-    //   if ($unitResult && mysqli_num_rows($unitResult) > 0) {
-    //     $unitRow = mysqli_fetch_assoc($unitResult);
-    //     $unitId = $unitRow['unit_id'];
-
-    //     // Insert the record into the regiment table
-    //     $insertQuery = "INSERT INTO regiment (name, user_id, unit_id) VALUES ('$regimentName', '$userId', '$unitId')";
-    //     if (mysqli_query($con, $insertQuery)) {
-    //       echo "Record inserted successfully into the regiment table";
-    //     } else {
-    //       echo "Error inserting record: " . mysqli_error($con);
-    //     }
-    //   } else {
-    //     echo "Error retrieving unit ID from the unit table";
-    //   }
-    //  } else {
-    //   echo "Error retrieving rank ID from the rank table";
-    // }
+        }
+      header("Location: ../Home/Home.php");
       
-    header("Location: ../Home/Home.php");
-
       // Close the database connection
       mysqli_close($con);
-  }  
-  ?>
+    }
+      ?>

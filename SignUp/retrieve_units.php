@@ -10,7 +10,7 @@ if (isset($_POST['regiment'])) {
   $selectedRegiment = $_POST['regiment'];
 
   // Retrieve units based on the selected regiment
-  $unitsQuery = "SELECT unit.name FROM unit INNER JOIN regiment ON unit.regimentId = regiment.regiment_id WHERE regiment.name = '$selectedRegiment'";
+  $unitsQuery = "SELECT  DISTINCT unit.name FROM unit INNER JOIN regiment ON unit.regimentId = regiment.regiment_id WHERE regiment.name = '$selectedRegiment'";
   $unitsResult = mysqli_query($conn, $unitsQuery);
   
   if ($unitsResult) {
