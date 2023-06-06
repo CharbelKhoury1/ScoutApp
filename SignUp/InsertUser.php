@@ -110,7 +110,7 @@
       $scoutStartDatePresent = $_POST['startdate-present'];
       
 
-      // Retrieve rank_id from the rank table
+      // // Retrieve rank_id from the rank table
       $query = "SELECT rank_id FROM rank WHERE name = '$scoutRankPresent'";
       $result = mysqli_query($con, $query);
       if ($result && mysqli_num_rows($result) > 0) {
@@ -153,19 +153,31 @@
         echo "Error: " . mysqli_error($con);
       }
     
-      // Process the dynamic rows
-      $rowCount = count($_POST['regiment']);
-      for ($i = 0; $i < $rowCount; $i++) { 
-          // Assuming you have retrieved and sanitized the dynamic form field values
-          
-          $scoutRegiment=$_POST['regiment'][$i];
-          $scoutUnit=$_POST['unit'][$i];
-          $scoutRank=$_POST['rank'][$i];
-          $scoutStartDate=$_POST['start-date'][$i];
-          $scoutEndDate=$_POST['end-date'][$i];     
-          
+
+    $scoutRegiments = $_POST['regiment'];
+    $scoutUnits = $_POST['unit'];
+    $scoutRanks = $_POST['rank'];
+    $scoutStartDates = $_POST['start-date'];
+    $scoutEndDates = $_POST['end-date'];
+
+    echo var_dump($scoutRegiments)."<br>";
+    echo var_dump($scoutUnits)."<br>";
+    echo var_dump($scoutRanks)."<br>";
+    echo var_dump($scoutStartDates)."<br>";
+    echo var_dump($scoutEndDates)."<br>";
+
+
+    // Loop through the arrays to process each row
+    for ($i = 0; $i < count($scoutRegiments); $i++) {
+        $scoutRegiment = $scoutRegiments[$i];
+        $scoutUnit = $scoutUnits[$i];
+        $scoutRank = $scoutRanks[$i];
+        $scoutStartDate = $scoutStartDates[$i];
+        $scoutEndDate = $scoutEndDates[$i];
+
+        // Process the row data as needed
            // Retrieve rank_id from the rank table
-      /*$query = "SELECT rank_id FROM rank WHERE name = '$scoutRank'";
+      $query = "SELECT rank_id FROM rank WHERE name = '$scoutRank'";
       $result = mysqli_query($con, $query);
       if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -173,7 +185,7 @@
       } else {
         echo "Error: Rank not found.";
         exit;
-      }*/
+      }
       
       // Retrieve regiment_id from the regiment table
       $query = "SELECT regiment_id FROM regiment WHERE name = '$scoutRegiment'";
@@ -199,9 +211,6 @@
 
           // Insert the dynamic form field values into the database
           $query = "INSERT INTO unitrankhistory (start_date,end_date, userId, regimentId, unitId, rankId) VALUES ('$scoutStartDate', '$scoutEndDate', '$userId', '$regimentId', '$unitId', '$rankId') ";
-          mysqli_query($con, $query);
-          
-          
           if (mysqli_query($con, $query)) {
             echo "Data inserted into unitrankhistory table successfully.";
           } else {
@@ -209,6 +218,7 @@
           }
 
         }
+
       header("Location: ../Home/Home.php");
       
       // Close the database connection

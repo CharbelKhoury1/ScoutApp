@@ -43,6 +43,7 @@
 
             <label for="nameofregiment">Name of regiment (اسم الفوج التابع له):</label>
       <select id="nameofregiment" name="nameofregiment-present">
+        <option disabled selected value="">Select Regiment</option>
         <?php
         // Assuming you have a 'regiment' table with 'name' column
         $query = "SELECT DISTINCT name FROM regiment";
@@ -108,7 +109,8 @@
         <tbody>
           <tr>
             <td>
-              <select id="regiment" name="regiment">
+              <select id="regiment-0" name="regiment[0]">
+        <option disabled selected value="">Select Regiment</option>
                 <?php
                 // Assuming you have a 'regiment' table with 'name' column
                 $query = "SELECT DISTINCT name FROM regiment";
@@ -155,7 +157,7 @@
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
         $(document).ready(function() {
-          $('#regiment').change(function() {
+          $('#regiment-0').change(function() {
             var selectedRegiment = $(this).val();
             var unitDropdown = $(this).closest('tr').find('#unit');
             unitDropdown.empty(); // Clear previous options
@@ -186,15 +188,16 @@
         var cols = '';
 
         var rowCount = $('#myTable tbody tr').length; // Get the current row count
+        // rowCount=rowCount-1;
         var uniqueId = 'row-' + rowCount; // Create a unique ID for the new row
 
-        cols += '<td><select id="regiment-' + uniqueId + '" name="regiment">';
-        cols += '<option value="">Select Regiment</option>'; // Add an empty option for initial selection
+        cols += '<td><select id="regiment-' + uniqueId + '" name="regiment[' + rowCount + ']">';
+        cols += '<option disabled selected value="">Select Regiment</option>';  // Add an empty option for initial selection
         cols += '</select></td>';
-        cols += '<td><select id="unit-' + uniqueId + '" name="unit"></select></td>';
-        cols += '<td><select id="rank-' + uniqueId + '" name="rank"></select></td>'; // Add the rank select field
-        cols += '<td><input type="date" name="start-date"></td>';
-        cols += '<td><input type="date" name="end-date"></td>';
+        cols += '<td><select id="unit-' + uniqueId + '" name="unit[' + rowCount + ']"></select></td>';
+        cols += '<td><select id="rank-' + uniqueId + '" name="rank[' + rowCount + ']"></select></td>';
+        cols += '<td><input type="date" name="start-date[' + rowCount + ']"></td>';
+        cols += '<td><input type="date" name="end-date[' + rowCount + ']"></td>';
         cols += '<td><button class="removeRowBtn">-</button></td>';
 
         newRow.append(cols);
