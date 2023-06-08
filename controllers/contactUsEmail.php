@@ -1,7 +1,7 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
+	use PHPMailer\PHPMailer\SMTP;
 require 'phpmailer\vendor\autoload.php';
 
 function contactUsMail($mail, $fname, $lname, $message, $phone){

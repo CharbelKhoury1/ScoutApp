@@ -46,7 +46,7 @@
       </tfoot>
     </table>
   </form>
-  <script src="javascript/income.js"></script>
+  <script src="javascript/income.js"> </script>
 </body>
 </html>
 

@@ -2,8 +2,6 @@
 include("../utility.php");
 include("../common.inc.php");
 
-
-
 function getUserRank($userId) {
   $con = connection();
   $selectRankIdQry = "SELECT rankId FROM unitrankhistory WHERE userId = ? AND (end_date IS NULL OR end_date >= CURDATE())";

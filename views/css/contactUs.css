@@ -120,12 +120,15 @@ button:hover {
   align-items: center;
   margin-top: 50px;
 }
+
 .success-message {
 color: green;
 }
+
 .error-input {
 border-color: red;
 }
+
 @media screen and (max-width: 480px) {
   .card,
   .container {

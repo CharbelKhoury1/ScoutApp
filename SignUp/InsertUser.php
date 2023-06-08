@@ -15,7 +15,6 @@
   // Check if the form is submitted
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {
       // Retrieve the form data
-
       $code = $_POST['scoutcode'];
       $password = $_POST['password'];
 

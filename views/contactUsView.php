@@ -54,7 +54,7 @@
 			<div class="success-message"><?php echo $successMsg; ?></div>
 		<?php endif; ?>
 	</div>
-	<script src="../views/javascript/contactUs.js"></script>
+	<script src="../views/javascript/contactUs.js"> </script>
 </body>
 </html>
 
