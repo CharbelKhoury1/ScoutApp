@@ -180,6 +180,7 @@ if (!$con) {
     </table>
   </section>
 
+
   <!-- Section: Create Scout Units -->
   <section>
     <h2>Create Scout Units</h2>
@@ -190,65 +191,71 @@ if (!$con) {
           <td><input type="text" id="unit-name" name="unit-name" required></td>
         </tr>
         <tr>
-  <td>
-    <label for="unit-regiment">Regiment:</label></td>
-  <td>
-    <select name="unit-regiment" id="unit-regiment" required>
-      <!-- Populate the dropdown options with regiments from the database -->
-      <?php
-      // Assuming you have already established a database connection using mysqli_connect
-      $query = "SELECT DISTINCT name FROM regiment";
-      $result = mysqli_query($con, $query);
+          <td><label for="unit-regiment">Regiment:</label></td>
+          <td>
+            <select name="unit-regiment" id="unit-regiment" required>
+              <!-- Populate the dropdown options with regiments from the database -->
+              <?php
+              // Assuming you have already established a database connection using mysqli_connect
+              $query = "SELECT DISTINCT name FROM regiment";
+              $result = mysqli_query($con, $query);
 
-      if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-          $regiment = $row['name'];
-          echo "<option value='$regiment'>$regiment</option>";
-        }
-        mysqli_free_result($result);
-      } else {
-        echo "Error: " . mysqli_error($con);
-      }
+              if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                  $regiment = $row['name'];
+                  echo "<option value='$regiment'>$regiment</option>";
+                }
+                mysqli_free_result($result);
+              } else {
+                echo "Error: " . mysqli_error($con);
+              }
 
-      mysqli_close($con);
-      ?>
-    </select>
-  </td>
-</tr>
-<tr>
-  <td><label for="unit-leader">Leader:</label></td>
-  <td>
-    <select name="unit-leader" id="unit-leader" >
-      <option value="charbel">Charbel</option>
-      <?php
-      if (isset($_POST['unit-regiment'])) {
-        $selectedRegiment = $_POST['unit-regiment'];
-
-        // Assuming you have already established a database connection using mysqli_connect
-
-        $query = "SELECT fname,lname FROM user,regiment WHERE  = 'user.user_id=regiment.userId && regiment.name='".$selectedRegiment."'";
-        $result = mysqli_query($con, $query);
-
-        if ($result) {
-          while ($row = mysqli_fetch_assoc($result)) {
-            $leader = $row['fname'].$row['lname'];
-            echo "<option value='$leader'>$leader</option>";
-          }
-          mysqli_free_result($result);
-        } else {
-          echo "Error: " . mysqli_error($con);
-        }
-
-        mysqli_close($con);
-      }
-      ?>
-    </select>
-  </td>
-</tr>
-
+              mysqli_close($con);
+              ?>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="unit-leader">Leader:</label></td>
+          <td>
+            <select name="unit-leader" id="unit-leader"></select>
+          </td>
+        </tr>
       </table>
       <button type="submit" name="create">Create Unit</button>
     </form>
   </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#unit-regiment').on('change', function() {
+        var selectedRegiment = $(this).val();
+        var unitDropdown = $('#unit-leader');
+
+        $.ajax({
+          url: 'retrieve_leaders.php', // Replace with the actual PHP file retrieving leaders
+          method: 'POST',
+          data: { regiment: selectedRegiment },
+          dataType: 'json',
+          success: function(response) {
+            unitDropdown.empty();
+            $.each(response.leaders, function(index, leader) {
+              unitDropdown.append($('<option>', {
+                value: leader,
+                text: leader
+              }));
+            });
+          },
+          error: function() {
+            console.log('Error occurred during leaders retrieval');
+          }
+        });
+      });
+    });
+  </script>
+
+  </td>
+</tr>
 </body>
 </html>

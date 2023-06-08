@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+// Establish a database connection
+$con = new mysqli("localhost", "root", "", "scoutproject");
+
+// Check the database connection
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
+}
+
 function sanitizeInput($input) {
     // Remove leading/trailing white space
     $input = trim($input);
@@ -21,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
     $password = mysqli_real_escape_string($con, $password);
 
     // Prepare the SQL query
-    $sql = "SELECT user.user_id FROM usercredentials JOIN user ON usercredentials.userId = user.user_id WHERE usercredentials.scoutcode = '$code' AND usercredentials.password = '$password'";
+    $sql = "SELECT user.user_id,user.email FROM usercredentials INNER JOIN user ON usercredentials.userId = user.user_id WHERE usercredentials.scoutcode = '$code' AND usercredentials.password = '$password'";
 
     // Execute the query
     $result = mysqli_query($con, $sql);
@@ -32,6 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
         if (mysqli_num_rows($result) > 0) {
             $_SESSION['code'] = $code;
             $_SESSION['password'] = $password;
+            while($row=mysqli_fetch_assoc($result)){
+                $_SESSION['email'] = $row['email'];
+            }
             header('Location: ../Home/Home.php'); // Redirect to the Home page
             exit;
     } else {
