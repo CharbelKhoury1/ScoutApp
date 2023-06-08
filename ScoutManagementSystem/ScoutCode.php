@@ -246,10 +246,6 @@ if (!$con) {
   </td>
 </tr>
 
-        <tr>
-          <td><label for="unit-members">Number of Members:</label></td>
-          <td><input type="number" id="unit-members" name="unit-members" required></td>
-        </tr>
       </table>
       <button type="submit" name="create">Create Unit</button>
     </form>

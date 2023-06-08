@@ -1,13 +1,18 @@
 <?php
-// Assuming you have already established a database connection using mysqli_connect
+
+// Establish a database connection
+$con = new mysqli("localhost", "root", "", "scoutproject");
+
+// Check the database connection
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
+}
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     // Get form input values
     $unitName = $_POST['unit-name'];
-    $regiment = $_POST['unit-regiment'];
     $leader = $_POST['unit-leader'];
-    $numPersons = $_POST['unit-members'];
     $selectedRegiment = $_POST['unit-regiment'];
 
     $query = "SELECT  regiment_id FROM regiment WHERE regiment.name='".$selectedRegiment."'";
@@ -20,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     }
 
     // Prepare and execute the INSERT statement
-    $stmt = mysqli_prepare($con, "INSERT INTO unit (name, nb_person, leader, userId, regimentId) VALUES (?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, 'sssii', $unitName, $numPersons, $leader, $userId, $regimentId);
+    $stmt = mysqli_prepare($con, "INSERT INTO unit (name,leader,regimentId) VALUES (?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, 'ssi', $unitName,$leader,$regimentId);
 
     // Assuming you have the values for userId and regimentId available
     // $userId = 1; // Replace with the actual value
