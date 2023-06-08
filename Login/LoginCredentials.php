@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 function sanitizeInput($input) {
     // Remove leading/trailing white space
@@ -29,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
     if ($result) {
         // Check if the credentials are found or not
         if (mysqli_num_rows($result) > 0) {
+            $_SESSION['code'] = $code;
+            $_SESSION['password'] = $password;
             header('Location: ../Home/Home.php'); // Redirect to the Home page
             exit;
     } else {

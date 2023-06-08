@@ -43,7 +43,7 @@
 				</button>
 			</div>
 			<input type="text" id="user-input" placeholder="Enter the text in the image" required />
-			<input type="submit" id="submit-button" value="Send">
+			<button type="submit" id="submit-button">Send</button>
 		</form>
 	</div>
 	<div class="centered-container">

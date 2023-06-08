@@ -5,7 +5,9 @@ body {
   margin: 0;
   padding: 20px;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
+
 
 h1 {
   text-align: left;
@@ -36,9 +38,11 @@ th, td {
   cursor: pointer;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
   border: none;
   outline: none;
+  
+
 }
 
 .submit-button {

@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <div class="box" onmouseover="showOptions('incomeOptions')" onmouseout="hideOptions('incomeOptions')">
-            <a href="incomesView.php">
+            <a href="">
                 <img src="images/incomes.jpg">
             </a>
             <div class="caption">Income</div>
@@ -18,7 +18,7 @@
                     <a href="">USD</a>
                 </div>
                 <div class="option">
-                    <a href="">LBP</a>
+                    <a href="incomesView.php">LBP</a>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
                     <a href="">USD</a>
                 </div>
                 <div class="option">
-                    <a href="">LBP</a>
+                    <a href="incomesView.php">LBP</a>
                 </div>
             </div>
         </div>

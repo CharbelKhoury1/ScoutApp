@@ -35,6 +35,7 @@
           <option value="browny">Browny</option>
           <option value="beaver">Beaver</option>
           <option value="daisy">Daisy</option>
+          <option value="Financial Custodian">Financial Custodian</option> <!-- I added this option la amin sandou2-->
         </select>
 
             <label for="nameofregiment">Name of regiment (اسم الفوج التابع له):</label>

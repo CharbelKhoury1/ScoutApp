@@ -1,29 +1,24 @@
 <?php
+session_start();
 include("../models/incomeModel.php");
+if (!isset($_SESSION["user_id"])) {
+  header("Location:../Login/Login.php");
+  exit();
+}
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  // Get the submitted income data
-  $descriptions = $_POST["description"];
-  $usdAmounts = $_POST["usd"];
-  $lbpAmounts = $_POST["lbp"];
-
-  // Process the income data (you can customize this part according to your needs)
-  $incomeCount = count($descriptions);
-  for ($i = 0; $i < $incomeCount; $i++) {
-    $description = $descriptions[$i];
-    $usdAmount = $usdAmounts[$i];
-    $lbpAmount = $lbpAmounts[$i];
-	echo $description;
-	echo $usdAmount;
-	echo $lbpAmount;
-
-    // Perform necessary operations with the income data (e.g., save to database)
-    // Example: Inserting income data into a database table
-    // $query = "INSERT INTO incomes (description, usd, lbp) VALUES ('$description', '$usdAmount', '$lbpAmount')";
-    // Execute the query
-    // ...
+  $userId = $_SESSION["user_id"];
+  $isRank14 = getUserRank($userId);
+  if ($isRank14 == 14) {
+    $unitId = getUnitId($userId);
+    $incomeCount = count($_POST["description"]);
+    for ($i = 0; $i < $incomeCount; $i++) {
+      $description = SecureData($_POST["description"][$i]);
+      $lbpAmount = SecureData($_POST["lbp"][$i]);
+      insertIncomeLBP($description, $lbpAmount, $unitId);
+    }
+  } else {
+    header("Location:../Login/Login.php");
+    exit();
   }
-
-  // Redirect or display a success message
-  // ...
 }
 ?>

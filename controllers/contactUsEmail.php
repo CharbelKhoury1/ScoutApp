@@ -12,7 +12,7 @@ function contactUsMail($mail, $fname, $lname, $message, $phone){
 	$email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;;
 	$email->SMTPAuth = true;
 	$email->Username = 'elyssadaou@hotmail.com';//email address used as smtp server
-	$email->Password = 'elyssa04';
+	$email->Password = 'Elyss@04';
 
 	$email->setFrom('elyssadaou@hotmail.com');//same email used as smtp server
 	$email->addAddress('elyssadaou@hotmail.com');

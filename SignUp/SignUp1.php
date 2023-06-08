@@ -1,7 +1,7 @@
 <?php
+session_start();
 
-    session_start();
-    
+if (isset($_GET['code']) && isset($_GET['password'])) {
     // Retrieve the code and password from the query parameters
     $code = $_GET['code'];
     $password = $_GET['password'];
@@ -9,7 +9,12 @@
     // Use the code and password as needed
     echo "Code: " . $code . "<br>";
     echo "Password: " . $password . "<br>";
-    ?>
+
+    $_SESSION['code'] = $code;
+    $_SESSION['password'] = $password;
+
+}
+?>
 
 
 <!DOCTYPE html>
@@ -92,12 +97,19 @@
       <label for="medicalcondition">Medical Condition:</label>
       <input type="text" id="medicalcondition" name="medical_condition">
 
-       <!-- Hidden input fields -->
+      <!-- 
       <input type="hidden" name="scoutcode" value="<?php echo $code; ?>">
       <input type="hidden" name="password" value="<?php echo $password; ?>">
-  
+      -->
 
-      <input type="submit" name='SignUp1' value="Continue">
+
+      <?php if (isset($_SESSION['code']) && isset($_SESSION['password'])): ?>
+        <input type="hidden" name="scoutcode" value="<?php echo $_SESSION['code']; ?>">
+        <input type="hidden" name="password" value="<?php echo $_SESSION['password']; ?>">
+      <?php endif; ?>
+     
+
+      <input type="submit" name="SignUp1" value="Continue">
     </form>
   </div>
   <script src="SignUp.js"></script>

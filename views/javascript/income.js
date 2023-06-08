@@ -1,3 +1,13 @@
+function calculateTotal() {
+  let lbpInputs = document.getElementsByName("lbp[]");
+  let totalLBP = 0;
+  for (let i = 0; i < lbpInputs.length; i++) {
+    let lbp = parseFloat(lbpInputs[i].value) || 0;
+    totalLBP += lbp;
+  }
+  document.getElementById("total-lbp").textContent = totalLBP.toFixed(2);
+}
+
 let index = document.getElementById('table-body').rows.length;
 
 // Function to add a new row
@@ -21,9 +31,11 @@ function addRow() {
 
   const lbpCell = document.createElement("td");
   const lbpInput = document.createElement("input");
-  lbpInput.type = "text";
+  lbpInput.type = "number";
   lbpInput.name = "lbp[]";
+  lbpInput.min = "0"; // Restrict input to positive numbers
   lbpInput.style.border = "none";
+  lbpInput.addEventListener("input", calculateTotal); // Calculate total on input change
   lbpCell.appendChild(lbpInput);
   newRow.appendChild(lbpCell);
 
@@ -32,6 +44,7 @@ function addRow() {
   removeIcon.className = "fas fa-times remove-icon";
   removeIcon.addEventListener("click", function () {
     removeRow(this);
+    calculateTotal(); // Update the total after removing a row
   });
   removeCell.appendChild(removeIcon);
   newRow.appendChild(removeCell);
