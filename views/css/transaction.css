@@ -39,7 +39,7 @@
 }
 
 .captionTotal {
-    margin-top: 25px;
+    margin-top: 38px;
     color: #333;
     font-size: 14px;
     font-weight: bold;
@@ -51,7 +51,7 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    width: 146px;
+    width: 225px;
     background-color: #fff;
     border: 1px solid #e0e0e0;
     padding: 10px;

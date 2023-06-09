@@ -48,10 +48,7 @@
             <img src="images/total.png">
             <div class="captionTotal">Balance</div>
         </div>
-        <div class="box">
-            <img src="images/total.png">
-            <div class="captionTotal">Trial Balance</div>
-        </div>
+        
     </div>
 
     <div class="container1">
