@@ -1,3 +1,4 @@
+<?php require("sideBar.php");?>
 <!DOCTYPE html>
 <html>
 <head>

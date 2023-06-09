@@ -1,3 +1,4 @@
+<!-- transactionView.php -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,7 +52,7 @@
             <div class="caption">Income</div>
             <div class="options" id="incomeOptions">
                 <div class="option">
-                    <a href="">USD</a>
+                    <a href="incomesUSDView.php">USD</a>
                 </div>
                 <div class="option">
                     <a href="incomesView.php">LBP</a>
@@ -65,27 +66,21 @@
             <div class="caption">Expenses</div>
             <div class="options" id="expensesOptions">
                 <div class="option">
-                    <a href="">USD</a>
+                    <a href="expensesUSDView.php">USD</a>
                 </div>
                 <div class="option">
-                    <a href="incomesView.php">LBP</a>
+                    <a href="expensesView.php">LBP</a>
                 </div>
             </div>
         </div>
-        <div class="box">
-            <a href="">
-                <img src="images/total.png">
-            </a>
+        <div class="box" onclick="fetchBalance()">
+            <img src="images/total.png">
             <div class="captionTotal">Balance</div>
         </div>
-        <div class="box">
-            <a href="">
-                <img src="images/total.png">
-            </a>
-            <div class="captionTotal">Trial Balance</div>
-        </div>
+        
     </div>
 
+<<<<<<< HEAD
     <script>
         function showOptions(id) {
             document.getElementById(id).style.display = 'block';
@@ -104,8 +99,28 @@ function(){
 })
 
 </script>
+=======
+    <div class="container1">
+        <div class="chart-container" id="chartContainerLBP">
+            <canvas id="chartLBP"></canvas>
+        </div>
+        <div class="chart-container" id="chartContainerUSD">
+            <canvas id="chartUSD"></canvas>
+        </div>
+    </div>
+    <script src="../views/javascript/transaction.js"></script>
+>>>>>>> 2aee9e323476ce67763a89e7ac6bd44d7279ec8f
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 

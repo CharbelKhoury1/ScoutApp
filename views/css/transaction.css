@@ -3,6 +3,7 @@
     gap: 10px;
     max-width: 700px;
     margin: 0 auto;
+    margin-top: 10px;
 }
 
 .box {
@@ -21,7 +22,7 @@
 }
 
 .box:hover {
-    border-color: #ffcc00;
+    border-color: grey;
 }
 
 .box img {
@@ -38,7 +39,7 @@
 }
 
 .captionTotal {
-    margin-top: 25px;
+    margin-top: 38px;
     color: #333;
     font-size: 14px;
     font-weight: bold;
@@ -50,7 +51,7 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    width: 146px;
+    width: 225px;
     background-color: #fff;
     border: 1px solid #e0e0e0;
     padding: 10px;
@@ -66,7 +67,7 @@
 }
 
 .option:hover {
-    background-color: #ffcc00;
+    background-color: grey;
 }
 
 a {
@@ -168,3 +169,18 @@ a {
   }
   
   /* end of sidebar code */
+.container1 {
+    margin-top: 90px;
+    display: flex;
+    justify-content: center;
+}
+
+.chart-container {
+    width: 30%; /* Adjust the width as needed */
+    height: 300px;
+    margin: 0 -10px; /* Adjust the margin as needed */
+}
+
+.balance-text {
+    margin-left: 25%;
+}
