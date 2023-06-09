@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 // Establish a database connection
@@ -16,6 +17,7 @@ function sanitizeInput($input) {
     $input = stripslashes($input);
     // Escape special characters
     $input = htmlspecialchars($input);
+    
     return $input;
 }
 
@@ -28,32 +30,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
     $code = mysqli_real_escape_string($con, $code);
     $password = mysqli_real_escape_string($con, $password);
 
-    // Prepare the SQL query
-    $sql = "SELECT user.user_id,user.email FROM usercredentials INNER JOIN user ON usercredentials.userId = user.user_id WHERE usercredentials.scoutcode = '$code' AND usercredentials.password = '$password'";
+    $query = "SELECT * FROM usercredentials AS uc WHERE uc.scoutcode='$code' AND uc.password='$password'";
+    $res = mysqli_query($con, $query);
 
-    // Execute the query
-    $result = mysqli_query($con, $sql);
+    if (mysqli_num_rows($res) <= 0) {
+        echo '<script>alert("Enter a valid scout code or password");</script>';
+    } else {
+        // Prepare the SQL query
+        $sql = "SELECT user.user_id, user.email FROM usercredentials INNER JOIN user ON usercredentials.userId = user.user_id WHERE usercredentials.scoutcode = '$code' AND usercredentials.password = '$password'";
 
-    // Check if the query was successful
-    if ($result) {
-        // Check if the credentials are found or not
-        if (mysqli_num_rows($result) > 0) {
-            $_SESSION['code'] = $code;
-            $_SESSION['password'] = $password;
-            while($row=mysqli_fetch_assoc($result)){
-                $_SESSION['email'] = $row['email'];
+        // Execute the query
+        $result = mysqli_query($con, $sql);
+
+        // Check if the query was successful
+        if ($result) {
+            // Check if the credentials are found or not
+            if (mysqli_num_rows($result) > 0) {
+                $_SESSION['code'] = $code;
+                $_SESSION['password'] = $password;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $_SESSION['email'] = $row['email'];
+                }
+                header('Location: ../Home/Home.php'); // Redirect to the Home page
+                exit;
+            } else {
+                // Redirect to the sign-up page with the code and password as query parameters
+                $redirectUrl = '../SignUp/SignUp1.php?code=' . urlencode($code) . '&password=' . urlencode($password);
+                header('Location: ' . $redirectUrl);
+                exit;
             }
-            header('Location: ../Home/Home.php'); // Redirect to the Home page
-            exit;
-    } else {
-        // Redirect to the sign-up page with the code and password as query parameters
-        $redirectUrl = '../SignUp/SignUp1.php?code=' . urlencode($code) . '&password=' . urlencode($password);
-        header('Location: ' . $redirectUrl);
-        exit;
-    }
-    } else {
-        // Handle the query error
-        echo "Query error: " . mysqli_error($con);
+        } else {
+            // Handle the query error
+            echo "Error: " . mysqli_error($con);
+        }
     }
 
     // Close the database connection

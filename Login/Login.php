@@ -1,14 +1,5 @@
 <?php
-// Establish a database connection
-$con = new mysqli("localhost", "root", "", "scoutproject");
-
-// Check the database connection
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
-
-include 'LoginCredentials.php';
-
+include "LoginCredentials.php";
 ?>
 
 <!DOCTYPE html>
