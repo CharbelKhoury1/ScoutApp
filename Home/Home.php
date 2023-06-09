@@ -50,18 +50,24 @@ session_start();
        </div>
       </div>
 
-      <div class="profile-icon">
+          <div class="profile-icon">
       <?php
-      if (!isset($_SESSION['user_id'])){
+      if (!isset($_COOKIE['user_id'])) {
         echo "<img src='../Pictures/person_icon-removebg-preview.png' alt='Profile Picture'>";
-      }else{
-        $email = $_SESSION['email']; // Replace with the user's email address
-        $gravatarURL = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email)));
-      
-        echo '<img src="' . $gravatarURL . '" alt="Profile Picture">';
+      } else {
+        if (isset($_SESSION['email'])) {
+          $email = $_SESSION['email'];
+          $gravatarURL = "https://www.gravatar.com/avatar/" . md5(strtolower(trim("ckhoury100@gmail.com")));
+
+          echo "<img src='$gravatarURL' alt='Profile Picture'>";
+        } else {
+          // If the email is not set in the session, display a default profile picture
+          echo "<img src='../Pictures/person_icon-removebg-preview.png' alt='Profile Picture'>";
+        }
       }
       ?>
-      </div>
+    </div>
+
 
       <div class="login-btn">
     <button onclick="window.location.href='../Login/Login.php'">Login</button>
@@ -105,8 +111,8 @@ session_start();
 <div class="container1">
   <img src="../Pictures/ScoutPic2.jpg" alt="">
   <h2><?php 
-  if(isset($_SESSION['user_id'])){
-    echo $_SESSION['user_id'];
+  if(isset($_SESSION['email'])){
+    echo $_SESSION['email'];
    }
    ?>Values and Principles of Scouts and Guides National Orthodox</h2>
   <p>Explore the core values and principles that guide the Scout et Guide National Orthodoxe (SNO) community. 
@@ -219,7 +225,7 @@ session_start();
 </section>
 
 
-<script>
+<!--<script>
   // Define the page ID and access token
     const pageId = "1561134467455034";
     const accessToken = "EABZAgXBYDZBeMBAE6gwXF3FcUyCnqvMuRD8RLZCEG8IWk4ox9Yko2bFvMFyHVlfJLYSRSFXhueVzsRgwGLSEFPO5CyrcGGwPUBHVLDcpUZADcZCYcHIcHXIi05LLA87ABzdEOs5h5nuX9PMhz4plgLBCCeci6gjDMmOioVZAEfWd5AyisaIrYG";
@@ -255,7 +261,7 @@ session_start();
       console.error(error);
     });
 </script>
-
+  -->
       
       <section class="testimonials">
         <h2>Our Scouts and Guides Experience</h2>
