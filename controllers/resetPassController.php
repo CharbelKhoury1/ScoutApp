@@ -1,3 +1,4 @@
+<head><link rel="stylesheet" type="text/css" href="../views/css/sideBar.css"></head>
 <?php
 include("../models/resetPassModel.php");
 include("mail.php");
@@ -27,7 +28,8 @@ if(!empty($_POST['username']) and !empty($_POST['password']) and !empty($_POST['
 		}
 	} else {
 		$errorMsg = "Username not found in database.";
-		include("../views/resetPassView.php");    
+		include("../views/resetPassView.php");
+
 	}
 }else {
     include("../views/resetPassView.php");

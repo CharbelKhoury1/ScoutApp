@@ -1,8 +1,7 @@
-  <?php
+<?php
 
   // Start a session
   session_start();
-
   
   // Establish a database connection
   $con = new mysqli("localhost", "root", "", "scoutproject");
@@ -15,9 +14,6 @@
   // Check if the form is submitted
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {
       // Retrieve the form data
-      $code = $_POST['scoutcode'];
-      $password = $_POST['password'];
-
       $fname = $_POST['fname'];
       $lname = $_POST['lname'];
       $fatherName = $_POST['father_name'];
@@ -79,8 +75,8 @@
   if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     // Check if the 'user_id' is set in the session
     
-    if (isset($_SESSION['user_id'])) {
-      $userId = $_SESSION['user_id'];  
+    if (isset($_COOKIE['user_id'])) {
+      $userId = $_COOKIE['user_id'];  
       }
 
       // Retrieve the form data
@@ -227,5 +223,5 @@
       
       // Close the database connection
       mysqli_close($con);
-  }  
-  ?>
+    }
+      ?>

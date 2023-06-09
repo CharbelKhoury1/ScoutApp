@@ -75,3 +75,31 @@ function updateIndex() {
   }
 }
 
+function validateForm() {
+  var descriptionInputs = document.querySelectorAll('input[name="description[]"]');
+  var lbpInputs = document.querySelectorAll('input[name="lbp[]"]');
+
+  // Check if any required field is empty
+  for (var i = 0; i < descriptionInputs.length; i++) {
+    if (descriptionInputs[i].value.trim() === '' || lbpInputs[i].value.trim() === '') {
+      var alertDiv = document.createElement('div');
+      alertDiv.className = 'alert';
+      alertDiv.textContent = 'Please fill in all required fields.';
+      document.body.appendChild(alertDiv);
+
+      setTimeout(function() {
+        alertDiv.style.display = 'none';
+      }, 3000);
+
+      return false; // Prevent form submission
+    }
+  }
+
+  return true; // Allow form submission
+} 
+
+function closeAlert() {
+  var container = document.getElementById("alert-success-container");
+  container.style.display = "none";
+}
+
