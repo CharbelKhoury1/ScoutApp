@@ -201,6 +201,8 @@
         cols += '<td><input type="date" name="end-date[' + rowCount + ']"></td>';
         cols += '<td><button class="removeRowBtn">-</button></td>';
 
+        //ymkn ykoun l name bas brackets fadyin bala row count jouwa.
+        
         newRow.append(cols);
         $('#myTable tbody').append(newRow);
 

@@ -4,7 +4,7 @@ $con = mysqli_connect("127.0.0.1", "root", "", "scoutproject") or die("Failed to
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Retrieve the selected regiment from the AJAX request
-  $selectedRegiment = mysqli_real_escape_string($con, $_POST['regiment']);
+  $selectedRegiment = mysqli_real_escape_string($con, $_POST['unit-regiment']);
 
   // Prepare the SQL query to retrieve the leaders
   $query = "SELECT CONCAT(u.fname, ' ', u.lname) AS leader

@@ -22,42 +22,49 @@ if (!$con) {
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <div class="sidebar">
-          <div class="logo">
-            <img src="../Icons/menu-svgrepo-com.svg" alt="sds">
-            <img src="../Icons/arrow-right-svgrepo-com.svg" alt="sdsd">
-            <img src="../Icons/close-md-svgrepo-com.svg" alt="dsd">
-          </div>
-          <div class="links">
-          <button class="" onclick="window.location.href='../Home/Home.php'">
+<div class="sidebar">
+      <div class="logo">
+        <img src="../Icons/menu-svgrepo-com.svg" alt="sds">
+        <img src="../Icons/arrow-right-svgrepo-com.svg" alt="sdsd">
+        <img src="../Icons/close-md-svgrepo-com.svg" alt="dsd">
+      </div>
+      <div class="links">
+      <button class="" onclick="window.location.href='../Home/Home.php'">
       <img src="../Icons/home-alt-svgrepo-com.svg">Home
-    </button>
-    <button class ="" onclick="window.location.href='Requests.html'">
-      <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
-    </button>
-    <button class="" onclick="window.location.href='../views/transactionView.php'">
+      </button>
+      <button class="" ="window.location.href='Requests.html'">
+        <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
+      </button>
+      <button class="" onclick="window.location.href='../views/transactionView.php'">
       <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
-    </button>
-    <button class="active" onclick="window.location.href='ScoutCode.php'">
-      <img src="../Icons//icons8-password.svg">Scouts Management
-    </button>
-    <button onclick="window.location.href='../Home/Home.php'">
+      </button>
+      <button id="codeButton" class="active" onclick="setActiveButton('codeButton'); showSection('code-section')">
+        <img src="../Icons//icons8-password.svg">Code/Pass Generator
+      </button>
+      <button id="searchButton" class="" onclick="setActiveButton('searchButton'); showSection('search-section')">
+        <img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout
+      </button>
+      <button id="createButton" class="" onclick="setActiveButton('createButton'); showSection('create-section')">
+        <img src="../Icons/add-svgrepo-com.svg">Create Unit
+      </button>
+
+      
+      <button class="" onclick="scrollToSection('Scout-gallery')">
       <img src="../Icons/world-1-svgrepo-com.svg">Social Media
-    </button>
-    <button class="" onclick="window.location.href='../Home/Home/php'">
+      </button>
+      <button class="" onclick="scrollToSection('testimonials')">
       <img src="../Icons/system-help-svgrepo-com.svg">About Us
-    </button>
-    <button  class="" onclick="window.location.href='../views/contactUsView.php'">
+      </button>
+      <button  class="" onclick="window.location.href='../views/contactUsView.php'">
       <img src="../Icons/phone-svgrepo-com.svg">Contact Us
-    </button>
-          </div>
-          </div>
-          
+      </button>
+       </div>
+      </div>
+
   <h1>Scout Management System</h1>
 
   <!-- Section: Generate Unique Code and Password -->
-  <section>
+  <section id="code-section" <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) { echo 'style="display: block;"'; } else { echo 'style="display: none;"'; } ?>>
     <h2>Generate Unique Code and Password</h2>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
       <table class="input-table">
@@ -145,7 +152,7 @@ if (!$con) {
   </section>
 
   <!-- Section: Search Scout Members -->
-  <section>
+  <section id="search-section" <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) { echo 'style="display: block;"'; } else { echo 'style="display: none;"'; } ?>>
     <h2>Search Scout Members</h2>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
       <table class="input-table">
@@ -169,6 +176,10 @@ if (!$con) {
           <td><label for="unit">Unit:</label></td>
           <td><input type="text" id="unit" name="unit"></td>
         </tr>
+        <tr>
+          <td><label for="scoutclass">ScoutClass:</label></td>
+          <td><input type="text" id="scoutclass" name="scoutclass"></td>
+        </tr>
       </table>
       <button type="submit" name="search">Search</button>
     </form>
@@ -181,6 +192,7 @@ if (!$con) {
           <th>Rank</th>
           <th>Regiment</th>
           <th>Unit</th>
+          <th>Scout Class</th>
         </tr>
       </thead>
       <tbody>
@@ -201,6 +213,7 @@ if (!$con) {
                 echo '<td>' . $row['rank_name'] . '</td>';
                 echo '<td>' . $row['regiment_name'] . '</td>';
                 echo '<td>' . $row['unit_name'] . '</td>';
+                echo '<td>' . $row['degree_name'] . '</td>';
                 echo '</tr>';
             }
         }
@@ -211,7 +224,7 @@ if (!$con) {
 
 
   <!-- Section: Create Scout Units -->
-  <section>
+  <section id="create-section" <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) { echo 'style="display: block;"'; } else { echo 'style="display: none;"'; } ?>>
     <h2>Create Scout Units</h2>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
       <table class="input-table">
@@ -247,7 +260,9 @@ if (!$con) {
         <tr>
           <td><label for="unit-leader">Leader:</label></td>
           <td>
-            <select name="unit-leader" id="unit-leader"></select>
+            <select name="unit-leader" id="unit-leader">
+              <option value="charbel">Charbel</option>
+            </select>
           </td>
         </tr>
       </table>
@@ -283,15 +298,106 @@ if (!$con) {
       });
     });
   </script>
+
 <script>
   // sidebar js
 document.querySelector(".sidebar .logo").addEventListener("click",
 function(){
   document.querySelector(".sidebar").classList.toggle("active");
 })
+</script>
+
+<!-- awal script houwe kermel eza jina mn l home aw hayalla page tenye , ta yzabet l display hasab l button l kabasne -->
+<script>
+  // Get the fragment identifier from the URL
+  const sectionId = window.location.hash.substr(1);
+
+  // Show the corresponding section based on the fragment identifier
+  if (sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.style.display = "block";
+      const sectionWord = sectionId.split("-")[0]; // Extract the "word" content
+      setActiveButton(sectionWord + 'Button'); // Make the corresponding button active
+    }
+  }
+</script>
+
+
+<!-- tene script houwe kermel eza kenna b shi whde mn hawde l 3 , w bdna nrouh aa whde mennon , ta dghre taamol display lal part l me3niye -->
+<script>
+  // Function to show the specified section and hide the others
+  function showSection(sectionId) {
+    // Get all the sections
+    const sections = document.getElementsByTagName('section');
+
+    // Iterate through the sections
+    for (let i = 0; i < sections.length; i++) {
+      const section = sections[i];
+
+      // Check if the section is the target section
+      if (section.id === sectionId) {
+        section.style.display = "block"; // Show the target section
+      } else {
+        section.style.display = "none"; // Hide the other sections
+      }
+    }
+
+    // Update the URL with the section ID without adding a new history entry
+ history.replaceState(null, null, `#${sectionId}`);
+
+  // Set the active button and show the corresponding section on page load
+  document.addEventListener("DOMContentLoaded", () => {
+    if (sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.style.display = "block";
+        const button = document.getElementById(sectionId + "Button");
+        if (button) {
+          button.classList.add("active");
+        }
+      }
+    }
+  });
+
+  }
+</script>
+
+<script>
+   // Get all the buttons
+const buttons = document.querySelectorAll('.links button');
+
+// Add event listener to each button
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Check if the clicked button is already active
+    if (!button.classList.contains('active')) {
+      // Remove the active class from all buttons
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Add the active class to the clicked button
+      button.classList.add('active');
+    }
+  });
+});
 
 </script>
-  </td>
-</tr>
+
+<script>
+  // Function to handle the active state of buttons
+  function setActiveButton(buttonId) {
+    // Get all the buttons
+    const buttons = document.querySelectorAll('.links button');
+
+    // Remove the "active" class from all buttons
+    buttons.forEach((button) => {
+      button.classList.remove('active');
+    });
+
+    // Add the "active" class to the clicked button
+    document.getElementById(buttonId).classList.add('active');
+  }
+</script>
+
 </body>
 </html>

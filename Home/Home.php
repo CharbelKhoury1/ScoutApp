@@ -27,26 +27,32 @@ session_start();
       </div>
       <div class="links">
       <button class="active" onclick="scrollToSection('hero')">
-  <img src="../Icons/home-alt-svgrepo-com.svg">Home
-</button>
-<button onclick="window.location.href='Requests.html'">
-  <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
-</button>
-<button onclick="window.location.href='../views/transactionView.php'">
-  <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
-</button>
-<button onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php'">
-  <img src="../Icons//icons8-password.svg">Scouts Management
-</button>
-<button onclick="scrollToSection('Scout-gallery')">
-  <img src="../Icons/world-1-svgrepo-com.svg">Social Media
-</button>
-<button class="" onclick="scrollToSection('testimonials')">
-  <img src="../Icons/system-help-svgrepo-com.svg">About Us
-</button>
-<button  class="" onclick="window.location.href='../views/contactUsView.php'">
-  <img src="../Icons/phone-svgrepo-com.svg">Contact Us
-</button>
+        <img src="../Icons/home-alt-svgrepo-com.svg">Home
+      </button>
+      <button onclick="window.location.href='Requests.html'">
+        <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
+      </button>
+      <button onclick="window.location.href='../views/transactionView.php'">
+        <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
+      </button>
+      <button onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php#code-section'">
+        <img src="../Icons//icons8-password.svg">Code/Pass Generator
+      </button>
+      <button onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php#search-section'">
+      <img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout
+      </button>
+      <button onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php#create-section'">
+      <img src="../Icons/add-svgrepo-com.svg">Create Unit
+      </button>
+      <button onclick="scrollToSection('Scout-gallery')">
+        <img src="../Icons/world-1-svgrepo-com.svg">Social Media
+      </button>
+      <button class="" onclick="scrollToSection('testimonials')">
+        <img src="../Icons/system-help-svgrepo-com.svg">About Us
+      </button>
+      <button  class="" onclick="window.location.href='../views/contactUsView.php'">
+        <img src="../Icons/phone-svgrepo-com.svg">Contact Us
+      </button>
        </div>
       </div>
 
@@ -167,7 +173,7 @@ session_start();
     </div>
 <div class="quote-container">
   <div class="quote">
-"In a large organization and a great movement like the scout movement, there is no place for selfishness and individual efforts.. We all have to cooperate together and work jointly with each other effectively to achieve the desired goal."
+  "في منظمة كبيرة وحركة كبيرة مثل الحركة الكشفية ، لا يوجد مكان للأنانية والجهود الفردية .. علينا جميعًا أن نتعاون معًا ونعمل معًا مع بعضنا البعض بشكل فعال لتحقيق الهدف المنشود".
 
   </div>
   <div class="author">- Baden Powell</div>
@@ -175,7 +181,7 @@ session_start();
 
 <div class="quote-container">
   <div class="quote">
- "In my private life, there are three ways in which I can successfully face problems.. These ways are: work, justice, and the most important weapon, which is love."
+  "في حياتي الخاصة ، هناك ثلاث طرق يمكنني من خلالها مواجهة المشاكل بنجاح .. هذه الطرق هي: العمل ، والعدالة ، وأهم سلاح وهو الحب".
 
   </div>
   <div class="author">- Baden Powell</div>
@@ -183,7 +189,7 @@ session_start();
 
 <div class="quote-container">
   <div class="quote">
-    "A person will not be good unless he has a sincere faith in God and obey his commands.. Therefore, the scout must always adhere to religion."
+  "لن يكون الإنسان صالحًا ما لم يكن لديه إيمان صادق بالله ويطيع أوامره .. لذلك يجب أن يلتزم الكشاف دائمًا بالدين".
   </div>
   <div class="author">- Baden Powell</div>
 </div>
@@ -193,21 +199,21 @@ session_start();
 </div>
 <div class="quote-container">
   <div class="quote">
-    "A Scout is distinguished by his constant smile, which gives him joy and happiness.. and makes those around him feel the same, especially at the time of managing crises and dangers."
+  "يتميز الكشافة بابتسامته المستمرة التي تمنحه الفرح والسعادة .. وتجعل من حوله يشعر بالمثل خاصة في وقت إدارة الأزمات والمخاطر".
   </div>
   <div class="author">- Baden Powell</div>
 </div>
 
 <div class="quote-container">
   <div class="quote">
-    "I think it's better to let boys lead the world.. We should have a world full of fun, perseverance, seriousness and friendship."
+  "أعتقد أنه من الأفضل ترك الأولاد يقودون العالم .. يجب أن يكون لدينا عالم مليء بالمرح والمثابرة والجدية والصداقة."
   </div>
   <div class="author">- Baden Powell</div>
 </div>
 
 <div class="quote-container">
   <div class="quote">
-    "You should always depend on yourself and not depend on what others can do for you."
+  "يجب أن تعتمد دائمًا على نفسك ولا تعتمد على ما يمكن للآخرين القيام به من أجلك."
   </div>
   <div class="author">- Baden Powell</div>
 </div>

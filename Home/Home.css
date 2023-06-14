@@ -68,14 +68,14 @@ cursor: pointer;
   
 /* Slider part */
 
-  .slider {
-    margin-top: 50px;
-    position: relative;
-    height: calc(100vh - 100px); /* Subtract 100px for the text below */
-    width: 100%;
-    /* overflow: hidden; */
-  }
-  
+.slider {
+  margin-top: 50px;
+  position: relative;
+  height: calc(150vh - 110px);
+  width: 100%;
+  /* overflow: hidden; */
+}
+
   .slide {
     position: absolute;
     top: 0;
