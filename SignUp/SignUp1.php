@@ -101,17 +101,10 @@ if (isset($_GET['code']) && isset($_GET['password'])) {
       <label for="medicalcondition">Medical Condition:</label>
       <input type="text" id="medicalcondition" name="medical_condition">
 
-      <!-- 
+       
       <input type="hidden" name="scoutcode" value="<?php echo $code; ?>">
       <input type="hidden" name="password" value="<?php echo $password; ?>">
-      -->
-
-
-      <?php if (isset($_SESSION['code']) && isset($_SESSION['password'])): ?>
-        <input type="hidden" name="scoutcode" value="<?php echo $_SESSION['code']; ?>">
-        <input type="hidden" name="password" value="<?php echo $_SESSION['password']; ?>">
-      <?php endif; ?>
-     
+      
 
       <input type="submit" name="SignUp1" value="Continue">
     </form>
