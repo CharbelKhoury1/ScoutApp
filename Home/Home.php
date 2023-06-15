@@ -225,49 +225,67 @@ session_start();
 
 <section class="Scout-gallery">
   <h2>Our Recent Events</h2>
-  <div class="image-grid" id="post-container">
-    <!-- Posts will be dynamically added here -->
+  <div class="image-grid" id="post-container">  
+  <?php
+  require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
+  $app_id = '1250484182494643';
+  $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
+  $access_token = 'EAARxTwlZBrbMBAP8ll6WR0eov23OKpqBFCNhPtNTCmbISEjGJZBmyMBbpYD2aVb2pLzSpyNtP1ao6aoAA58a45VX3KMzKMXFMOXLqCpZACArsOxCLefDILKGJp2m2wBIkZBS2qz4Pz8tVFJU44ZC6qYyD0ZAXRUS42j58lvmvLgE7j6V2WtEITUdBgUKGhBZCZB0ZARSsdP1ZB2620mZB2M1ChDseAJTBt17ooKBb4on9izd7W1ZBgW4Uuug6O9mBeMyqH8ZD';
+
+  $fb = new Facebook\Facebook([
+    'app_id' => $app_id,
+    'app_secret' => $app_secret,
+    'default_graph_version' => 'v17.0',
+  ]);
+
+  $fb->setDefaultAccessToken($access_token);
+
+  try {
+    $response = $fb->get('/me/posts?fields=id,message,created_time');
+    $posts = $response->getGraphEdge();
+
+    // Process the retrieved posts
+    foreach ($posts as $post) {
+      $postId = $post['id'];
+      $message = $post['message'];
+      $createdTime = $post['created_time'];
+
+      // Wrap each post in a div
+      echo '<div class="post">';
+      // Output the post content
+      echo '<div class="post-content">';
+      echo '<p>Post ID: ' . $postId . '</p>';
+      echo '<p>Message: ' . $message . '</p>';
+      echo '<p>Created Time: ' . $createdTime . '</p>';
+      echo '</div>'; // Close post-content div
+      // Get the caption for the post
+      try {
+        $response = $fb->get('/' . $postId . '?fields=caption');
+        $post = $response->getGraphNode();
+        $caption = $post['caption'];
+
+        // Wrap the caption in a div
+        echo '<div class="caption">';
+        echo '<p>Caption: ' . $caption . '</p>';
+        echo '</div>'; // Close caption div
+      } catch (Facebook\Exceptions\FacebookResponseException $e) {
+        // Handle API errors
+      } catch (Facebook\Exceptions\FacebookSDKException $e) {
+        // Handle SDK errors
+      }
+
+      echo '</div>'; // Close post div
+    }
+  } catch (Facebook\Exceptions\FacebookResponseException $e) {
+    // Handle API errors
+  } catch (Facebook\Exceptions\FacebookSDKException $e) {
+    // Handle SDK errors
+  }
+?>
   </div>
 </section>
 
 
-<!--<script>
-  // Define the page ID and access token
-    const pageId = "1561134467455034";
-    const accessToken = "EABZAgXBYDZBeMBAE6gwXF3FcUyCnqvMuRD8RLZCEG8IWk4ox9Yko2bFvMFyHVlfJLYSRSFXhueVzsRgwGLSEFPO5CyrcGGwPUBHVLDcpUZADcZCYcHIcHXIi05LLA87ABzdEOs5h5nuX9PMhz4plgLBCCeci6gjDMmOioVZAEfWd5AyisaIrYG";
-  // Make the API request to fetch recent posts
-  fetch(`https://graph.facebook.com/${pageId}/posts?fields=full_picture,caption&access_token=${accessToken}`)
-    .then(response => response.json())
-    .then(data => {
-      // Retrieve the recent posts from the response
-      const posts = data.data;
-      const postContainer = document.getElementById("post-container");
-
-      // Iterate over the posts and create HTML elements for each post
-      posts.forEach(post => {
-        const imageUrl = post.full_picture;
-        const caption = post.caption;
-
-        // Create the HTML structure for each post
-        const postDiv = document.createElement("div");
-        const imageElement = document.createElement("img");
-        const captionElement = document.createElement("figcaption");
-
-        imageElement.src = imageUrl;
-        captionElement.textContent = caption;
-
-        postDiv.appendChild(imageElement);
-        postDiv.appendChild(captionElement);
-
-        postContainer.appendChild(postDiv);
-      });
-    })
-    .catch(error => {
-      // Handle any errors that occur during the API request
-      console.error(error);
-    });
-</script>
-  -->
       
       <section class="testimonials">
         <h2>Our Scouts and Guides Experience</h2>
