@@ -104,11 +104,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     }
 
 
-    $scoutRankPresent = $_POST['scoutrank-present'];
+    $scoutRankPresent = $_POST['scoutrankpresent'];
     $scoutRegimentPresent = $_POST['nameofregiment-present'];
     $scoutUnitPresent = $_POST['unit-present'];
     $scoutStartDatePresent = $_POST['startdate-present'];
     
+    echo $scoutRankPresent."  ".$scoutRegimentPresent."  ".$scoutUnitPresent."  ".$scoutStartDatePresent;
 
     // // Retrieve rank_id from the rank table
     $query = "SELECT rank_id FROM rank WHERE name = '$scoutRankPresent'";
@@ -117,24 +118,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
       $row = mysqli_fetch_assoc($result);
       $rankId = $row['rank_id'];
     } else {
-      echo "Error: Rank not found.";
+      echo "Error: sasasas Rank not found.";
       exit;
     }
     
-    // Retrieve regiment_id from the regiment table
-    $query = "SELECT regiment_id FROM regiment WHERE name = '$scoutRegimentPresent'";
-    $result = mysqli_query($con, $query);
-    if ($result && mysqli_num_rows($result) > 0) {
-      $row = mysqli_fetch_assoc($result);
-      $regimentId = $row['regiment_id'];
-    } else {
-      echo "Error: Regiment not found.";
-      exit;
-    }
     
     // Retrieve unit_id from the unit table
-    $query = "SELECT unit_id FROM unit WHERE name = '$scoutUnitPresent'";
-    $result = mysqli_query($con, $query);
+    $query1 = "SELECT unit_id FROM unit WHERE name = '$scoutUnitPresent'";
+    $result = mysqli_query($con, $query1);
     if ($result && mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
       $unitId = $row['unit_id'];
@@ -144,15 +135,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     }
     
     // Insert data into the unitrankhistory table using the retrieved IDs
-    $query = "INSERT INTO unitrankhistory (start_date,end_date, userId, regimentId, unitId, rankId) 
-              VALUES ('$scoutStartDatePresent', NULL , '$userId', '$regimentId', '$unitId', '$rankId')";
-    
-    if (mysqli_query($con, $query)) {
-      echo "Data inserted into unitrankhistory table successfully.";
+    $query2 = "INSERT INTO unitrankhistory (start_date, end_date, userId, unitId, rankId) 
+              VALUES ('$scoutStartDatePresent', NULL , '$userId', '$unitId', '$rankId')";
+     
+    if (mysqli_query($con, $query2)) {
+      echo "Present Data inserted into unitrankhistory table successfully."."<br>";
     } else {
       echo "Error: " . mysqli_error($con);
     }
   
+
+if(isset($_POST['regiment'])) {
 
   $scoutRegiments = $_POST['regiment'];
   $scoutUnits = $_POST['unit'];
@@ -160,11 +153,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
   $scoutStartDates = $_POST['start-date'];
   $scoutEndDates = $_POST['end-date'];
 
-  echo var_dump($scoutRegiments)."<br>";
-  echo var_dump($scoutUnits)."<br>";
-  echo var_dump($scoutRanks)."<br>";
-  echo var_dump($scoutStartDates)."<br>";
-  echo var_dump($scoutEndDates)."<br>";
+  echo "scoutregimentsts:" . var_dump($scoutRegiments)."<br>";
+  echo "scoutUnits".var_dump($scoutUnits)."<br>";
+  echo "scoutranks".var_dump($scoutRanks)."<br>";
+  echo "startdates".var_dump($scoutStartDates)."<br>";
+  echo "scoutenddates". var_dump($scoutEndDates)."<br>";
 
 
   // Loop through the arrays to process each row
@@ -176,33 +169,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
       $scoutEndDate = $scoutEndDates[$i];
 
       // Process the row data as needed
-         // Retrieve rank_id from the rank table
+    //      Retrieve rank_id from the rank table
     $query = "SELECT rank_id FROM rank WHERE name = '$scoutRank'";
     $result = mysqli_query($con, $query);
     if ($result && mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
       $rankId = $row['rank_id'];
     } else {
-      echo "Error: Rank not found.";
-      exit;
-    }
-    
-    // Retrieve regiment_id from the regiment table
-    $query = "SELECT regiment_id FROM regiment WHERE name = '$scoutRegiment'";
-    $result = mysqli_query($con, $query);
-    if ($result && mysqli_num_rows($result) > 0) {
-      $row = mysqli_fetch_assoc($result);
-      $regimentId = $row['regiment_id'];
-    } else {
-      echo "Error: Regiment not found.";
+      echo "Error:  hahahaha Rank not found.";
       exit;
     }
     
     // Retrieve unit_id from the unit table
-    $query = "SELECT unit_id FROM unit WHERE name = '$scoutUnit'";
-    $result = mysqli_query($con, $query);
-    if ($result && mysqli_num_rows($result) > 0) {
-      $row = mysqli_fetch_assoc($result);
+    $query3 = "SELECT unit_id FROM unit WHERE name = '$scoutUnit'";
+    $result2 = mysqli_query($con, $query3);
+    if ($result2 && mysqli_num_rows($result2) > 0) {
+      $row = mysqli_fetch_assoc($result2);
       $unitId = $row['unit_id'];
     } else {
       echo "Error: Unit not found.";
@@ -210,18 +192,76 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     }
 
         // Insert the dynamic form field values into the database
-        $query = "INSERT INTO unitrankhistory (start_date,end_date, userId, regimentId, unitId, rankId) VALUES ('$scoutStartDate', '$scoutEndDate', '$userId', '$regimentId', '$unitId', '$rankId') ";
-        if (mysqli_query($con, $query)) {
+        $query4 = "INSERT INTO unitrankhistory (start_date,end_date, userId, unitId, rankId) VALUES ('$scoutStartDate', '$scoutEndDate', '$userId', '$unitId', '$rankId') ";
+        if (mysqli_query($con, $query4)) {
           echo "Data inserted into unitrankhistory table successfully.";
         } else {
           echo "Error: " . mysqli_error($con);
         }
 
       }
+    }
+    // Scout class part
+  // Retrieve the form data
+  print_r($_POST);
+  $scoutclass = $_POST['scoutclass'];
+  $startDate = $_POST['start-Date'];
+  $endDate = $_POST['end-Date'];
 
-    header("Location: ../Home/Home.php");
-    
+  // Initialize the INSERT query
+  $query = "INSERT INTO degreehistory (userId, degreeId, start_date, end_date) VALUES ";
+  
+  if (isset($_POST['scoutclass'])){
+
+  for ($i = 0; $i < count($scoutclass); $i++) {
+    mysqli_set_charset($con, "utf8"); // Set character encoding to UTF-8
+    // Inside the for loop
+    $degreeName = mysqli_real_escape_string($con, $scoutclass[$i]);
+
+    // Query the degree table to get the degreeId using prepared statement
+    $degreeQuery = "SELECT degree_id FROM degree WHERE name = ?";
+    $degreeStatement = mysqli_prepare($con, $degreeQuery);
+    mysqli_stmt_bind_param($degreeStatement, 's', $degreeName);
+    mysqli_stmt_execute($degreeStatement);
+    $degreeResult = mysqli_stmt_get_result($degreeStatement);
+
+    if ($degreeResult && mysqli_num_rows($degreeResult) > 0) {
+     
+      $degreeRow = mysqli_fetch_assoc($degreeResult);
+      print_r($degreeRow);
+      $degreeId = $degreeRow['degree_id'];
+
+      // Continue with the rest of the code for inserting the record
+      $startDateValue = mysqli_real_escape_string($con, $startDate[$i]);
+      $endDateValue = mysqli_real_escape_string($con, $endDate[$i]);
+
+      // Append the values to the query
+      $query .= "('$userId', '$degreeId', '$startDateValue', '$endDateValue')";
+
+      // Add a comma if it's not the last record
+      if ($i < count($scoutclass) - 1) {
+        $query .= ", ";
+      }
+    } else {
+      // Handle the case when the degree query fails
+      echo "Degree Query error";
+    }
+  }
+
+  // Execute the INSERT query
+  $result = mysqli_query($con, $query);
+
+  // Check if the query was successful
+  if ($result) {
+    echo "Data inserted successfully!";
+  } else {
+    echo "Error: " . mysqli_error($con);
+  }
+
+  }
+
+    header("Location: ../Home/Home.php");  
+}
     // Close the database connection
     mysqli_close($con);
-  }
     ?>

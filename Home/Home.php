@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (isset($_COOKIE['user_id'])){
+$_SESSION['user_id']=$_COOKIE['user_id'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -119,6 +122,7 @@ session_start();
   <h2><?php 
   if(isset($_SESSION['email'])){
     echo $_SESSION['email'];
+    echo $_SESSION['user_id'];
    }
    ?>Values and Principles of Scouts and Guides National Orthodox</h2>
   <p>Explore the core values and principles that guide the Scout et Guide National Orthodoxe (SNO) community. 
@@ -230,7 +234,7 @@ session_start();
   require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
   $app_id = '1250484182494643';
   $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
-  $access_token = 'EAARxTwlZBrbMBAP8ll6WR0eov23OKpqBFCNhPtNTCmbISEjGJZBmyMBbpYD2aVb2pLzSpyNtP1ao6aoAA58a45VX3KMzKMXFMOXLqCpZACArsOxCLefDILKGJp2m2wBIkZBS2qz4Pz8tVFJU44ZC6qYyD0ZAXRUS42j58lvmvLgE7j6V2WtEITUdBgUKGhBZCZB0ZARSsdP1ZB2620mZB2M1ChDseAJTBt17ooKBb4on9izd7W1ZBgW4Uuug6O9mBeMyqH8ZD';
+  $access_token = 'EAARxTwlZBrbMBAO007NdI7TpKc8ZCJYvKMSmLZA7ZAz4rqm2f5SBWMFkZBXrq2CiWaMlH0fYGIH8rZBm8cpOgmZBjOcIfkd2RtJWuRtYOvNylsmNHedWD8bhqWid8FjELCy7hxBVOZC2Th4AmEQcxFaQMPAZCw8it03hbXFQPSXauqx25QyiJbAgG';
 
   $fb = new Facebook\Facebook([
     'app_id' => $app_id,
@@ -258,6 +262,32 @@ session_start();
       echo '<p>Message: ' . $message . '</p>';
       echo '<p>Created Time: ' . $createdTime . '</p>';
       echo '</div>'; // Close post-content div
+
+      // Get the pictures for the post
+      try {
+        $response = $fb->get('/' . $postId . '/attachments?fields=media');
+        $attachments = $response->getGraphEdge();
+
+        // Process the retrieved attachments
+        foreach ($attachments as $attachment) {
+          $media = $attachment['media'];
+
+          // Check if media is available
+          if (isset($media['image'])) {
+            $imageSrc = $media['image']['src'];
+
+            // Wrap each picture in a div
+            echo '<div class="picture">';
+            echo '<img src="' . $imageSrc . '" alt="Post Picture">';
+            echo '</div>'; // Close picture div
+          }
+        }
+      } catch (Facebook\Exceptions\FacebookResponseException $e) {
+        // Handle API errors
+      } catch (Facebook\Exceptions\FacebookSDKException $e) {
+        // Handle SDK errors
+      }
+
       // Get the caption for the post
       try {
         $response = $fb->get('/' . $postId . '?fields=caption');
@@ -281,12 +311,11 @@ session_start();
   } catch (Facebook\Exceptions\FacebookSDKException $e) {
     // Handle SDK errors
   }
-?>
+  ?>
   </div>
 </section>
 
-
-      
+  
       <section class="testimonials">
         <h2>Our Scouts and Guides Experience</h2>
         <div class="testimonial">

@@ -25,21 +25,22 @@
       <form method="post" action="InsertUser.php">
 
         <label for="scoutrank">Scout rank (الرتبة الكشفية):</label>
-        <select id="scoutrank" name="scoutrank-present">
-          <option value="generalcommander">General Commander</option>
-          <option value="generalleadershipmember">General Leadership Member</option>
-          <option value="generalcommisionner">General Commisionner</option>
-          <option value="commissioner">Commissioner</option>
-          <option value="leader">Leader</option>
-          <option value="rover">Rover</option>
-          <option value="ranger">Ranger</option>
-          <option value="scout">Scout</option>
-          <option value="girlguide">Girl Guide</option>
-          <option value="cub">Cub</option>
-          <option value="browny">Browny</option>
-          <option value="beaver">Beaver</option>
-          <option value="daisy">Daisy</option>
-          <option value="Financial Custodian">Financial Custodian</option> <!-- I added this option la amin sandou2-->
+        <select id="scoutrank" name="scoutrankpresent">
+          <option value="General Commander">General Commander</option>
+          <option value="General Leadership Member">General Leadership Member</option>
+          <option value="General Commisionner">General Commisionner</option>
+          <option value="Commissioner">Commissioner</option>
+          <option value="Leader">Leader</option>
+          <option value="Rover">Rover</option>
+          <option value="Ranger">Ranger</option>
+          <option value="Scout">Scout</option>
+          <option value="Girl Guide">Girl Guide</option>
+          <option value="Cub">Cub</option>
+          <option value="Browny">Browny</option>
+          <option value="Beaver">Beaver</option>
+          <option value="Daisy">Daisy</option>
+          <option value="Financial Custodian">Financial Custodian</option>
+          <option value="Secretary">Secretary</option>
         </select>
 
             <label for="nameofregiment">Name of regiment (اسم الفوج التابع له):</label>
@@ -96,179 +97,250 @@
       <label for="unit">When did you hold this status:</label>
       <input type="date" name="startdate-present" id="startdate-present">
 
-            <table id="myTable">
-              <caption> Fill the fields from newest to oldest <br> (PS: Don't include your present status) </caption>
-        <thead>
-          <tr>
-            <th>Regiment</th>
-            <th>Unit</th>
-            <th>Rank</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <select id="regiment-0" name="regiment[0]">
-        <option disabled selected value="">Select Regiment</option>
-                <?php
-                // Assuming you have a 'regiment' table with 'name' column
-                $query = "SELECT DISTINCT name FROM regiment";
-                $result = mysqli_query($con, $query);
-                if (!$result) {
-                  die('Query failed');
-                }
-
-                while ($row = mysqli_fetch_assoc($result)) {
-                  echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
-                }
-                ?>
-              </select>
-            </td>
-            <td>
-              <select id="unit" name="unit"></select>
-            </td>
-            <td>
-              <select id="rank" name="rank">
-                <?php
-                // Assuming you have a 'rank' table with 'name' column
-                $query = "SELECT name FROM rank";
-                $result = mysqli_query($con, $query);
-                if (!$result) {
-                  die('Query failed');
-                }
-
-                while ($row = mysqli_fetch_assoc($result)) {
-                  echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
-                }
-                ?>
-              </select>
-            </td>
-            <td>
-              <input type="date" id="start-date" name="start-date">
-            </td>
-            <td>
-              <input type="date" id="end-date" name="end-date">
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button id="addRowBtn">+</button>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script>
-        $(document).ready(function() {
-          $('#regiment-0').change(function() {
-            var selectedRegiment = $(this).val();
-            var unitDropdown = $(this).closest('tr').find('#unit');
-            unitDropdown.empty(); // Clear previous options
-
-            $.ajax({
-              url: 'retrieve_units.php',
-              method: 'POST',
-              data: { regiment: selectedRegiment },
-              dataType: 'json',
-              success: function(response) {
-                $.each(response.units, function(index, unit) {
-                  unitDropdown.append($('<option>', {
-                    value: unit,
-                    text: unit
-                  }));
-                });
-              },
-              error: function() {
-                console.log('Error occurred during units retrieval');
-              }
-            });
-          });
-
-                $('#addRowBtn').click(function(e) {
-        e.preventDefault(); // Prevent form submission
-
-        var newRow = $('<tr>');
-        var cols = '';
-
-        var rowCount = $('#myTable tbody tr').length; // Get the current row count
-        // rowCount=rowCount-1;
-        var uniqueId = 'row-' + rowCount; // Create a unique ID for the new row
-
-        cols += '<td><select id="regiment-' + uniqueId + '" name="regiment[' + rowCount + ']">';
-        cols += '<option disabled selected value="">Select Regiment</option>';  // Add an empty option for initial selection
-        cols += '</select></td>';
-        cols += '<td><select id="unit-' + uniqueId + '" name="unit[' + rowCount + ']"></select></td>';
-        cols += '<td><select id="rank-' + uniqueId + '" name="rank[' + rowCount + ']"></select></td>';
-        cols += '<td><input type="date" name="start-date[' + rowCount + ']"></td>';
-        cols += '<td><input type="date" name="end-date[' + rowCount + ']"></td>';
-        cols += '<td><button class="removeRowBtn">-</button></td>';
-
-        //ymkn ykoun l name bas brackets fadyin bala row count jouwa.
-        
-        newRow.append(cols);
-        $('#myTable tbody').append(newRow);
-
-        // Fetch regiments using AJAX request
-        $.ajax({
-          url: 'retrieve_regiments.php',
-          dataType: 'html',
-          success: function(response) {
-            $('#regiment-' + uniqueId).html(response);
-          },
-          error: function() {
-            $('#regiment-' + uniqueId).html('<option value="">Error retrieving regiments</option>');
+      <table id="myTable">
+  <caption>Fill the fields from newest to oldest<br>(PS: Don't include your present status)</caption>
+  <thead>
+    <tr>
+      <th>Regiment</th>
+      <th>Unit</th>
+      <th>Rank</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <select id="regiment-0" name="regiment[0]">
+          <option disabled selected value="">Select Regiment</option>
+          <?php
+          // Assuming you have a 'regiment' table with 'name' column
+          $query = "SELECT DISTINCT name FROM regiment";
+          $result = mysqli_query($con, $query);
+          if (!$result) {
+            die('Query failed');
           }
+
+          while ($row = mysqli_fetch_assoc($result)) {
+            echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+          }
+          ?>
+        </select>
+      </td>
+      <td>
+        <select id="unit-0" name="unit[0]"></select>
+      </td>
+      <td>
+        <select id="rank-0" name="rank[0]">
+          <?php
+          // Assuming you have a 'rank' table with 'name' column
+          $query = "SELECT name FROM rank";
+          $result = mysqli_query($con, $query);
+          if (!$result) {
+            die('Query failed');
+          }
+
+          while ($row = mysqli_fetch_assoc($result)) {
+            echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+          }
+          ?>
+        </select>
+      </td>
+      <td>
+        <input type="date" name="start-date[0]">
+      </td>
+      <td>
+        <input type="date" name="end-date[0]">
+      </td>
+    </tr>
+  </tbody>
+</table>
+<button id="addRowBtn">+</button>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Fetch units for the first row based on the selected regiment
+  
+      $('#regiment-0').change(function() {
+    var selectedRegiment = $(this).val();
+    var unitDropdown = $(this).closest('tr').find('#unit-0');
+    unitDropdown.empty(); // Clear previous options
+
+    $.ajax({
+      url: 'retrieve_units.php',
+      method: 'POST',
+      data: { regiment: selectedRegiment },
+      dataType: 'json',
+      success: function(response) {
+        $.each(response.units, function(index, unit) {
+          unitDropdown.append($('<option>', {
+            value: unit,
+            text: unit
+          }));
         });
+      },
+      error: function() {
+        console.log('Error occurred during units retrieval');
+      }
+    });
+  });
 
-        newRow.find('#regiment-' + uniqueId).change(function() {
-          var selectedRegiment = $(this).val();
-          var unitDropdown = $(this).closest('tr').find('#unit-' + uniqueId);
-          unitDropdown.empty(); // Clear previous options
+    $('#addRowBtn').click(function(e) {
+      e.preventDefault(); // Prevent form submission
 
-          $.ajax({
-            url: 'retrieve_units.php',
-            method: 'POST',
-            data: { regiment: selectedRegiment },
-            dataType: 'json',
-            success: function(response) {
-              $.each(response.units, function(index, unit) {
-                unitDropdown.append($('<option>', {
-                  value: unit,
-                  text: unit
-                }));
-              });
-            },
-            error: function() {
-              console.log('Error occurred during units retrieval');
-            }
-          });
-        });
+      var rowCount = $('#myTable tbody tr').length; // Get the current row count
+      var uniqueId = 'row-' + rowCount; // Create a unique ID for the new row
 
-        // Fetch ranks using AJAX request
+      var newRow = $('<tr>');
+      var cols = '';
+
+      cols += '<td><select id="regiment-' + uniqueId + '" name="regiment[' + rowCount + ']">';
+      cols += '<option disabled selected value="">Select Regiment</option>'; // Add an empty option for initial selection
+      cols += '</select></td>';
+      cols += '<td><select id="unit-' + uniqueId + '" name="unit[' + rowCount + ']"></select></td>';
+      cols += '<td><select id="rank-' + uniqueId + '" name="rank[' + rowCount + ']"></select></td>';
+      cols += '<td><input type="date" name="start-date[' + rowCount + ']"></td>';
+      cols += '<td><input type="date" name="end-date[' + rowCount + ']"></td>';
+      cols += '<td><button class="removeRowBtn">-</button></td>';
+
+      newRow.append(cols);
+      $('#myTable tbody').append(newRow);
+
+      // Fetch regiments using AJAX request
+      $.ajax({
+        url: 'retrieve_regiments.php',
+        dataType: 'html',
+        success: function(response) {
+          $('#regiment-' + uniqueId).html(response);
+        },
+        error: function() {
+          $('#regiment-' + uniqueId).html('<option value="">Error retrieving regiments</option>');
+        }
+      });
+
+      newRow.find('#regiment-' + uniqueId).change(function() {
+        var selectedRegiment = $(this).val();
+        var unitDropdown = $(this).closest('tr').find('#unit-' + uniqueId);
+        unitDropdown.empty(); // Clear previous options
+
         $.ajax({
-          url: 'retrieve_ranks.php',
-          dataType:'html',
+          url: 'retrieve_units.php',
+          method: 'POST',
+          data: { regiment: selectedRegiment },
+          dataType: 'json',
           success: function(response) {
-            $('#rank-' + uniqueId).html(response);
+            $.each(response.units, function(index, unit) {
+              unitDropdown.append($('<option>', {
+                value: unit,
+                text: unit
+              }));
+            });
           },
           error: function() {
-            $('#rank-' + uniqueId).html('<option value="">Error retrieving ranks</option>');
+            console.log('Error occurred during units retrieval');
           }
         });
       });
 
-      $(document).on('click', '.removeRowBtn', function() {
-        $(this).closest('tr').remove();
-
-        // Trigger a change event on the remaining regiment select elements to update the units
-        $('#regiment').change();
+      // Fetch ranks using AJAX request
+      $.ajax({
+        url: 'retrieve_ranks.php',
+        dataType: 'html',
+        success: function(response) {
+          $('#rank-' + uniqueId).html(response);
+        },
+        error: function() {
+          $('#rank-' + uniqueId).html('<option value="">Error retrieving ranks</option>');
+        }
       });
     });
 
-    </script>
+    $(document).on('click', '.removeRowBtn', function() {
+      $(this).closest('tr').remove();
+
+      // Trigger a change event on the remaining regiment select elements to update the units
+      $('[id^="regiment-"]').change();
+    });
+  });
+</script>
 
 
-        <label for="scoutclass">Scout class (الدرجة الكشفية) with date (from newest to oldest):</label>
-        <textarea id="scoutclass" name="scoutclass" rows="10"></textarea>
+  <table id="myTable1">
+    <caption>Scout class (الدرجة الكشفية) with date (from newest to oldest):</caption>
+    <thead>
+      <tr>
+        <th>Scout Class</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <tr id="row-0">
+        <td>
+          <select name="scoutclass[0]">
+            <option disabled selected value="">اختر الدرجة الكشفية</option>
+            <?php
+          mysqli_set_charset($con, "utf8"); // Set character encoding
+
+          // Assuming you have a 'degree' table with 'name' column
+          $query1 = "SELECT DISTINCT name FROM degree";
+          $result = mysqli_query($con, $query1);
+          if (!$result) {
+            die('Query failed');
+          }
+
+          while ($row = mysqli_fetch_assoc($result)) {
+            echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+          }
+          ?>
+          </select>
+        </td>
+        <td>
+          <input type="date" name="start-Date[0]">
+        </td>
+        <td>
+          <input type="date" name="end-Date[0]">
+        </td>
+        <td>
+          <button class="removeRowBtn1" disabled>-</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button id="addRowBtn1">+</button>
+
+  <script>
+    $(document).ready(function() {
+      var rowCount = 1; // Initialize row count
+
+      $('#addRowBtn1').click(function(e) {
+        e.preventDefault(); // Prevent form submission
+
+        var newRow = $('#row-0').clone(); // Clone the first row
+        newRow.attr('id', 'row-' + rowCount); // Update the ID of the new row
+        newRow.find('[name^="scoutclass"]').attr('name', 'scoutclass[' + rowCount + ']'); // Update the name attribute of the select element
+        newRow.find('[name^="start-Date"]').attr('name', 'start-Date[' + rowCount + ']'); // Update the name attribute of the start date input
+        newRow.find('[name^="end-Date"]').attr('name', 'end-Date[' + rowCount + ']'); // Update the name attribute of the end date input
+
+        newRow.find('.removeRowBtn1').click(function() {
+          $(this).closest('tr').remove();
+        });
+
+        newRow.find('.removeRowBtn1').prop('disabled', false); // Enable the remove button for the new row
+        $('#tableBody').append(newRow);
+
+        rowCount++; // Increment row count
+
+        // Enable the remove button for the previously added row
+        $('#row-' + (rowCount - 2)).find('.removeRowBtn1').prop('disabled', false);
+      });
+    });
+  </script>
     
+
+
+
         <label for="affiliationdate">Affiliation Date: (تاريخ الانتساب)</label>
         <input type="date" id="affiliationdate" name="affiliationdate" required>
 
