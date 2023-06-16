@@ -23,6 +23,9 @@ include "LoginCredentials.php";
             <input type="text" id="scoutcode" name="scoutcode" placeholder="Enter your Scout Code" required>
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            
+            <input type="checkbox" id="remember-me" name="remember-me">
+            <label for="remember-me">Remember Me</label>
 
             <input type="submit" id="submit-btn" name="submit-btn" value="Continue">
         

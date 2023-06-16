@@ -3,6 +3,15 @@ session_start();
 // if (isset($_COOKIE['user_id'])){
 // $_SESSION['user_id']=$_COOKIE['user_id'];
 // }
+
+// Establish a database connection
+$con = new mysqli("localhost", "root", "", "scoutproject");
+
+// Check the database connection
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -22,67 +31,89 @@ session_start();
   <body>  
 <!-- facebook embedd -->
 
-<div class="sidebar">
-      <div class="logo">
+  <div class="sidebar">
+    <div class="logo">
         <img src="../Icons/menu-svgrepo-com.svg" alt="sds">
         <img src="../Icons/arrow-right-svgrepo-com.svg" alt="sdsd">
         <img src="../Icons/close-md-svgrepo-com.svg" alt="dsd">
-      </div>
-      <div class="links">
+    </div>
+    <div class="links">
+      
       <button class="active" onclick="scrollToSection('hero')">
-        <img src="../Icons/home-alt-svgrepo-com.svg">Home
-      </button>
-      <button onclick="window.location.href='Requests.html'">
-        <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
-      </button>
-      <button onclick="window.location.href='../views/transactionView.php'">
-        <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
-      </button>
-      <button onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php#code-section'">
-        <img src="../Icons//icons8-password.svg">Code/Pass Generator
-      </button>
-      <button onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php#search-section'">
-      <img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout
-      </button>
-      <button onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php#create-section'">
-      <img src="../Icons/add-svgrepo-com.svg">Create Unit
-      </button>
-      <button onclick="scrollToSection('Scout-gallery')">
-        <img src="../Icons/world-1-svgrepo-com.svg">Social Media
-      </button>
-      <button class="" onclick="scrollToSection('testimonials')">
-        <img src="../Icons/system-help-svgrepo-com.svg">About Us
-      </button>
-      <button  class="" onclick="window.location.href='../views/contactUsView.php'">
-        <img src="../Icons/phone-svgrepo-com.svg">Contact Us
-      </button>
-       </div>
-      </div>
+            <img src="../Icons/home-alt-svgrepo-com.svg">Home
+        </button>
+        <?php
+        // Assuming you have established a database connection
+      if(isset($_SESSION['user_id'])){
+        // Step 1: Retrieve feature names using a single SQL query with INNER JOIN
+        $userID = $_SESSION['user_id'];
+        $query = "SELECT f.description AS featureName
+                  FROM unitrankhistory urh
+                  INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
+                  INNER JOIN features f ON rf.featureid = f.feature_id
+                  WHERE urh.userId = $userID AND urh.end_date IS NULL";
 
-          <div class="profile-icon">
-      <?php
-      if (!isset($_COOKIE['user_id'])) {
-        echo "<img src='../Pictures/person_icon-removebg-preview.png' alt='Profile Picture'>";
-      } else {
-        if (isset($_SESSION['email'])) {
-          $email = $_SESSION['email'];
-          $gravatarURL = "https://www.gravatar.com/avatar/" . md5(strtolower(trim("ckhoury100@gmail.com")));
+        $result = mysqli_query($con, $query);
 
-          echo "<img src='$gravatarURL' alt='Profile Picture'>";
-        } else {
-          // If the email is not set in the session, display a default profile picture
-          echo "<img src='../Pictures/person_icon-removebg-preview.png' alt='Profile Picture'>";
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $featureName = $row['featureName'];
+
+                // Display the corresponding part based on the feature name
+                if ($featureName === "generate code") {
+                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#code-section\'">';
+                    echo '<img src="../Icons//icons8-password.svg">Code/Pass Generator';
+                    echo '</button>';
+                } elseif ($featureName === "search scout") {
+                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#search-section\'">';
+                    echo '<img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout';
+                    echo '</button>';
+                } elseif ($featureName === "create unit") {
+                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#create-section\'">';
+                    echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
+                    echo '</button>';
+                }
+            }
         }
       }
-      ?>
+        ?>
+        <!-- Add other static buttons here -->
+        <button onclick="window.location.href='Requests.html'">
+            <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
+        </button>
+        <button onclick="window.location.href='../views/transactionView.php'">
+            <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
+        </button>
+        <button onclick="scrollToSection('Scout-gallery')">
+            <img src="../Icons/world-1-svgrepo-com.svg">Social Media
+        </button>
+        <button class="" onclick="scrollToSection('testimonials')">
+            <img src="../Icons/system-help-svgrepo-com.svg">About Us
+        </button>
+        <button class="" onclick="window.location.href='../views/contactUsView.php'">
+            <img src="../Icons/phone-svgrepo-com.svg">Contact Us
+        </button>
     </div>
+  </div>
 
 
-      <div class="login-btn">
-    <button onclick="window.location.href='../Login/Login.php'">Login</button>
-</div>
-
-      <div class="hero">
+          <div class="profile-icon">
+          <?php if (isset($_SESSION['user_id'])): ?>
+        <!-- User is logged in, show relevant content -->
+        <div class="welcome-message">
+            <p>Welcome, <?php echo $_SESSION['name']; ?></p>
+            <!-- <button onclick="window.location.href='logout.php'">Logout</button> -->
+        </div>
+    <?php else: ?>
+        <!-- User is not logged in, show login button -->
+        <div class="login-btn">
+            <button onclick="window.location.href='../Login/Login.php'">Login</button>
+        </div>
+    <?php endif; ?>
+    <img src="../Pictures/ScoutsLogo.gif" alt="scoutslogo">
+          </div>
+    
+          <div class="hero">
         <img src="../Pictures/WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">
       </div>
 
@@ -115,7 +146,6 @@ session_start();
 
 <!-- end of sliders part -->
 
-  
 <div class="container">
 <div class="container1">
   <img src="../Pictures/ScoutPic2.jpg" alt="">

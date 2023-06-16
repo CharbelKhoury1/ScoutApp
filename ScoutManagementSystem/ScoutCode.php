@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'Generate.php';
 include 'SearchScout.php';
 include 'CreateUnit.php';
@@ -22,44 +23,71 @@ if (!$con) {
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="sidebar">
-      <div class="logo">
+      <div class="sidebar">
+    <div class="logo">
         <img src="../Icons/menu-svgrepo-com.svg" alt="sds">
         <img src="../Icons/arrow-right-svgrepo-com.svg" alt="sdsd">
         <img src="../Icons/close-md-svgrepo-com.svg" alt="dsd">
-      </div>
-      <div class="links">
+    </div>
+    <div class="links">
+    
       <button class="" onclick="window.location.href='../Home/Home.php'">
       <img src="../Icons/home-alt-svgrepo-com.svg">Home
       </button>
-      <button class="" ="window.location.href='Requests.html'">
-        <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
-      </button>
-      <button class="" onclick="window.location.href='../views/transactionView.php'">
-      <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
-      </button>
-      <button id="codeButton" class="active" onclick="setActiveButton('codeButton'); showSection('code-section')">
-        <img src="../Icons//icons8-password.svg">Code/Pass Generator
-      </button>
-      <button id="searchButton" class="" onclick="setActiveButton('searchButton'); showSection('search-section')">
-        <img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout
-      </button>
-      <button id="createButton" class="" onclick="setActiveButton('createButton'); showSection('create-section')">
-        <img src="../Icons/add-svgrepo-com.svg">Create Unit
-      </button>
+        <?php
+        // Assuming you have established a database connection
+      if(isset($_SESSION['user_id'])){
+        // Step 1: Retrieve feature names using a single SQL query with INNER JOIN
+        $userID = $_SESSION['user_id'];
+        $query = "SELECT f.description AS featureName
+                  FROM unitrankhistory urh
+                  INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
+                  INNER JOIN features f ON rf.featureid = f.feature_id
+                  WHERE urh.userId = $userID AND urh.end_date IS NULL";
 
-      
-      <button class="" onclick="scrollToSection('Scout-gallery')">
-      <img src="../Icons/world-1-svgrepo-com.svg">Social Media
-      </button>
-      <button class="" onclick="scrollToSection('testimonials')">
-      <img src="../Icons/system-help-svgrepo-com.svg">About Us
-      </button>
-      <button  class="" onclick="window.location.href='../views/contactUsView.php'">
-      <img src="../Icons/phone-svgrepo-com.svg">Contact Us
-      </button>
-       </div>
-      </div>
+        $result = mysqli_query($con, $query);
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $featureName = $row['featureName'];
+
+              // Display the corresponding part based on the feature name
+                if ($featureName === "generate code") {
+                  echo '<button id="codeButton" class="active" onclick="setActiveButton(\'codeButton\'); showSection(\'code-section\')">';
+                  echo '<img src="../Icons//icons8-password.svg">Code/Pass Generator';
+                  echo '</button>';
+                } elseif ($featureName === "search scout") {
+                  echo '<button id="searchButton" class="" onclick="setActiveButton(\'searchButton\'); showSection(\'search-section\')">';
+                  echo '<img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout';
+                  echo '</button>';
+                } elseif ($featureName === "create unit") {
+                  echo '<button id="createButton" class="" onclick="setActiveButton(\'createButton\'); showSection(\'create-section\')">';
+                  echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
+                  echo '</button>';
+                }
+
+            }
+        }
+      }
+        ?>
+        <!-- Add other static buttons here -->
+        <button onclick="window.location.href='Requests.html'">
+            <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
+        </button>
+        <button onclick="window.location.href='../views/transactionView.php'">
+            <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
+        </button>
+        <button onclick="scrollToSection('Scout-gallery')">
+            <img src="../Icons/world-1-svgrepo-com.svg">Social Media
+        </button>
+        <button class="" onclick="scrollToSection('testimonials')">
+            <img src="../Icons/system-help-svgrepo-com.svg">About Us
+        </button>
+        <button class="" onclick="window.location.href='../views/contactUsView.php'">
+            <img src="../Icons/phone-svgrepo-com.svg">Contact Us
+        </button>
+    </div>
+  </div>
 
   <h1>Scout Management System</h1>
 
@@ -151,38 +179,196 @@ if (!$con) {
     </table>
   </section>
 
+
+
   <!-- Section: Search Scout Members -->
   <section id="search-section" <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) { echo 'style="display: block;"'; } else { echo 'style="display: none;"'; } ?>>
     <h2>Search Scout Members</h2>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
       <table class="input-table">
-        <tr>
-          <td><label for="user">First Name:</label></td>
-          <td><input type="text" id="user" name="fname"></td>
-        </tr>
-        <tr>
-          <td><label for="user">Last Name:</label></td>
-          <td><input type="text" id="last-name" name="lname"></td>
-        </tr>
-        <tr>
-          <td><label for="rank">Rank:</label></td>
-          <td><input type="text" id="rank" name="rank"></td>
-        </tr>
-        <tr>
-          <td><label for="regiment">Regiment:</label></td>
-          <td><input type="text" name="regiment" id="regiment"></td>
-        </tr>
-        <tr>
-          <td><label for="unit">Unit:</label></td>
-          <td><input type="text" id="unit" name="unit"></td>
-        </tr>
-        <tr>
-          <td><label for="scoutclass">ScoutClass:</label></td>
-          <td><input type="text" id="scoutclass" name="scoutclass"></td>
-        </tr>
+        <?php
+        // Assuming you have established a database connection
+        if (isset($_SESSION['user_id'])) {
+          ?>
+          <tr>
+            <td><label for="first-name">First Name:</label></td>
+            <td><input type="text" id="first-name" name="fname"></td>
+          </tr>
+          <tr>
+            <td><label for="last-name">Last Name:</label></td>
+            <td><input type="text" name="lname" id="last-name"></td>
+          </tr>
+          <tr>
+            <td><label for="rank">Rank:</label></td>
+            <td>
+              <select id="rank" name="rank">
+                <option disabled selected>Select Rank</option> <!-- Disabled placeholder option -->
+                <?php
+                // Loop through the ranks table to populate options
+                $rankQuery = "SELECT name FROM rank";
+                $rankResult = mysqli_query($con, $rankQuery);
+                while ($rankRow = mysqli_fetch_assoc($rankResult)) {
+                  $selected = ($rankRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $rankRow['name'] . '" ' . $selected . '>' . $rankRow['name'] . '</option>';
+                }
+                ?>
+              </select>
+            </td>
+          </tr>
+          <!-- Rest of the fields -->
+          <tr>
+            <td><label for="regiment">Regiment:</label></td>
+            <td>
+              <select id="regiment" name="regiment">
+                <option disabled selected>Select Regiment</option> <!-- Disabled placeholder option -->
+                <?php
+                // Loop through the regiments table to populate options
+                $regimentQuery = "SELECT name FROM regiment";
+                $regimentResult = mysqli_query($con, $regimentQuery);
+                while ($regimentRow = mysqli_fetch_assoc($regimentResult)) {
+                  $selected = ($regimentRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $regimentRow['name'] . '" ' . $selected . '>' . $regimentRow['name'] . '</option>';
+                }
+                ?>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="unit">Unit:</label></td>
+            <td>
+              <select id="unit" name="unit">
+                <option disabled selected>Select Unit</option> <!-- Disabled placeholder option -->
+                <?php
+                // Loop through the units table to populate options
+                $unitQuery = "SELECT name FROM unit";
+                $unitResult = mysqli_query($con, $unitQuery);
+                while ($unitRow = mysqli_fetch_assoc($unitResult)) {
+                  $selected = ($unitRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $unitRow['name'] . '" ' . $selected . '>' . $unitRow['name'] . '</option>';
+                }
+                ?>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="scoutclass">Scout Class:</label></td>
+            <td>
+              <select id="scoutclass" name="scoutclass">
+                <option disabled selected>Select Scout Class</option> <!-- Disabled placeholder option -->
+                <?php
+                mysqli_set_charset($con, "utf8"); // Set character encoding
+                // Loop through the scout classes table to populate options
+                $scoutClassQuery = "SELECT name FROM degree";
+                $scoutClassResult = mysqli_query($con, $scoutClassQuery);
+                while ($scoutClassRow = mysqli_fetch_assoc($scoutClassResult)) {
+                  $selected = ($scoutClassRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $scoutClassRow['name'] . '" ' . $selected . '>' . $scoutClassRow['name'] . '</option>';
+                }
+                ?>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="trainingcourses">Training Courses:</label></td>
+            <td>
+              <select id="trainingcourses" name="trainingcourses">
+                <option disabled selected>Select Training Course</option> <!-- Disabled placeholder option -->
+                <?php
+                // Loop through the training courses table to populate options
+                $trainingCoursesQuery = "SELECT name FROM trainingcourses";
+                $trainingCoursesResult = mysqli_query($con, $trainingCoursesQuery);
+                while ($trainingCoursesRow = mysqli_fetch_assoc($trainingCoursesResult)) {
+                  $selected = ($trainingCoursesRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $trainingCoursesRow['name'] . '" ' . $selected . '>' . $trainingCoursesRow['name'] . '</option>';
+                }
+                ?>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="bloodtype">Blood Type:</label></td>
+            <td>
+              <select id="bloodtype" name="blood-type">
+                <option disabled selected>Select Blood Type</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="age">Age:</label></td>
+            <td><input type="number" id="age" name="age"></td>
+          </tr>
+          <tr>
+        <td><label for="scouttitle-checkbox">Scout Title:</label></td>
+        <td>
+          <input type="checkbox" id="scouttitle-checkbox" name="scouttitle-checkbox">
+          <label for="scouttitle-checkbox">Has Scout Title</label>
+        </td>
+      </tr>
+
+      <tr id="scouttitle-row" style="display: none;">
+        <td><label for="scouttitle">Scout Title:</label></td>
+        <td>
+          <input type="text" id="scouttitle" name="scouttitle" disabled>
+        </td>
+        <td>
+          <input type="Date" id="scouttitle-date" name="scouttitle-date" disabled>
+        </td>
+      </tr>
+
+      <tr>
+        <td><label for="oathdate-checkbox">Scout Oath:</label></td>
+        <td>
+          <input type="checkbox" id="oathdate-checkbox" name="oathdate-checkbox">
+          <label for="oathdate-checkbox">Has Oath Date</label>
+        </td>
+      </tr>
+
+      <tr id="oathdate-row" style="display: none;">
+        <td><label for="oathdate">Oath Date:</label></td>
+        <td>
+          <input type="date" id="oathdate" name="oathdate" disabled>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="admissiontime-checkbox">Scout Admission Time:</label></td>
+        <td>
+          <input type="checkbox" id="admissiontime-checkbox" name="admissiontime-checkbox">
+          <label for="admissiontime-checkbox">Has Admission Date</label>
+        </td>
+      </tr>
+
+      <tr id="admissiontime-row" style="display: none;">
+        <td><label for="admissiontime">Admission Time:</label></td>
+        <td>
+          <input type="number" id="admissiontime" name="admissiontime" min="0" disabled>
+              </td>
+              <td>
+          <select name="admissionunit" >
+          <option disabled selected>Select Unit Time</option>
+            <option value="years">Years</option>
+            <option value="months">Months</option>
+            <option value="weeks">Weeks</option>
+            <option value="days">Days</option>
+          </select>
+              </td>
+        </td>
+      </tr>
+
+          <?php
+        }
+        ?>
       </table>
       <button type="submit" name="search">Search</button>
     </form>
+
 
     <table id="search-result-table">
       <thead>
@@ -193,6 +379,12 @@ if (!$con) {
           <th>Regiment</th>
           <th>Unit</th>
           <th>Scout Class</th>
+          <th>Training Courses</th>
+          <th>Blood Type</th>
+          <th>Age</th>
+          <th>Scout Title</th>
+          <th>Scout Admission Time</th>
+          <th>Scout Oath Date</th>
         </tr>
       </thead>
       <tbody>
@@ -214,6 +406,12 @@ if (!$con) {
                 echo '<td>' . $row['regiment_name'] . '</td>';
                 echo '<td>' . $row['unit_name'] . '</td>';
                 echo '<td>' . $row['degree_name'] . '</td>';
+                echo '<td>' . $row['trainingcourses_name'] . '</td>';
+                echo '<td>' . $row['blood_type'] . '</td>';
+                echo '<td>' . $row['age'] . '</td>';
+                echo '<td>' . $row['scout_title'] . '</td>';
+                echo '<td>' . $row['admission_time'] . '</td>';
+                echo '<td>' . $row['oath_date'] . '</td>';
                 echo '</tr>';
             }
         }
@@ -398,6 +596,52 @@ buttons.forEach(button => {
     document.getElementById(buttonId).classList.add('active');
   }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    
+    // Scout Title checkbox
+    $('#scouttitle-checkbox').change(function() {
+      if ($(this).is(':checked')) {
+        $('#scouttitle-row').css('display', 'block');
+        $('#scouttitle').prop('disabled', false);
+        $('#scouttitle-date').prop('disabled', false);
+      } else {
+        $('#scouttitle-row').css('display', 'none');
+        $('#scouttitle').prop('disabled', true);
+        $('#scouttitle-date').prop('disabled', true);
+      }
+    });
+
+    // Scout Oath checkbox
+    $('#oathdate-checkbox').change(function() {
+      if ($(this).is(':checked')) {
+        $('#oathdate-row').css('display', 'block');
+        $('#oathdate').prop('disabled', false);
+      } else {
+        $('#oathdate-row').css('display', 'none');
+        $('#oathdate').prop('disabled', true);
+      }
+    });
+
+    // Scout Admission Time checkbox
+    $('#admissiontime-checkbox').change(function() {
+      if ($(this).is(':checked')) {
+        $('#admissiontime-row').css('display', 'block');
+        $('#admissiontime').prop('disabled', false);
+        $('select[name="admissionunit"]').prop('disabled', false);
+      } else {
+        $('#admissiontime-row').css('display', 'none');
+        $('#admissiontime').prop('disabled', true);
+        $('select[name="admissionunit"]').prop('disabled', true);
+      }
+    });
+  });
+</script>
+
+
+
 
 </body>
 </html>

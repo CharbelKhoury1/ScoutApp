@@ -22,6 +22,7 @@ function sanitizeInput($input) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
+
     // Get the code and password from the form submission and sanitize them
     $code = sanitizeInput($_POST["scoutcode"]);
     $password = sanitizeInput($_POST["password"]);
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
         echo '<script>alert("Enter a valid scout code or password");</script>';
     } else {
         // Prepare the SQL query
-        $sql = "SELECT user.user_id, user.email FROM usercredentials INNER JOIN user ON usercredentials.userId = user.user_id WHERE usercredentials.scoutcode = '$code' AND usercredentials.password = '$password'";
+        $sql = "SELECT user.user_id, user.email, user.fname, user.lname FROM usercredentials INNER JOIN user ON usercredentials.userId = user.user_id WHERE usercredentials.scoutcode = '$code' AND usercredentials.password = '$password'";
 
         // Execute the query
         $result = mysqli_query($con, $sql);
@@ -51,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     $_SESSION['email'] = $row['email'];
                     $_SESSION['user_id']=$row['user_id'];
+                    $_SESSION['name']=$row['fname']."  ".$row['lname'];
                 }
                 header('Location: ../Home/Home.php'); // Redirect to the Home page
                 exit;

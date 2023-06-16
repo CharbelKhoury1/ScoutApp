@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {
       // setcookie('user_id', $userId , time() + (30 * 24 * 60 * 60));
       $_SESSION['email']=$email;
       $_SESSION['user_id']=$userId;
+      $_SESSION['name']=$fname." ".$lname;
 
       // Update 'userId' for the existing record in 'usercredentials' table
       $sqlCredentials = "UPDATE usercredentials SET userId = '$userId' WHERE scoutcode = '$code' AND password = '$password'";
