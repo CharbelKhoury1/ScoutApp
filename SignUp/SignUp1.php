@@ -5,14 +5,6 @@ if (isset($_GET['code']) && isset($_GET['password'])) {
     // Retrieve the code and password from the query parameters
     $code = $_GET['code'];
     $password = $_GET['password'];
-
-    // Use the code and password as needed
-    echo "Code: " . $code . "<br>";
-    echo "Password: " . $password . "<br>";
-
-    $_SESSION['code'] = $code;
-    $_SESSION['password'] = $password;
-
 }
 ?>
 

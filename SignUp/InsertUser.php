@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {
     $email = $_POST['email'];
 
     // Set the email cookie
-    setcookie('email', $email, time() + (30 * 24 * 60 * 60));
+    // setcookie('email', $email, time() + (30 * 24 * 60 * 60));
 
     $medicalCondition = $_POST['medical_condition'];
 
@@ -51,7 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {
       $userId = mysqli_insert_id($con);
             
       // Store the 'user_id' in a cookie variable
-      setcookie('user_id', $userId , time() + (30 * 24 * 60 * 60));
+      // setcookie('user_id', $userId , time() + (30 * 24 * 60 * 60));
+      $_SESSION['email']=$email;
+      $_SESSION['user_id']=$userId;
 
       // Update 'userId' for the existing record in 'usercredentials' table
       $sqlCredentials = "UPDATE usercredentials SET userId = '$userId' WHERE scoutcode = '$code' AND password = '$password'";
@@ -75,8 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
   // Check if the 'user_id' is set in the session
   
-  if (isset($_COOKIE['user_id'])) {
-    $userId = $_COOKIE['user_id'];  
+  if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];  
     }
 
     // Retrieve the form data

@@ -50,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
                 $_SESSION['password'] = $password;
                 while ($row = mysqli_fetch_assoc($result)) {
                     $_SESSION['email'] = $row['email'];
+                    $_SESSION['user_id']=$row['user_id'];
                 }
                 header('Location: ../Home/Home.php'); // Redirect to the Home page
                 exit;

@@ -1,8 +1,8 @@
 <?php
 session_start();
-if (isset($_COOKIE['user_id'])){
-$_SESSION['user_id']=$_COOKIE['user_id'];
-}
+// if (isset($_COOKIE['user_id'])){
+// $_SESSION['user_id']=$_COOKIE['user_id'];
+// }
 ?>
 
 <!DOCTYPE html>
@@ -122,8 +122,11 @@ $_SESSION['user_id']=$_COOKIE['user_id'];
   <h2><?php 
   if(isset($_SESSION['email'])){
     echo $_SESSION['email'];
+   }
+   if(isset($_SESSION['user_id'])){
     echo $_SESSION['user_id'];
    }
+   print_r($_SESSION);
    ?>Values and Principles of Scouts and Guides National Orthodox</h2>
   <p>Explore the core values and principles that guide the Scout et Guide National Orthodoxe (SNO) community. 
     Discover how SNO programs instill Orthodox Christian values such as faith, compassion,

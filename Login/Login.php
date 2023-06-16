@@ -19,7 +19,6 @@ include "LoginCredentials.php";
     <div class="container">
         <h1 class="header">Welcome</h1>
         <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
-
             <label for="scoutcode">Scout Code:</label>
             <input type="text" id="scoutcode" name="scoutcode" placeholder="Enter your Scout Code" required>
             <label for="password">Password</label>
