@@ -207,9 +207,10 @@ if (!$con) {
                 // Loop through the ranks table to populate options
                 $rankQuery = "SELECT name FROM rank";
                 $rankResult = mysqli_query($con, $rankQuery);
+                var_dump($rankResult);
                 while ($rankRow = mysqli_fetch_assoc($rankResult)) {
-                  $selected = ($rankRow['name'] == $row['name']) ? 'selected' : '';
-                  echo '<option value="' . $rankRow['name'] . '" ' . $selected . '>' . $rankRow['name'] . '</option>';
+                  // $selected = ($rankRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $rankRow['name'] . '" >' . $rankRow['name'] . '</option>';
                 }
                 ?>
               </select>
