@@ -305,6 +305,7 @@ if (!$con) {
             <td><label for="age">Age:</label></td>
             <td><input type="number" id="age" name="age"></td>
           </tr>
+          
           <tr>
         <td><label for="scouttitle-checkbox">Scout Title:</label></td>
         <td>
@@ -317,10 +318,9 @@ if (!$con) {
         <td><label for="scouttitle">Scout Title:</label></td>
         <td>
           <input type="text" id="scouttitle" name="scouttitle" disabled>
-        </td>
-        <td>
+        
           <input type="Date" id="scouttitle-date" name="scouttitle-date" disabled>
-        </td>
+              </td>
       </tr>
 
       <tr>
@@ -383,7 +383,7 @@ if (!$con) {
           <th>Blood Type</th>
           <th>Age</th>
           <th>Scout Title</th>
-          <th>Scout Admission Time</th>
+          <th>Scout Admission Date</th>
           <th>Scout Oath Date</th>
         </tr>
       </thead>
@@ -410,7 +410,7 @@ if (!$con) {
                 echo '<td>' . $row['blood_type'] . '</td>';
                 echo '<td>' . $row['age'] . '</td>';
                 echo '<td>' . $row['scout_title'] . '</td>';
-                echo '<td>' . $row['admission_time'] . '</td>';
+                echo '<td>' . $row['admission_date'] . '</td>';
                 echo '<td>' . $row['oath_date'] . '</td>';
                 echo '</tr>';
             }
