@@ -1,4 +1,19 @@
-<!-- transactionView.php -->
+<?php
+session_start();
+
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+} else {
+    header("Location: ../Home/Home.php");
+    exit();
+}
+require('../models/transactionModel.php');
+
+#$userId = 6; 
+
+$hasPermission = hasTransactionPermission($userId);
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,6 +60,7 @@
             </div>
             
     <div class="container">
+        <?php if (isset($hasPermission) && $hasPermission): ?>
         <div class="box" onmouseover="showOptions('incomeOptions')" onmouseout="hideOptions('incomeOptions')">
             <a href="">
                 <img src="images/incomes.jpg">
@@ -73,10 +89,25 @@
                 </div>
             </div>
         </div>
-        <div class="box" onclick="fetchBalance()">
+        <?php endif; ?>
+
+        <div class="box <?php if (!$hasPermission) echo 'small-box'; ?>" onclick="redirectToBalance()">
             <img src="images/total.png">
             <div class="captionTotal">Balance</div>
         </div>
+        <div class="box <?php if (!$hasPermission) echo 'small-box'; ?>">
+        <?php if (!$hasPermission): ?>
+            <a href="showTransactionView.php">
+                <img src="images/transactions.jpg" style="width: 75%; height: 70%;"  style="filter: grayscale(100%);">
+            </a>
+        <?php else: ?>
+            <a href="BalanceTrialView.php">
+                <img src="images/transactions.jpg">
+            </a>
+        <?php endif; ?>
+        <div class="capt <?php if (!$hasPermission) echo 'small-caption'; ?>">Transactions</div>
+</div>
+
         
     </div>
 
@@ -109,9 +140,14 @@ function(){
         </div>
     </div>
     <script src="../views/javascript/transaction.js"></script>
->>>>>>> 2aee9e323476ce67763a89e7ac6bd44d7279ec8f
 </body>
 </html>
+
+
+
+
+
+
 
 
 

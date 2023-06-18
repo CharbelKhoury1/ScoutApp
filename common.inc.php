@@ -6,4 +6,5 @@ function SecureData($data){
 	mysqli_close($con);
 	return $data;
 }
+
 ?>
