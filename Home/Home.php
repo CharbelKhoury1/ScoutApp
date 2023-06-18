@@ -107,6 +107,7 @@ $con=connection();
     <img src="../Pictures/ScoutsLogo.gif" alt="scoutslogo">
           </div>
     
+          
           <div class="hero">
         <img src="../Pictures/WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">
       </div>
