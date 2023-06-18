@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else {
@@ -9,7 +8,7 @@ if (isset($_SESSION['user_id'])) {
 }
 require('../models/transactionModel.php');
 
-#$userId = 6; 
+$userId = 6; 
 
 $hasPermission = hasTransactionPermission($userId);
 ?>
@@ -17,48 +16,19 @@ $hasPermission = hasTransactionPermission($userId);
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../views/css/transaction.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap" 
-  rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../views/css/transaction.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
     <title>Transaction View</title>
 </head>
 <body>
-        
-    <div class="sidebar">
-            <div class="logo">
-                <img src="../Icons/menu-svgrepo-com.svg" alt="sds">
-                <img src="../Icons/arrow-right-svgrepo-com.svg" alt="sdsd">
-                <img src="../Icons/close-md-svgrepo-com.svg" alt="dsd">
-            </div>
-            <div class="links">
-            <button class="" onclick="window.location.href='../Home/Home.php'">
-        <img src="../Icons/home-alt-svgrepo-com.svg">Home
-        </button>
-        <button class="" onclick="window.location.href='Requests.html'">
-        <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
-        </button>
-        <button class="active" onclick="window.location.href='transactionView.php'">
-        <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
-        </button>
-        <button class="" onclick="window.location.href='../ScoutManagementSystem/ScoutCode.php'">
-        <img src="../Icons//icons8-password.svg">Scouts Management
-        </button>
-        <button class="" onclick="window.location.href='../Home/Home.php'">
-        <img src="../Icons/world-1-svgrepo-com.svg">Social Media
-        </button>
-        <button class="" onclick="window.location.href='../Home/Home.php'">
-        <img src="../Icons/system-help-svgrepo-com.svg">About Us
-        </button>
-        <button  class="" onclick="window.location.href='../views/contactUsView.php'">
-        <img src="../Icons/phone-svgrepo-com.svg">Contact Us
-        </button>
-            </div>
-            </div>
-            
+    <?php require(__DIR__ . "/sideBar.php"); ?>
+
     <div class="container">
         <?php if (isset($hasPermission) && $hasPermission): ?>
         <div class="box" onmouseover="showOptions('incomeOptions')" onmouseout="hideOptions('incomeOptions')">
@@ -111,26 +81,6 @@ $hasPermission = hasTransactionPermission($userId);
         
     </div>
 
-<<<<<<< HEAD
-    <script>
-        function showOptions(id) {
-            document.getElementById(id).style.display = 'block';
-        }
-
-        function hideOptions(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-    </script>
-
-    <script>
-  // sidebar js
-document.querySelector(".sidebar .logo").addEventListener("click",
-function(){
-  document.querySelector(".sidebar").classList.toggle("active");
-})
-
-</script>
-=======
     <div class="container1">
         <div class="chart-container" id="chartContainerLBP">
             <canvas id="chartLBP"></canvas>
@@ -140,8 +90,25 @@ function(){
         </div>
     </div>
     <script src="../views/javascript/transaction.js"></script>
+    <script>
+        var hasPermission = <?php echo json_encode($hasPermission); ?>;
+        if (!hasPermission) {
+            var incomeBox = document.querySelector('.box.onmouseover');
+            var expensesBox = document.querySelector('.box.onmouseover');
+            incomeBox.style.display = 'none';
+            expensesBox.style.display = 'none';
+        }
+        function redirectToBalance() {
+            if (!hasPermission) {
+                window.location.href = "showBalanceView.php";
+            } else {
+                fetchBalance();
+            }
+        }
+    </script>
 </body>
 </html>
+
 
 
 
