@@ -227,8 +227,8 @@ $con=connection();
                 $regimentQuery = "SELECT name FROM regiment";
                 $regimentResult = mysqli_query($con, $regimentQuery);
                 while ($regimentRow = mysqli_fetch_assoc($regimentResult)) {
-                  $selected = ($regimentRow['name'] == $row['name']) ? 'selected' : '';
-                  echo '<option value="' . $regimentRow['name'] . '" ' . $selected . '>' . $regimentRow['name'] . '</option>';
+                  // $selected = ($regimentRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $regimentRow['name'] . '">' . $regimentRow['name'] . '</option>';
                 }
                 ?>
               </select>
@@ -244,8 +244,8 @@ $con=connection();
                 $unitQuery = "SELECT name FROM unit";
                 $unitResult = mysqli_query($con, $unitQuery);
                 while ($unitRow = mysqli_fetch_assoc($unitResult)) {
-                  $selected = ($unitRow['name'] == $row['name']) ? 'selected' : '';
-                  echo '<option value="' . $unitRow['name'] . '" ' . $selected . '>' . $unitRow['name'] . '</option>';
+                  // $selected = ($unitRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $unitRow['name'] . '">' . $unitRow['name'] . '</option>';
                 }
                 ?>
               </select>
@@ -262,8 +262,8 @@ $con=connection();
                 $scoutClassQuery = "SELECT name FROM degree";
                 $scoutClassResult = mysqli_query($con, $scoutClassQuery);
                 while ($scoutClassRow = mysqli_fetch_assoc($scoutClassResult)) {
-                  $selected = ($scoutClassRow['name'] == $row['name']) ? 'selected' : '';
-                  echo '<option value="' . $scoutClassRow['name'] . '" ' . $selected . '>' . $scoutClassRow['name'] . '</option>';
+                  // $selected = ($scoutClassRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $scoutClassRow['name'] . '">' . $scoutClassRow['name'] . '</option>';
                 }
                 ?>
               </select>
@@ -279,8 +279,8 @@ $con=connection();
                 $trainingCoursesQuery = "SELECT name FROM trainingcourses";
                 $trainingCoursesResult = mysqli_query($con, $trainingCoursesQuery);
                 while ($trainingCoursesRow = mysqli_fetch_assoc($trainingCoursesResult)) {
-                  $selected = ($trainingCoursesRow['name'] == $row['name']) ? 'selected' : '';
-                  echo '<option value="' . $trainingCoursesRow['name'] . '" ' . $selected . '>' . $trainingCoursesRow['name'] . '</option>';
+                  // $selected = ($trainingCoursesRow['name'] == $row['name']) ? 'selected' : '';
+                  echo '<option value="' . $trainingCoursesRow['name'] . '">' . $trainingCoursesRow['name'] . '</option>';
                 }
                 ?>
               </select>
