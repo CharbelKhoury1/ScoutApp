@@ -1,12 +1,15 @@
 <?php
 session_start();
+
 include 'Generate.php';
 include 'SearchScout.php';
 include 'CreateUnit.php';
 
+// Assuming you have included the necessary PHP code for database connection
 include ("../common.inc.php");
 include ("../utility.php");
 $con=connection();
+
 ?>
 
 <!DOCTYPE html>
@@ -158,7 +161,7 @@ $con=connection();
                        }
                        
                        mysqli_stmt_close($stmt);
-                       mysqli_close($con);
+                      //  mysqli_close($con);
                        
 
             } else {
@@ -204,7 +207,7 @@ $con=connection();
                 // Loop through the ranks table to populate options
                 $rankQuery = "SELECT name FROM rank";
                 $rankResult = mysqli_query($con, $rankQuery);
-                var_dump($rankResult);
+                // var_dump($rankResult);
                 while ($rankRow = mysqli_fetch_assoc($rankResult)) {
                   // $selected = ($rankRow['name'] == $row['name']) ? 'selected' : '';
                   echo '<option value="' . $rankRow['name'] . '" >' . $rankRow['name'] . '</option>';
@@ -637,9 +640,5 @@ buttons.forEach(button => {
     });
   });
 </script>
-
-
-
-
 </body>
 </html>
