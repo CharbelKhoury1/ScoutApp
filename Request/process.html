@@ -4,18 +4,18 @@
   <title>Your Website</title>
   <link rel="stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <link rel="stylesheet" type="text/css" href="process.css">
-  <script>
-    function redirectToHome() {
-      window.location.href = "home.html"; // Replace "home.html" with your home page URL
-    }
-  </script>
 </head>
 <body>
-    <i class="fas fa-arrow-left back-icon"></i>
+    <i class="fas fa-arrow-left back-icon" onclick="redirectToHome();" ></i>
     <div class="container">
-        <i class="fa-solid fa-code-pull-request"  onclick="redirectToHome()"></i>
+        <i class="fa-solid fa-code-pull-request"></i>
         <h1>Request Under Process..</h1>
         <p>Your request is currently being processed. Please wait for further updates.</p>
     </div>
 </body>
+<script>
+   function redirectToHome() { 
+    window.location.href = "../Home/Home.php"; // Replace "home.html" with your home page URL
+  }
+</script> 
 </html>
