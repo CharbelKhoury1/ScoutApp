@@ -16,7 +16,9 @@
       <?php
       // Add your database connection and query here
       session_start();
-      include("connection.php");
+      include ("../common.inc.php");
+      include ("../utility.php");
+      $conn=connection();
 
       $qr6 = "SELECT request_id FROM requeststatus WHERE statusCode = 0";
       $res6 = mysqli_query($conn , $qr6);

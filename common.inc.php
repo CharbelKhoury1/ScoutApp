@@ -1,9 +1,9 @@
 <?php
 function SecureData($data){
-	$con=connection();
+	$conn=connection();
 	$data=htmlspecialchars($data);
-	$data=mysqli_real_escape_string($con,$data);
-	mysqli_close($con);
+	$data=mysqli_real_escape_string($conn,$data);
+	mysqli_close($conn);
 	return $data;
 }
 ?>

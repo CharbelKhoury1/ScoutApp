@@ -1,7 +1,9 @@
 
 <?php
 session_start();
-include("connection.php");
+include ("../common.inc.php");
+include ("../utility.php");
+$conn=connection();
 
 if (isset($_COOKIE['request_id'])) {
   $selectedRequestId = $_COOKIE['request_id'];

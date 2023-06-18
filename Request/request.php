@@ -1,7 +1,9 @@
 <?php
 
 session_start();
-include("connection.php");
+include ("../common.inc.php");
+include ("../utility.php");
+$conn=connection();
 
 if (isset($_POST['submit'])) {
   if (isset($_POST['dateN']) && isset($_POST['receiverN']) && isset($_POST['descriptionN']) && isset($_FILES['file'])) {

@@ -3,13 +3,9 @@
 // Start a session
 session_start();
 
-// Establish a database connection
-$con = new mysqli("localhost", "root", "", "scoutproject");
-
-// Check the database connection
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
+include ("../common.inc.php");
+include ("../utility.php");
+$con=connection();
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {

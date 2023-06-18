@@ -1,5 +1,7 @@
 <?php
-$con = mysqli_connect("127.0.0.1", "root", "", "scoutproject") or die("Failed to connect to the database: " . mysqli_error($con));
+include ("../common.inc.php");
+include ("../utility.php");
+$con=connection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
   $sql = "SELECT u.fname, u.lname, r.name AS rank_name, reg.name AS regiment_name, un.name AS unit_name, deg.name AS degree_name, tc.name AS trainingcourses_name, u.blood_type, YEAR(CURRENT_DATE()) - YEAR(u.birth_date) AS age, u.scoutTitle as scout_title, u.scoutTitle_date, u.scoutAdmission_date as admission_date, u.scoutOath_date as oath_date

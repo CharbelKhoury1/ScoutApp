@@ -4,12 +4,9 @@ include 'Generate.php';
 include 'SearchScout.php';
 include 'CreateUnit.php';
 
-// Database connection
-$con = mysqli_connect('localhost', 'root', '', 'scoutproject');
-if (!$con) {
-    die('Failed to connect to the database: ' . mysqli_connect_error());
-}
-
+include ("../common.inc.php");
+include ("../utility.php");
+$con=connection();
 ?>
 
 <!DOCTYPE html>

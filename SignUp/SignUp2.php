@@ -1,10 +1,9 @@
   <?php
     // Assuming you are using PHP to retrieve data from the database
         // Replace 'your_database_name' with the actual name of your database
-        $con= mysqli_connect('localhost', 'root', '', 'scoutproject');
-        if (!$con) {
-          die('Could not connect to the database');
-        }
+        include ("../common.inc.php");
+        include ("../utility.php");
+        $con=connection();
 
   ?>
   <!DOCTYPE html>

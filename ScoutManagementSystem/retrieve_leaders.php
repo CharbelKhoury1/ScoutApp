@@ -1,6 +1,7 @@
 <?php
-// Assuming you have already established a database connection using mysqli_connect
-$con = mysqli_connect("127.0.0.1", "root", "", "scoutproject") or die("Failed to connect to database: " . mysqli_error($con));
+include ("../common.inc.php");
+include ("../utility.php");
+$con=connection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Retrieve the selected regiment from the AJAX request

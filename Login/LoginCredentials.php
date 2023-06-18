@@ -2,13 +2,9 @@
 
 session_start();
 
-// Establish a database connection
-$con = new mysqli("localhost", "root", "", "scoutproject");
-
-// Check the database connection
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
+include ("../common.inc.php");
+include ("../utility.php");
+$con=connection();
 
 function sanitizeInput($input) {
     // Remove leading/trailing white space

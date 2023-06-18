@@ -3,15 +3,9 @@ session_start();
 // if (isset($_COOKIE['user_id'])){
 // $_SESSION['user_id']=$_COOKIE['user_id'];
 // }
-
-// Establish a database connection
-$con = new mysqli("localhost", "root", "", "scoutproject");
-
-// Check the database connection
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
-
+include ("../common.inc.php");
+include ("../utility.php");
+$con=connection();
 ?>
 
 <!DOCTYPE html>
