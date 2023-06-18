@@ -8,7 +8,7 @@ if (isset($_SESSION['user_id'])) {
 }
 require('../models/transactionModel.php');
 
-$userId = 6; 
+#$userId = 6; 
 
 $hasPermission = hasTransactionPermission($userId);
 ?>
