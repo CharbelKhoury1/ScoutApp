@@ -1,82 +1,58 @@
 <?php
 include("../utility.php");
 include("../common.inc.php");
+function getUserUnit($userId) {
+    $con = connection();
+    if (!$con) {
+        logError("Failed to connect to the database.");
+        return false;
+    }
 
-function getUserRank($userId) {
-    $con = connection();
-    $selectRankIdQry = "SELECT rankId FROM unitrankhistory WHERE userId = ? AND (end_date IS NULL OR end_date >= CURDATE())";
-    $selectRankIdStatement = mysqli_prepare($con, $selectRankIdQry);
-    mysqli_stmt_bind_param($selectRankIdStatement, "i", $userId);
-    mysqli_stmt_execute($selectRankIdStatement);
-    $result = mysqli_stmt_get_result($selectRankIdStatement);
-    $row = mysqli_fetch_assoc($result);
-    $rankId = $row['rankId'];
-    mysqli_close($con);
-    return $rankId;
-  }
-  
-  function getUnitId($userId) {
-    $con = connection();
-    $selectUnitIdQry = "SELECT u.unit_id FROM unit u
-          JOIN unitrankhistory urh ON u.unit_id = urh.unitId
-          WHERE urh.userId = ?";
+    $selectUnitIdQry = "SELECT ur.unitId
+                        FROM unitrankhistory ur
+                        JOIN `rank` r ON ur.rankId = r.rank_id
+                        JOIN rankfeature rf ON r.rank_id = rf.rankid
+                        WHERE ur.userId = ? 
+                        AND r.rank_id = rf.rankid
+                        AND rf.featureid = 2
+                        AND (ur.end_date IS NULL OR ur.end_date >= CURDATE())";
+                        
     $selectUnitIdStatement = mysqli_prepare($con, $selectUnitIdQry);
+    if (!$selectUnitIdStatement) {
+        logError("Failed to prepare SQL statement: " . mysqli_error($con));
+        mysqli_close($con);
+        return false;
+    }
+
     mysqli_stmt_bind_param($selectUnitIdStatement, "i", $userId);
-    mysqli_stmt_execute($selectUnitIdStatement);
+    if (!mysqli_stmt_execute($selectUnitIdStatement)) {
+        logError("Failed to execute SQL statement: " . mysqli_stmt_error($selectUnitIdStatement));
+        mysqli_stmt_close($selectUnitIdStatement);
+        mysqli_close($con);
+        return false;
+    }
+
     $result = mysqli_stmt_get_result($selectUnitIdStatement);
+    if (!$result) {
+        logError("Failed to get result from SQL statement: " . mysqli_error($con));
+        mysqli_stmt_close($selectUnitIdStatement);
+        mysqli_close($con);
+        return false;
+    }
+
     $row = mysqli_fetch_assoc($result);
-    $unitId = $row['unit_id'];
+    $unitId = $row['unitId'];
+
+    mysqli_stmt_close($selectUnitIdStatement);
     mysqli_close($con);
+
+    if (!$unitId) {
+        logError("Failed to retrieve unitId for userId: " . $userId);
+        echo "hi";
+    }
+
     return $unitId;
 }
-/*
-function getBalanceLBP($unitID){
-    $con = connection();
-    $query = "SELECT 
-                SUM(CASE WHEN typeCode = 0 AND currencyCode = 0 AND unitId = ? THEN transaction_amount ELSE 0 END) AS lbp_income,
-                SUM(CASE WHEN typeCode = 1 AND currencyCode = 0 AND unitId = ? THEN transaction_amount ELSE 0 END) AS lbp_expense
-              FROM transaction";
-
-    $statement = mysqli_prepare($con, $query);
-    mysqli_stmt_bind_param($statement, "ii", $unitID, $unitID);
-    mysqli_stmt_execute($statement);
-    $result = mysqli_stmt_get_result($statement);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $data = mysqli_fetch_assoc($result);
-        $lbp_balance = $data['lbp_income']- $data['lbp_expense'];;
-        mysqli_free_result($result);
-        mysqli_close($con);
-        return $lbp_balance;
-    } else {
-        mysqli_close($con);
-        return 0;
-    }
-}
-
-function getBalanceUSD($unitId) {
-    $con = connection();
-    $query = "SELECT 
-                SUM(CASE WHEN typeCode = 0 AND currencyCode = 1 AND unitId = ? THEN transaction_amount ELSE 0 END) AS usd_income,
-                SUM(CASE WHEN typeCode = 1 AND currencyCode = 1 AND unitId = ? THEN transaction_amount ELSE 0 END) AS usd_expense
-              FROM transaction";
-
-    $statement = mysqli_prepare($con, $query);
-    mysqli_stmt_bind_param($statement, "ii", $unitId, $unitId);
-    mysqli_stmt_execute($statement);
-    $result = mysqli_stmt_get_result($statement);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $data = mysqli_fetch_assoc($result);
-        $usd_balance = $data['usd_income'] - $data['usd_expense'];
-        mysqli_close($con);
-        return $usd_balance;
-    }else {
-        mysqli_close($con);
-        return 0;
-    }
-}
-*/
 
 function getSumLBP($unitID) {
     $con = connection();
@@ -126,7 +102,4 @@ function getSumUSD($unitId) {
         return array('income' => 0, 'expense' => 0);
     }
 }
-
-
-
 ?>

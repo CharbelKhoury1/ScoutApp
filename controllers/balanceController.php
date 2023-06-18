@@ -1,27 +1,16 @@
 <?php
-include("../models/balanceModel.php");
-
-/*
-if (!isset($_COOKIE["user_id"])) {
-    echo "<html>
-            <head>
-                <link rel='stylesheet' href='../views/css/income.css'>
-            </head>
-            <body>
-                <div class='alert-container'>
-                    <div class='alert1'>
-                        <p>You do not have permission to access this page. Please <a href='../Login/Login.php'>login</a>.</p>
-                    </div>
-                </div>
-            </body>
-          </html>";
+session_start();
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+} else {
+    header("Location: ../Home/Home.php");
     exit();
 }
-$userId = $_COOKIE["user_id"];*/
-$userId = 6;
-$isRank14 = getUserRank($userId);
-if ($isRank14 == 14){
-    $unitId = getUnitId($userId);
+include("../models/balanceModel.php");
+
+//$userId = 6;
+$unitId = getUserUnit($userId);
+if ($unitId){
     $lbp_data = getSumLBP($unitId);
     $usd_data = getSumUSD($unitId);
 
@@ -33,7 +22,6 @@ if ($isRank14 == 14){
     $balanceMessagelbp = ($lbp_balance === 0) ? "There are currently no income or expense records in LBP." : "";
     $balanceMessageUsd = ($usd_balance === 0) ? "There are currently no income or expense records in USD." : "";
 
-    // Build the JSON response
     // Build the JSON response
     $response = array(
         'lbp_balance' => $lbp_balance,

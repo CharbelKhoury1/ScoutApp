@@ -1,0 +1,53 @@
+.select-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.select-label {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.select-element {
+    margin-right: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.select-element:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px #4CAF50;
+}
+
+.select-element option {
+    color: #333;
+}
+
+#chartContainerLBP,
+#chartContainerUSD {
+    display: inline-block;
+    margin-right: 20px;
+    width: 400px;
+    height: 400px; 
+}
+
+.chart-container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.no-balance-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-weight: bold;
+    font-size: 18px;
+}

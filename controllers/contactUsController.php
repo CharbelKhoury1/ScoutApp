@@ -1,3 +1,4 @@
+<head><link rel="stylesheet" type="text/css" href="../views/css/sideBar.css"></head>
 <?php
 include("../utility.php");
 include("../common.inc.php");

@@ -1,19 +1,18 @@
 <?php
 session_start();
-include("../models/transactionModel.php");
-if (!isset($_COOKIE["user_id"])) {
-    $_SESSION["error_message"] = "You do not have permission to access this page. <br> Please click <a href='../Login/Login.php'>here</a> to login.";
-
-    header("Location: ../views/incomesView.php");
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+} else {
+    header("Location: ../Home/Home.php");
     exit();
 }
+include("../models/transactionModel.php");
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitlbp"])) {
-    $userId = $_COOKIE["user_id"];
-    $isRank14 = getUserRank($userId);
+    //$userId = 6;
     $currencyCode = 0; // LBP
     $typeCode = 1; // Expense
-    if ($isRank14 == 14) {
-        $unitId = getUnitId($userId);
+    $unitId = getUserUnit($userId);
+    if($unitId){
         $expenseCount = count($_POST["description"]);
         for ($i = 0; $i < $expenseCount; $i++) {
             $description = SecureData($_POST["description"][$i]);
@@ -34,12 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitlbp"])) {
     }
 }
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitusd"])) {
-    $userId = $_COOKIE["user_id"];
-    $isRank14 = getUserRank($userId);
+    //$userId = $_COOKIE["user_id"];
+    //$userId = 6;
     $currencyCode = 1; // USD
     $typeCode = 1; // Expense
-    if ($isRank14 == 14) {
-        $unitId = getUnitId($userId);
+    $unitId = getUserUnit($userId);
+    if($unitId){
         $expenseCount = count($_POST["description"]);
         for ($i = 0; $i < $expenseCount; $i++) {
             $description = SecureData($_POST["description"][$i]);
