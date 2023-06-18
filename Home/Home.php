@@ -17,6 +17,7 @@ $con=connection();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <link rel="stylesheet" href="Home.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="../Pictures/ScoutsLogo.gif" type="image/png">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap" 
   rel="stylesheet">
@@ -50,6 +51,8 @@ $con=connection();
             $result = mysqli_query($con, $query);
 
             if ($result && mysqli_num_rows($result) > 0) {
+                $transactionButtonDisplayed = false; // Flag to track if transaction button has been displayed
+
                 while ($row = mysqli_fetch_assoc($result)) {
                     $featureName = $row['featureName'];
 
@@ -71,9 +74,21 @@ $con=connection();
                         echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
                         echo '</button>';
                     } elseif ($featureName === "make transaction") {
-                        echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
-                        echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
-                        echo '</button>';
+                        // Check if "view transaction" has already been displayed
+                        if (!$transactionButtonDisplayed) {
+                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
+                            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
+                            echo '</button>';
+                            $transactionButtonDisplayed = true; // Set the flag to true
+                        }
+                    } elseif ($featureName === "view transaction") {
+                        // Check if "make transaction" has already been displayed
+                        if (!$transactionButtonDisplayed) {
+                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
+                            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
+                            echo '</button>';
+                            $transactionButtonDisplayed = true; // Set the flag to true
+                        }
                     }
                 }
             }
@@ -91,7 +106,6 @@ $con=connection();
         </button>
     </div>
 </div>
-
 
           <div class="profile-icon">
           <?php if (isset($_SESSION['user_id'])): ?>
@@ -255,95 +269,83 @@ $con=connection();
 </div>
 <!-- end of quotes -->
 
-<!-- Social Media Events -->
-
 <section class="Scout-gallery">
   <h2>Our Recent Events</h2>
-  <div class="image-grid" id="post-container">  
-  <?php
-  require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
-  $app_id = '1250484182494643';
-  $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
-  $access_token = 'EAARxTwlZBrbMBAO007NdI7TpKc8ZCJYvKMSmLZA7ZAz4rqm2f5SBWMFkZBXrq2CiWaMlH0fYGIH8rZBm8cpOgmZBjOcIfkd2RtJWuRtYOvNylsmNHedWD8bhqWid8FjELCy7hxBVOZC2Th4AmEQcxFaQMPAZCw8it03hbXFQPSXauqx25QyiJbAgG';
+  <div class="image-grid" id="post-container">
+    <?php
+    require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
+    $app_id = '1250484182494643';
+    $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
+    $access_token = 'EAARxTwlZBrbMBAGySJZC8VfOkdf114IqTLgZAp9AVG4rE8j38XmRF3FUvLJ4tZCPwTtwJp84ZCSgJ76JRQeW2sZByGBWzPsjyeNpuwwvcd2symsBZAAww9VdsJtjOv97Xr1uK1ZBmZC3dtkLIW33ZBaPETIcdjYWJ6z1eeqabN05CjQXb4ZAZBHITo1j';
 
-  $fb = new Facebook\Facebook([
-    'app_id' => $app_id,
-    'app_secret' => $app_secret,
-    'default_graph_version' => 'v17.0',
-  ]);
+    $fb = new Facebook\Facebook([
+      'app_id' => $app_id,
+      'app_secret' => $app_secret,
+      'default_graph_version' => 'v17.0',
+    ]);
 
-  $fb->setDefaultAccessToken($access_token);
+    $fb->setDefaultAccessToken($access_token);
 
-  try {
-    $response = $fb->get('/me/posts?fields=id,message,created_time');
-    $posts = $response->getGraphEdge();
+    try {
+      $response = $fb->get('/me/posts?fields=id,message,created_time,attachments{media}');
+      $posts = $response->getGraphEdge();
 
-    // Process the retrieved posts
-    foreach ($posts as $post) {
-      $postId = $post['id'];
-      $message = $post['message'];
-      $createdTime = $post['created_time'];
+      // Process the retrieved posts
+      foreach ($posts as $post) {
+        $postId = $post['id'];
+        $message = isset($post['message']) ? $post['message'] : '';
+        $createdTime = isset($post['created_time']) ? $post['created_time']->format('Y-m-d H:i:s') : '';
 
-      // Wrap each post in a div
-      echo '<div class="post">';
-      // Output the post content
-      echo '<div class="post-content">';
-      echo '<p>Post ID: ' . $postId . '</p>';
-      echo '<p>Message: ' . $message . '</p>';
-      echo '<p>Created Time: ' . $createdTime . '</p>';
-      echo '</div>'; // Close post-content div
+        // Check if the post has attachments
+        $attachments = isset($post['attachments']) ? $post['attachments'] : [];
+        $hasAttachments = !empty($attachments);
 
-      // Get the pictures for the post
-      try {
-        $response = $fb->get('/' . $postId . '/attachments?fields=media');
-        $attachments = $response->getGraphEdge();
-
-        // Process the retrieved attachments
-        foreach ($attachments as $attachment) {
-          $media = $attachment['media'];
-
-          // Check if media is available
-          if (isset($media['image'])) {
-            $imageSrc = $media['image']['src'];
-
-            // Wrap each picture in a div
-            echo '<div class="picture">';
-            echo '<img src="' . $imageSrc . '" alt="Post Picture">';
-            echo '</div>'; // Close picture div
+        // Wrap each post in a div
+        echo '<div class="post">';
+        // Display the attached images if available
+        if ($hasAttachments) {
+          foreach ($attachments as $attachment) {
+            if (isset($attachment['media']) && isset($attachment['media']['image'])) {
+              if (!isset($attachment['media']['video'])) {
+                $imageSrc = $attachment['media']['image']['src'];
+                // Display the image
+                echo '<div class="picture">';
+                echo '<img src="' . $imageSrc . '" alt="Post Picture">';
+                echo '</div>'; // Close picture div
+              }
+            }
           }
         }
-      } catch (Facebook\Exceptions\FacebookResponseException $e) {
-        // Handle API errors
-      } catch (Facebook\Exceptions\FacebookSDKException $e) {
-        // Handle SDK errors
+
+        // Output the post message and created time
+        echo '<div class="post-content">';
+        echo '<p>' . $message . '</p>';
+        echo '<p>Posted Date: ' . $createdTime . '</p>';
+
+        // Add link to the post on Facebook
+        echo '<a href="https://www.facebook.com/' . $postId . '" target="_blank">Click here for more details</a>';
+
+        echo '</div>'; // Close post-content div
+
+        echo '</div>'; // Close post div
       }
-
-      // Get the caption for the post
-      try {
-        $response = $fb->get('/' . $postId . '?fields=caption');
-        $post = $response->getGraphNode();
-        $caption = $post['caption'];
-
-        // Wrap the caption in a div
-        echo '<div class="caption">';
-        echo '<p>Caption: ' . $caption . '</p>';
-        echo '</div>'; // Close caption div
-      } catch (Facebook\Exceptions\FacebookResponseException $e) {
-        // Handle API errors
-      } catch (Facebook\Exceptions\FacebookSDKException $e) {
-        // Handle SDK errors
-      }
-
-      echo '</div>'; // Close post div
+    } catch (Facebook\Exceptions\FacebookResponseException $e) {
+      // Handle API errors
+    } catch (Facebook\Exceptions\FacebookSDKException $e) {
+      // Handle SDK errors
     }
-  } catch (Facebook\Exceptions\FacebookResponseException $e) {
-    // Handle API errors
-  } catch (Facebook\Exceptions\FacebookSDKException $e) {
-    // Handle SDK errors
-  }
-  ?>
+    ?>
   </div>
 </section>
+
+
+
+
+
+
+
+
+
 
   
       <section class="testimonials">

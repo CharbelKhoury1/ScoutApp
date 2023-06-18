@@ -8,6 +8,8 @@ include "LoginCredentials.php";
     <title>Login Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="Login.css">
+    <link rel="icon" href="../Pictures/ScoutsLogo.gif" type="image/png">
+
 </head>
 <body>
     <div class="images">

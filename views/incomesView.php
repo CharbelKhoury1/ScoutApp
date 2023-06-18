@@ -16,6 +16,8 @@ if (isset($_SESSION["error_message"])) {
     <title>Incomes in LBP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/income.css">
+    <link rel="icon" href="../Pictures/ScoutsLogo.gif" type="image/png">
+
 </head>
 <body>
     <h1>INCOMES IN LBP</h1>
