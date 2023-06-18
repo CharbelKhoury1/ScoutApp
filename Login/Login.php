@@ -30,7 +30,7 @@ include "LoginCredentials.php";
             <input type="submit" id="submit-btn" name="submit-btn" value="Continue">
         
           </form>
-        <p class="register"><a href="#" > Forgot Password?</a></p>
+        <p class="register"><a href="../views/resetPassView.php" > Forgot Password?</a></p>
     </div>
 </body>
 </html>
