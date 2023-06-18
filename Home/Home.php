@@ -78,7 +78,7 @@ if ($con->connect_error) {
       }
         ?>
         <!-- Add other static buttons here -->
-        <button onclick="window.location.href='Requests.html'">
+        <button onclick="window.location.href='../Request/request.php'">
             <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
         </button>
         <button onclick="window.location.href='../views/transactionView.php'">
