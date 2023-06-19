@@ -17,6 +17,7 @@ $con=connection();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <link rel="stylesheet" href="Home.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="../Pictures/ScoutsLogo.gif" type="image/png">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap" 
   rel="stylesheet">
@@ -25,59 +26,75 @@ $con=connection();
   <body>  
 <!-- facebook embedd -->
 
-  <div class="sidebar">
+<div class="sidebar">
     <div class="logo">
         <img src="../Icons/menu-svgrepo-com.svg" alt="sds">
         <img src="../Icons/arrow-right-svgrepo-com.svg" alt="sdsd">
         <img src="../Icons/close-md-svgrepo-com.svg" alt="dsd">
     </div>
     <div class="links">
-      
-      <button class="active" onclick="scrollToSection('hero')">
+
+        <button class="active" onclick="scrollToSection('hero')">
             <img src="../Icons/home-alt-svgrepo-com.svg">Home
         </button>
         <?php
         // Assuming you have established a database connection
-      if(isset($_SESSION['user_id'])){
-        // Step 1: Retrieve feature names using a single SQL query with INNER JOIN
-        $userID = $_SESSION['user_id'];
-        $query = "SELECT f.description AS featureName
-                  FROM unitrankhistory urh
-                  INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
-                  INNER JOIN features f ON rf.featureid = f.feature_id
-                  WHERE urh.userId = $userID AND urh.end_date IS NULL";
+        if(isset($_SESSION['user_id'])){
+            // Step 1: Retrieve feature names using a single SQL query with INNER JOIN
+            $userID = $_SESSION['user_id'];
+            $query = "SELECT f.description AS featureName
+                      FROM unitrankhistory urh
+                      INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
+                      INNER JOIN features f ON rf.featureid = f.feature_id
+                      WHERE urh.userId = $userID AND urh.end_date IS NULL";
 
-        $result = mysqli_query($con, $query);
+            $result = mysqli_query($con, $query);
 
-        if ($result && mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $featureName = $row['featureName'];
+            if ($result && mysqli_num_rows($result) > 0) {
+                $transactionButtonDisplayed = false; // Flag to track if transaction button has been displayed
 
-                // Display the corresponding part based on the feature name
-                if ($featureName === "generate code") {
-                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#code-section\'">';
-                    echo '<img src="../Icons//icons8-password.svg">Code/Pass Generator';
-                    echo '</button>';
-                } elseif ($featureName === "search scout") {
-                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#search-section\'">';
-                    echo '<img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout';
-                    echo '</button>';
-                } elseif ($featureName === "create unit") {
-                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#create-section\'">';
-                    echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
-                    echo '</button>';
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $featureName = $row['featureName'];
+
+                    // Display the corresponding part based on the feature name
+                    if ($featureName === "generate code") {
+                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#code-section\'">';
+                        echo '<img src="../Icons//icons8-password.svg">Code/Pass Generator';
+                        echo '</button>';
+                    } elseif ($featureName === "search scout") {
+                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#search-section\'">';
+                        echo '<img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout';
+                        echo '</button>';
+                    } elseif ($featureName === "create unit") {
+                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#create-section\'">';
+                        echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
+                        echo '</button>';
+                    } elseif ($featureName === "make request") {
+                        echo '<button onclick="window.location.href=\'../Request/request.php\'">';
+                        echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
+                        echo '</button>';
+                    } elseif ($featureName === "make transaction") {
+                        // Check if "view transaction" has already been displayed
+                        if (!$transactionButtonDisplayed) {
+                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
+                            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
+                            echo '</button>';
+                            $transactionButtonDisplayed = true; // Set the flag to true
+                        }
+                    } elseif ($featureName === "view transaction") {
+                        // Check if "make transaction" has already been displayed
+                        if (!$transactionButtonDisplayed) {
+                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
+                            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
+                            echo '</button>';
+                            $transactionButtonDisplayed = true; // Set the flag to true
+                        }
+                    }
                 }
             }
         }
-      }
         ?>
         <!-- Add other static buttons here -->
-        <button onclick="window.location.href='../Request/request.php'">
-            <img src="../Icons/git-pull-request-svgrepo-com.svg">Requests
-        </button>
-        <button onclick="window.location.href='../views/transactionView.php'">
-            <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
-        </button>
         <button onclick="scrollToSection('Scout-gallery')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
         </button>
@@ -88,8 +105,7 @@ $con=connection();
             <img src="../Icons/phone-svgrepo-com.svg">Contact Us
         </button>
     </div>
-  </div>
-
+</div>
 
           <div class="profile-icon">
           <?php if (isset($_SESSION['user_id'])): ?>
@@ -107,6 +123,7 @@ $con=connection();
     <img src="../Pictures/ScoutsLogo.gif" alt="scoutslogo">
           </div>
     
+          
           <div class="hero">
         <img src="../Pictures/WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">
       </div>
@@ -143,15 +160,7 @@ $con=connection();
 <div class="container">
 <div class="container1">
   <img src="../Pictures/ScoutPic2.jpg" alt="">
-  <h2><?php 
-  if(isset($_SESSION['email'])){
-    echo $_SESSION['email'];
-   }
-   if(isset($_SESSION['user_id'])){
-    echo $_SESSION['user_id'];
-   }
-   print_r($_SESSION);
-   ?>Values and Principles of Scouts and Guides National Orthodox</h2>
+  <h2>Values and Principles of Scouts and Guides National Orthodox</h2>
   <p>Explore the core values and principles that guide the Scout et Guide National Orthodoxe (SNO) community. 
     Discover how SNO programs instill Orthodox Christian values such as faith, compassion,
      integrity, and service. Learn about the emphasis on personal and spiritual development, fostering a sense of morality, and promoting virtues that shape the character of SNO members.
@@ -252,113 +261,118 @@ $con=connection();
 </div>
 <!-- end of quotes -->
 
-<!-- Social Media Events -->
-
 <section class="Scout-gallery">
   <h2>Our Recent Events</h2>
-  <div class="image-grid" id="post-container">  
-  <?php
-  require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
-  $app_id = '1250484182494643';
-  $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
-  $access_token = 'EAARxTwlZBrbMBAO007NdI7TpKc8ZCJYvKMSmLZA7ZAz4rqm2f5SBWMFkZBXrq2CiWaMlH0fYGIH8rZBm8cpOgmZBjOcIfkd2RtJWuRtYOvNylsmNHedWD8bhqWid8FjELCy7hxBVOZC2Th4AmEQcxFaQMPAZCw8it03hbXFQPSXauqx25QyiJbAgG';
-
-  $fb = new Facebook\Facebook([
-    'app_id' => $app_id,
-    'app_secret' => $app_secret,
-    'default_graph_version' => 'v17.0',
-  ]);
-
-  $fb->setDefaultAccessToken($access_token);
-
-  try {
-    $response = $fb->get('/me/posts?fields=id,message,created_time');
-    $posts = $response->getGraphEdge();
-
-    // Process the retrieved posts
-    foreach ($posts as $post) {
-      $postId = $post['id'];
-      $message = $post['message'];
-      $createdTime = $post['created_time'];
-
-      // Wrap each post in a div
-      echo '<div class="post">';
-      // Output the post content
-      echo '<div class="post-content">';
-      echo '<p>Post ID: ' . $postId . '</p>';
-      echo '<p>Message: ' . $message . '</p>';
-      echo '<p>Created Time: ' . $createdTime . '</p>';
-      echo '</div>'; // Close post-content div
-
-      // Get the pictures for the post
-      try {
-        $response = $fb->get('/' . $postId . '/attachments?fields=media');
-        $attachments = $response->getGraphEdge();
-
-        // Process the retrieved attachments
-        foreach ($attachments as $attachment) {
-          $media = $attachment['media'];
-
-          // Check if media is available
-          if (isset($media['image'])) {
-            $imageSrc = $media['image']['src'];
-
-            // Wrap each picture in a div
-            echo '<div class="picture">';
-            echo '<img src="' . $imageSrc . '" alt="Post Picture">';
-            echo '</div>'; // Close picture div
-          }
-        }
-      } catch (Facebook\Exceptions\FacebookResponseException $e) {
-        // Handle API errors
-      } catch (Facebook\Exceptions\FacebookSDKException $e) {
-        // Handle SDK errors
+  <div class="image-grid" id="post-container">
+    <?php
+    function checkInternetConnection()
+    {
+      $connected = @fsockopen("www.facebook.com", 80);
+      if ($connected) {
+        fclose($connected);
+        return true; // Internet connection established
+      } else {
+        return false; // No internet connection
       }
-
-      // Get the caption for the post
-      try {
-        $response = $fb->get('/' . $postId . '?fields=caption');
-        $post = $response->getGraphNode();
-        $caption = $post['caption'];
-
-        // Wrap the caption in a div
-        echo '<div class="caption">';
-        echo '<p>Caption: ' . $caption . '</p>';
-        echo '</div>'; // Close caption div
-      } catch (Facebook\Exceptions\FacebookResponseException $e) {
-        // Handle API errors
-      } catch (Facebook\Exceptions\FacebookSDKException $e) {
-        // Handle SDK errors
-      }
-
-      echo '</div>'; // Close post div
     }
-  } catch (Facebook\Exceptions\FacebookResponseException $e) {
-    // Handle API errors
-  } catch (Facebook\Exceptions\FacebookSDKException $e) {
-    // Handle SDK errors
-  }
-  ?>
+
+    if (checkInternetConnection()) {
+      require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
+      $app_id = '1250484182494643';
+      $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
+      $access_token = 'EAARxTwlZBrbMBAHiFFgkZCy8bNvsIOBbXPu5OWZALWCijc4ALB5vZBXj9rN9M81zBBqR0ZC0gZAdkoGl9WyF1TGxxQCUNi5wxQrzVT81ZCAHPVXviqcq91NQSWZBVtocET4RDaix8L538YGLE0h6a6UtIF0HUwejIkIFe6vqZB5CdLBmoWtd0XGRQ';
+
+      $fb = new Facebook\Facebook([
+        'app_id' => $app_id,
+        'app_secret' => $app_secret,
+        'default_graph_version' => 'v17.0',
+      ]);
+
+      $fb->setDefaultAccessToken($access_token);
+
+      try {
+        $response = $fb->get('/me/posts?fields=id,message,created_time,attachments{media}&limit=5');
+        $posts = $response->getGraphEdge();
+
+        // Process the retrieved posts
+        foreach ($posts as $post) {
+          $postId = $post['id'];
+          $message = isset($post['message']) ? $post['message'] : '';
+          $createdTime = isset($post['created_time']) ? $post['created_time']->format('Y-m-d H:i:s') : '';
+
+          // Check if the post has attachments
+          $attachments = isset($post['attachments']) ? $post['attachments'] : [];
+          $hasAttachments = !empty($attachments);
+
+          // Wrap each post in a div
+          echo '<div class="post">';
+          // Display the attached images if available
+          if ($hasAttachments) {
+            foreach ($attachments as $attachment) {
+              if (isset($attachment['media']) && isset($attachment['media']['image'])) {
+                if (!isset($attachment['media']['video'])) {
+                  $imageSrc = $attachment['media']['image']['src'];
+                  // Display the image
+                  echo '<div class="picture">';
+                  echo '<img src="' . $imageSrc . '" alt="Post Picture">';
+                  echo '</div>'; // Close picture div
+                }
+              }
+            }
+          }
+
+          // Output the post message and created time
+          echo '<div class="post-content">';
+          echo '<p class="post-message">' . $message . '</p>';
+          echo '<p>Posted Date: ' . $createdTime . '</p>';
+
+          // Add link to the post on Facebook
+          echo '<a href="https://www.facebook.com/' . $postId . '" target="_blank">Click here for more details</a>';
+
+          echo '</div>'; // Close post-content div
+
+          echo '</div>'; // Close post div
+        }
+
+        // Add link to the Facebook page of the scouts
+        echo '<div class="post">';
+        echo '<div class="post-content">';
+        echo '<a href="https://www.facebook.com/SNOGNO" target="_blank">Visit our Facebook page for more updates</a>';
+        echo '</div>'; // Close post-content div
+        echo '</div>'; // Close post div
+
+      } catch (Facebook\Exceptions\FacebookResponseException $e) {
+        // Handle API errors
+        echo '<p class="error-message">An error occurred while retrieving the posts. Please try again later.</p>';
+      } catch (Facebook\Exceptions\FacebookSDKException $e) {
+        // Handle SDK errors
+        echo '<p class="error-message">An error occurred while communicating with Facebook. Please try again later.</p>';
+      }
+    } else {
+      echo '<p class="error-message">No internet connection. Please check your network connection and try again.</p>';
+    }
+    ?>
   </div>
 </section>
 
-  
+
+
       <section class="testimonials">
         <h2>Our Scouts and Guides Experience</h2>
         <div class="testimonial">
-          <img src="../Pictures/scoutportrait.jpg" alt="Customer 1">
+          <img src="../Pictures/ChefEmile.jpg" alt="Customer 1">
           <blockquote>"The National Orthodox Scouts has changed my life. It taught me leadership, teamwork, and a love for nature. I've made lifelong friends and had incredible adventures. I'm grateful for the impact it has had on me."</blockquote>
-          <cite>- John</cite>
+          <cite>- Chef Emile</cite>
         </div>
         <div class="testimonial">
-          <img src="../Pictures/scoutportrait1.jpg" alt="Customer 2">
+          <img src="../Pictures/MelanieScaff.jpg" alt="Customer 2">
           <blockquote>"The Scouts empowered me to break stereotypes and pursue my passions. I gained confidence, resilience, and made lasting friendships. Scouting taught me skills and a love for the outdoors. It's been an amazing journey."</blockquote>
-          <cite>- Sarah</cite>
+          <cite>- Cheftaine Melanie</cite>
         </div>
         <div class="testimonial">
-          <img src="../Pictures/scoutportrait2.jpg" alt="Customer 3">
+          <img src="../Pictures/NivineChami.jpg" alt="Customer 3">
           <blockquote>"The Scouts taught me teamwork, self-reliance, and the joy of giving back. It challenged me and helped me discover my potential. The friendships and adventures I've had are priceless. Scouting made me who I am today."</blockquote>
-          <cite>- David</cite>
+          <cite>- Cheftaine Nivine</cite>
         </div>
       </section>
     </main>

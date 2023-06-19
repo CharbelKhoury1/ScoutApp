@@ -8,6 +8,8 @@ include "LoginCredentials.php";
     <title>Login Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="Login.css">
+    <link rel="icon" href="../Pictures/ScoutsLogo.gif" type="image/png">
+
 </head>
 <body>
     <div class="images">
@@ -30,7 +32,7 @@ include "LoginCredentials.php";
             <input type="submit" id="submit-btn" name="submit-btn" value="Continue">
         
           </form>
-        <p class="register"><a href="#" > Forgot Password?</a></p>
+        <p class="register"><a href="../views/resetPassView.php" > Forgot Password?</a></p>
     </div>
 </body>
 </html>
