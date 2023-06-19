@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
         $row4 = mysqli_fetch_array($res4);
         $idd = $row4[0];
 
-        $qr5 = "INSERT INTO `requeststatus`(`date`, `statusCode`, `request_id`) VALUES (SYSDATE() , '0' , '$idd')";
+        $qr5 = "INSERT INTO `requeststatus`(`date`, `statusCode`, `request_id`, `userId`) VALUES (SYSDATE() , '0' , '$idd' , '1')";
         $res5 = mysqli_query($conn, $qr5);
 
         if (isset($_FILES['mediaFile']) || isset($_POST['caption'])) {
@@ -71,22 +71,22 @@ if (isset($_POST['submit'])) {
             if ($res3) {
               header("Location: process.html?");
             } else {
-              header("Location: check.php?error=An error occurred. Not Added!");
+              header("Location: request.php?error=An error occurred. Not Added!");
             }
           }else{
-            header("Location: check.php?error=File not supported!");
+            header("Location: request.php?error=File not supported!");
           }
         }else{
-          header("Location: check.php?error=All fields are required!");
+          header("Location: request.php?error=All fields are required!");
         }
       }else{
-        header("Location: check.php?error=An error occurred!");
+        header("Location: request.php?error=An error occurred!");
       }
     } else {
-      header("Location: check.php?error=File not supported!");
+      header("Location: request.php?error=File not supported!");
     }
   } else {
-    header("Location: check.php?error=All fields are required!");
+    header("Location: request.php?error=All fields are required!");
   }
 }
 ?>
