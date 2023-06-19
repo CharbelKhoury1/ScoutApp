@@ -1,11 +1,12 @@
 body {
-	font-family: 'Poppins', sans-serif;
-	background-color: #f5f5f5;
-	padding: 20px;
+	background-color: #34568B;
+	font-family: Arial,sans-serif;
+	margin-top: 160px;
   }
 
 .card {
 	border: 1px solid #ccc;
+	background-color: #fff;
 	border-radius: 5px;
 	padding: 20px;
 	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -38,20 +39,31 @@ input[type="password"] {
 	width: 100%;
 }
 	
-button[type="submit"] {
-	background-color: dimgray;
-	color: #fff;
-	padding: 10px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 16px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	width: 420px;
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-button:hover {
-  background-color: gray;
+
+button[type="submit"],
+.cancel-button {
+    background-color: green;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 200px;
+}
+
+.cancel-button {
+    margin-left: 10px;
+}
+
+.button-container button:hover {
+    background-color: darkgreen;
 }
 		
 .centered-container {
@@ -69,26 +81,61 @@ button:hover {
 	}
 
 	#errorMsg {
-		color: red;
+		color: white;
 	}
 
 .success-message {
-	color: green;
+	color: white;
 }
 .error-input {
 	border-color: red;
 }
-	.eye-icon {
-		position: absolute;
-		right: 555px;
-		top: 30%;
-		cursor: pointer;
-		/*color: lightgray;*/
-	}
-	.eye-icon2 {
-		position: absolute;
-		right: 555px; 
-		top: 42.5%;
-		cursor: pointer;
-		/*color: lightgray;*/
-	}
+.eye-icon,
+.eye-icon2 {
+	position: absolute;
+	right: calc(50% - 185px); 
+	top: calc(40% + 65px); 
+	cursor: pointer;
+	/*color: lightgray;*/
+}
+
+.eye-icon2 {
+	top: calc(61.5% + 5px); 
+}
+
+.images img:nth-child(1){
+	padding: 20px;
+	position: absolute;
+	object-fit: cover;
+	width: 15%;
+	left: 0;
+	top:0;
+	/* height: 10%; */
+}
+.images img:nth-child(2){
+	padding: 20px;
+	position: absolute;
+	object-fit: cover;
+	width: 15%;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.images img:nth-child(3){
+	padding: 20px;
+	position: absolute;
+	object-fit: cover;
+	width: 15%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.images img:nth-child(4){
+	padding: 20px;
+	position: absolute;
+	object-fit: cover;
+	width: 15%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}

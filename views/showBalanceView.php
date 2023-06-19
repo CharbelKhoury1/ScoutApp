@@ -16,8 +16,15 @@ $regiments = getAllRegimentNames();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 
     <title>Balance View</title>
+    <style>
+        h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
+    <h1>Balance details </h1>
 <div class="select-container">
     <label class="select-label">Select Regiment: <br> (اختر الفوج)</label>
     <select id="regimentSelect" onchange="populateUnits()" class="select-element">

@@ -5,12 +5,18 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../Pictures/ScoutsLogo.gif" type="image/png">
-
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 	<link rel="stylesheet" href="../views/css/contactUs.css">
+	<link rel="icon" href="../Pictures/ScoutsLogo.gif" type="image/png">
 	<title>Contact Us</title>
 </head>
 <body>
+	<div class="images">
+        <img src="../Pictures/WhatsApp_Image_2023-05-10_at_4.32.21_PM__1_-removebg-preview.png" alt="">
+        <img src="../Pictures/ScoutsLogo.gif" alt="">
+        <img src="../Pictures/WhatsApp_Image_2023-05-10_at_4.32.22_PM-removebg-preview (1).png" alt="">
+        <img src="../Pictures/WhatsApp_Image_2023-05-10_at_4.32.23_PM-removebg-preview (1).png" alt="">
+    </div>
 	<div class="card">
 		<h1>Contact Us</h1>
 		<h4 style="color: red">All fields marked with an asterisk(*) are mandatory</h4>

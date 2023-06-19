@@ -11,6 +11,12 @@
 	<title>Reset Password</title>
 </head>
 <body>
+	<div class="images">
+        <img src="../Pictures/WhatsApp_Image_2023-05-10_at_4.32.21_PM__1_-removebg-preview.png" alt="">
+        <img src="../Pictures/ScoutsLogo.gif" alt="">
+        <img src="../Pictures/WhatsApp_Image_2023-05-10_at_4.32.22_PM-removebg-preview (1).png" alt="">
+        <img src="../Pictures/WhatsApp_Image_2023-05-10_at_4.32.23_PM-removebg-preview (1).png" alt="">
+    </div>
 	<div class="card">
 		<h1>Reset Password</h1>
 		<form action="../controllers/resetPassController.php" method="post" onsubmit="return validateForm()">
@@ -31,8 +37,10 @@
 					<i class="fa fa-eye-slash" aria-hidden="true"></i>
 				</span>
 			</div>	
-
-			<button type="submit">Reset Password</button>
+			<div class="button-container">
+				<button type="submit">Reset Password</button> 
+				<button type="button" class="cancel-button" onclick="window.location.href='../Login/Login.php'">Cancel</button>
+			</div>
 		</form>
 	</div>
 	<div class="centered-container">
@@ -43,6 +51,7 @@
 		<?php endif; ?>
 		<?php if (!empty($successMsg)): ?>
 			<div class="success-message"><?php echo $successMsg; ?></div>
+			<meta http-equiv="refresh" content="5;url=../Login/Login.php">
 		<?php endif; ?>
 	</div>	
 	<script src="../views/javascript/resetPass.js"></script>
