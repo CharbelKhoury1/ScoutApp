@@ -273,66 +273,91 @@ $con=connection();
   <h2>Our Recent Events</h2>
   <div class="image-grid" id="post-container">
     <?php
-    require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
-    $app_id = '1250484182494643';
-    $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
-    $access_token = 'EAARxTwlZBrbMBAGySJZC8VfOkdf114IqTLgZAp9AVG4rE8j38XmRF3FUvLJ4tZCPwTtwJp84ZCSgJ76JRQeW2sZByGBWzPsjyeNpuwwvcd2symsBZAAww9VdsJtjOv97Xr1uK1ZBmZC3dtkLIW33ZBaPETIcdjYWJ6z1eeqabN05CjQXb4ZAZBHITo1j';
+    function checkInternetConnection()
+    {
+      $connected = @fsockopen("www.facebook.com", 80);
+      if ($connected) {
+        fclose($connected);
+        return true; // Internet connection established
+      } else {
+        return false; // No internet connection
+      }
+    }
 
-    $fb = new Facebook\Facebook([
-      'app_id' => $app_id,
-      'app_secret' => $app_secret,
-      'default_graph_version' => 'v17.0',
-    ]);
+    if (checkInternetConnection()) {
+      require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
+      $app_id = '1250484182494643';
+      $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
+      $access_token = 'EAARxTwlZBrbMBAHiFFgkZCy8bNvsIOBbXPu5OWZALWCijc4ALB5vZBXj9rN9M81zBBqR0ZC0gZAdkoGl9WyF1TGxxQCUNi5wxQrzVT81ZCAHPVXviqcq91NQSWZBVtocET4RDaix8L538YGLE0h6a6UtIF0HUwejIkIFe6vqZB5CdLBmoWtd0XGRQ';
 
-    $fb->setDefaultAccessToken($access_token);
+      $fb = new Facebook\Facebook([
+        'app_id' => $app_id,
+        'app_secret' => $app_secret,
+        'default_graph_version' => 'v17.0',
+      ]);
 
-    try {
-      $response = $fb->get('/me/posts?fields=id,message,created_time,attachments{media}');
-      $posts = $response->getGraphEdge();
+      $fb->setDefaultAccessToken($access_token);
 
-      // Process the retrieved posts
-      foreach ($posts as $post) {
-        $postId = $post['id'];
-        $message = isset($post['message']) ? $post['message'] : '';
-        $createdTime = isset($post['created_time']) ? $post['created_time']->format('Y-m-d H:i:s') : '';
+      try {
+        $response = $fb->get('/me/posts?fields=id,message,created_time,attachments{media}&limit=5');
+        $posts = $response->getGraphEdge();
 
-        // Check if the post has attachments
-        $attachments = isset($post['attachments']) ? $post['attachments'] : [];
-        $hasAttachments = !empty($attachments);
+        // Process the retrieved posts
+        foreach ($posts as $post) {
+          $postId = $post['id'];
+          $message = isset($post['message']) ? $post['message'] : '';
+          $createdTime = isset($post['created_time']) ? $post['created_time']->format('Y-m-d H:i:s') : '';
 
-        // Wrap each post in a div
-        echo '<div class="post">';
-        // Display the attached images if available
-        if ($hasAttachments) {
-          foreach ($attachments as $attachment) {
-            if (isset($attachment['media']) && isset($attachment['media']['image'])) {
-              if (!isset($attachment['media']['video'])) {
-                $imageSrc = $attachment['media']['image']['src'];
-                // Display the image
-                echo '<div class="picture">';
-                echo '<img src="' . $imageSrc . '" alt="Post Picture">';
-                echo '</div>'; // Close picture div
+          // Check if the post has attachments
+          $attachments = isset($post['attachments']) ? $post['attachments'] : [];
+          $hasAttachments = !empty($attachments);
+
+          // Wrap each post in a div
+          echo '<div class="post">';
+          // Display the attached images if available
+          if ($hasAttachments) {
+            foreach ($attachments as $attachment) {
+              if (isset($attachment['media']) && isset($attachment['media']['image'])) {
+                if (!isset($attachment['media']['video'])) {
+                  $imageSrc = $attachment['media']['image']['src'];
+                  // Display the image
+                  echo '<div class="picture">';
+                  echo '<img src="' . $imageSrc . '" alt="Post Picture">';
+                  echo '</div>'; // Close picture div
+                }
               }
             }
           }
+
+          // Output the post message and created time
+          echo '<div class="post-content">';
+          echo '<p>' . $message . '</p>';
+          echo '<p>Posted Date: ' . $createdTime . '</p>';
+
+          // Add link to the post on Facebook
+          echo '<a href="https://www.facebook.com/' . $postId . '" target="_blank">Click here for more details</a>';
+
+          echo '</div>'; // Close post-content div
+
+          echo '</div>'; // Close post div
         }
 
-        // Output the post message and created time
+        // Add link to the Facebook page of the scouts
+        echo '<div class="post">';
         echo '<div class="post-content">';
-        echo '<p>' . $message . '</p>';
-        echo '<p>Posted Date: ' . $createdTime . '</p>';
-
-        // Add link to the post on Facebook
-        echo '<a href="https://www.facebook.com/' . $postId . '" target="_blank">Click here for more details</a>';
-
+        echo '<a href="https://www.facebook.com/SNOGNO" target="_blank">Visit our Facebook page for more updates</a>';
         echo '</div>'; // Close post-content div
-
         echo '</div>'; // Close post div
+
+      } catch (Facebook\Exceptions\FacebookResponseException $e) {
+        // Handle API errors
+        echo '<p class="error-message">An error occurred while retrieving the posts. Please try again later.</p>';
+      } catch (Facebook\Exceptions\FacebookSDKException $e) {
+        // Handle SDK errors
+        echo '<p class="error-message">An error occurred while communicating with Facebook. Please try again later.</p>';
       }
-    } catch (Facebook\Exceptions\FacebookResponseException $e) {
-      // Handle API errors
-    } catch (Facebook\Exceptions\FacebookSDKException $e) {
-      // Handle SDK errors
+    } else {
+      echo '<p class="error-message">No internet connection. Please check your network connection and try again.</p>';
     }
     ?>
   </div>
@@ -340,30 +365,22 @@ $con=connection();
 
 
 
-
-
-
-
-
-
-
-  
       <section class="testimonials">
         <h2>Our Scouts and Guides Experience</h2>
         <div class="testimonial">
-          <img src="../Pictures/scoutportrait.jpg" alt="Customer 1">
+          <img src="../Pictures/ChefEmile.jpg" alt="Customer 1">
           <blockquote>"The National Orthodox Scouts has changed my life. It taught me leadership, teamwork, and a love for nature. I've made lifelong friends and had incredible adventures. I'm grateful for the impact it has had on me."</blockquote>
-          <cite>- John</cite>
+          <cite>- Chef Emile</cite>
         </div>
         <div class="testimonial">
-          <img src="../Pictures/scoutportrait1.jpg" alt="Customer 2">
+          <img src="../Pictures/MelanieScaff.jpg" alt="Customer 2">
           <blockquote>"The Scouts empowered me to break stereotypes and pursue my passions. I gained confidence, resilience, and made lasting friendships. Scouting taught me skills and a love for the outdoors. It's been an amazing journey."</blockquote>
-          <cite>- Sarah</cite>
+          <cite>- Cheftaine Melanie</cite>
         </div>
         <div class="testimonial">
-          <img src="../Pictures/scoutportrait2.jpg" alt="Customer 3">
+          <img src="../Pictures/NivineChami.jpg" alt="Customer 3">
           <blockquote>"The Scouts taught me teamwork, self-reliance, and the joy of giving back. It challenged me and helped me discover my potential. The friendships and adventures I've had are priceless. Scouting made me who I am today."</blockquote>
-          <cite>- David</cite>
+          <cite>- Cheftaine Nivine</cite>
         </div>
       </section>
     </main>

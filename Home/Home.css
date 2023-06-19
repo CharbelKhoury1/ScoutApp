@@ -220,7 +220,7 @@
   height: auto;
 }
 
-.post-content {
+.post-content,.error-message {
   text-align: center;
   margin: 10px;
   max-width: 80%;
