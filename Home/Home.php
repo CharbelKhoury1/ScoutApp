@@ -160,15 +160,7 @@ $con=connection();
 <div class="container">
 <div class="container1">
   <img src="../Pictures/ScoutPic2.jpg" alt="">
-  <h2><?php 
-  if(isset($_SESSION['email'])){
-    echo $_SESSION['email'];
-   }
-   if(isset($_SESSION['user_id'])){
-    echo $_SESSION['user_id'];
-   }
-   print_r($_SESSION);
-   ?>Values and Principles of Scouts and Guides National Orthodox</h2>
+  <h2>Values and Principles of Scouts and Guides National Orthodox</h2>
   <p>Explore the core values and principles that guide the Scout et Guide National Orthodoxe (SNO) community. 
     Discover how SNO programs instill Orthodox Christian values such as faith, compassion,
      integrity, and service. Learn about the emphasis on personal and spiritual development, fostering a sense of morality, and promoting virtues that shape the character of SNO members.
@@ -331,7 +323,7 @@ $con=connection();
 
           // Output the post message and created time
           echo '<div class="post-content">';
-          echo '<p>' . $message . '</p>';
+          echo '<p class="post-message">' . $message . '</p>';
           echo '<p>Posted Date: ' . $createdTime . '</p>';
 
           // Add link to the post on Facebook
