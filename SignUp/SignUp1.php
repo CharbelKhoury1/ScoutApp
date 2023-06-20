@@ -1,11 +1,9 @@
 <?php
 session_start();
+
 $code = ""; 
 $password = "";
 
-
-$code="";
-$password="";
 
 if (isset($_GET['code']) && isset($_GET['password'])) {
     // Retrieve the code and password from the query parameters

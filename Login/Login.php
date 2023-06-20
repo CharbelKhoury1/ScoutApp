@@ -22,13 +22,19 @@ include "LoginCredentials.php";
         <h1 class="header">Welcome</h1>
         <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
             <label for="scoutcode">Scout Code:</label>
-            <input type="text" id="scoutcode" name="scoutcode" placeholder="Enter your Scout Code" required>
+            <input type="text" id="scoutcode" name="scoutcode" placeholder="Enter your Scout Code" value="<?php echo isset($_COOKIE['scoutcode']) ? $_COOKIE['scoutcode'] : ''; ?>" required>
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <input type="password" id="password" name="password" placeholder="Enter your password" value="<?php echo isset($_COOKIE['password']) ? $_COOKIE['password'] : ''; ?>" required>
+           
             
-            <input type="checkbox" id="remember-me" name="remember-me">
-            <label for="remember-me">Remember Me</label>
-
+            <div class="remember-me-container">
+                <table>
+                    <tr>
+                        <td> <input class="remember-me-checkbox" type="checkbox" id="remember-me" name="remember-me" <?php if (isset($scoutcode) && isset($password)) { echo 'checked'; } ?>> </td>
+                        <td><label class="remember-me-label" for="remember-me">Remember Me</label></td>
+                    </tr>
+                </table>
+            </div>
             <input type="submit" id="submit-btn" name="submit-btn" value="Continue">
         
           </form>
