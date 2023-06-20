@@ -137,6 +137,15 @@ document.addEventListener("keydown", (event) => {
   });
   
 
+  
+  function redirectToHomeAndScrollToSection(sectionId) {
+    window.location.href = '../Home/Home.php#' + sectionId;
+    setTimeout(function () {
+      scrollToSection(sectionId);
+    }, 100); // Adjust the delay as needed
+  }
+  
+  
 function scrollToSection(sectionClass) {
   const section = document.getElementsByClassName(sectionClass)[0];
   section.scrollIntoView({ behavior: "smooth" });
