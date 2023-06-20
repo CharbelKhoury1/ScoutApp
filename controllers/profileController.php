@@ -8,7 +8,6 @@ if (isset($_SESSION['user_id'])) {
 }
 include("../models/profileModel.php");
 
-//$userId = 1;
 $userDetails = getUserDetails($userId);
 
 if($userDetails){

@@ -1,4 +1,4 @@
-<?php require("sideBar.php");?>
+<?php include("../sideBar/sideBar.php");?>
 <!DOCTYPE html>
 <html>
 <head>

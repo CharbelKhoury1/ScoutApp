@@ -1,11 +1,12 @@
+<?php require_once("../sideBar/sideBar.php");?>
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../views/css/editProfile.css">
     <link rel="icon" href="../Pictures/ScoutsLogo.gif" type="image/png">
-
-
     <style>
         .alert-box {
             position: fixed;
@@ -13,7 +14,7 @@
             right: 20px;
             transform: translateY(-50%);
             padding: 10px;
-            background-color: lightgreen; /* Lighter shade of green */
+            background-color: lightgreen; 
             border: 1px solid #ccc;
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -120,11 +121,10 @@
             </table>
         </form>
     </div>
-    <?php
-    if (!empty($msg)) {
-        echo '<div class="alert-box">' . $msg . '</div>';
-    }
-    ?>
+    <?php if (!empty($msg)) { ?>
+        <div class="alert-box"><?php echo $msg; ?></div>;
+        <meta http-equiv="refresh" content="5;url=../controllers/profileController.php">
+    <?php } ?>
 </body>
 </html>
 

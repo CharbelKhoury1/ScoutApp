@@ -11,7 +11,6 @@ $typeCode = $_POST['type_code'];
 //$userId = 6;
 $userId = $_SESSION['user_id'];
 $unitId = getUserUnit($userId);
-
 // Fetch transaction records based on the submitted data
 $transactionRecords = showTransaction($unitId, $currencyCode, $typeCode);
 
