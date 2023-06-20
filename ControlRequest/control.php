@@ -39,7 +39,31 @@ mysqli_close($conn);
 
 <!DOCTYPE html>
 <head>
-<link rel = "stylesheet" href = "design.css"/>
+<link rel = "stylesheet" href = "test1.css"/>
+<script>
+    
+  function confirmAction() {
+    var result = confirm("Are you sure you want to proceed?");
+    if (result) {
+      window.location.href = "../ControlRequest/update.php";
+    } else {
+      alert("Action cancelled!");
+    }
+  }
+</script>
+
+  </script>
+
+<script>
+    function confirmReject() {
+      var resultRej = confirm("Are you sure you want to proceed?");
+      if (resultRej) {
+        window.location.href = "../ControlRequest/updateRej.php";
+      } else {
+        alert("Action cancelled!");
+      }
+    }
+  </script>
 </head>
 
 <tbody>
@@ -56,16 +80,30 @@ mysqli_close($conn);
         <tr><td><label>Description:</label></td>
           <td> <?php echo $row['description']  ?> </td>
         </tr>
-        <tr><td><label></label></td>
-          <td><input type="submit" id="submitBtn" name="submit" value="Submit"></td>
-        </tr>
+      </table>
+    </div>
+
+    <div class="container2">
+        <div class="center">
+          <button class="big-button">View File</button>
+        </div>
+    </div>
+
+
+
+
+    <div> 
+      <table class="input-table">
         <tr>
-          <td><label>Comment:</label></td>
+          <td><label>Leave a comment:</label></td>
           <td><textarea  style="resize: none;" id="caption" name="caption" rows="7" cols="115"></textarea></td>
         </tr>
       </table>
     </div>
 
-    <a class="btn btn-success pull-right" type="submit" id="submitBtn" name="submit">Submit</a>
-    <a class="btn btn-success pull-right" type="submit" id="submitBtn" name="submit">Submit</a>
-    <a class="btn btn-success pull-right" type="submit" id="submitBtn" name="submit">Submit</a>
+    <div class="container3">
+      <div class="center1">
+        <button class="green-button" onclick="confirmAction()">Approve</button>
+        <button class="red-button" onclick="confirmReject()">Reject</button>
+      </div>
+    </div>

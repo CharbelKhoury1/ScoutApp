@@ -4,14 +4,23 @@
 </head>
 
 <body>
+
+
+
   <div class="policy-container">
+
     <div class="policy-table">
+      <?php if(isset($_GET['error'])) { ?>
+            <p class="error"><?php echo $_GET['error']; unset($_GET['error'])?></p>
+      <?php } ?>
       <div class="headings">
         <span class="heading">Request ID</span>
         <span class="heading">Sender</span>
         <span class="heading">File</span>
         <span class="heading">Actions</span>
       </div>
+
+
 
       <?php
       // Add your database connection and query here
