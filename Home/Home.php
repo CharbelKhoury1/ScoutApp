@@ -58,25 +58,25 @@ $con=connection();
 
                     // Display the corresponding part based on the feature name
                     if ($featureName === "generate code") {
-                        echo '<button class="" onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#code-section\'">';
+                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#code-section\'">';
                         echo '<img src="../Icons//icons8-password.svg">Code/Pass Generator';
                         echo '</button>';
                     } elseif ($featureName === "search scout") {
-                        echo '<button class="" onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#search-section\'">';
+                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#search-section\'">';
                         echo '<img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout';
                         echo '</button>';
                     } elseif ($featureName === "create unit") {
-                        echo '<button class="" onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#create-section\'">';
+                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#create-section\'">';
                         echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
                         echo '</button>';
                     } elseif ($featureName === "make request") {
-                        echo '<button class="" onclick="window.location.href=\'../Request/request.php\'">';
+                        echo '<button onclick="window.location.href=\'../Request/request.php\'">';
                         echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
                         echo '</button>';
                     } elseif ($featureName === "make transaction") {
                         // Check if "view transaction" has already been displayed
                         if (!$transactionButtonDisplayed) {
-                            echo '<button class="" onclick="window.location.href=\'../views/transactionView.php\'">';
+                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
                             echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
                             echo '</button>';
                             $transactionButtonDisplayed = true; // Set the flag to true
@@ -84,7 +84,7 @@ $con=connection();
                     } elseif ($featureName === "view transaction") {
                         // Check if "make transaction" has already been displayed
                         if (!$transactionButtonDisplayed) {
-                            echo '<button class="" onclick="window.location.href=\'../views/transactionView.php\'">';
+                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
                             echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
                             echo '</button>';
                             $transactionButtonDisplayed = true; // Set the flag to true
