@@ -1,3 +1,4 @@
+<?php require_once("../sideBar/sideBar.php");?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,7 @@
             <h2>User Details</h2>
             <div class="card-options">
                 <a href="../controllers/editController.php" class="button">Edit</a>
-                <a href="#" class="button">Logout</a>
+                <a href="../controllers/logout.php" class="button">Logout</a>
             </div>
         </div>
         <table>

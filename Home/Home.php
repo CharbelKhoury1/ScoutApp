@@ -114,6 +114,12 @@ $con=connection();
             <p>Welcome, <?php echo $_SESSION['name']; ?></p>
             <!-- <button onclick="window.location.href='logout.php'">Logout</button> -->
         </div>
+        <!-- added this script to go to profile-->
+        <script>
+      document.querySelector('.profile-icon').addEventListener('click', function() {
+        window.location.href = '../controllers/profileController.php';
+      });
+    </script>
     <?php else: ?>
         <!-- User is not logged in, show login button -->
         <div class="login-btn">
@@ -122,7 +128,7 @@ $con=connection();
     <?php endif; ?>
     <img src="../Pictures/ScoutsLogo.gif" alt="scoutslogo">
           </div>
-    
+
           
           <div class="hero">
         <img src="../Pictures/WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">
@@ -260,8 +266,8 @@ $con=connection();
 
 </div>
 <!-- end of quotes -->
-
-<section class="Scout-gallery">
+<!-- added id-->
+<section class="Scout-gallery" id="scoutGallery1">
   <h2>Our Recent Events</h2>
   <div class="image-grid" id="post-container">
     <?php
@@ -356,8 +362,8 @@ $con=connection();
 </section>
 
 
-
-      <section class="testimonials">
+      <!-- added id -->
+      <section class="testimonials" id="testimonial1">
         <h2>Our Scouts and Guides Experience</h2>
         <div class="testimonial">
           <img src="../Pictures/ChefEmile.jpg" alt="Customer 1">

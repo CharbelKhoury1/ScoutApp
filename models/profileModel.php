@@ -1,6 +1,6 @@
 <?php
-include("../utility.php");
-include("../common.inc.php");
+require_once("../utility.php");
+require_once("../common.inc.php");
 
 function getUserDetails($userId){
     $con = connection();

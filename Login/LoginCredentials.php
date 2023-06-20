@@ -1,19 +1,19 @@
 <?php
-
 session_start();
 
-include ("../common.inc.php");
-include ("../utility.php");
-$con=connection();
+include("../common.inc.php");
+include("../utility.php");
+$con = connection();
 
-function sanitizeInput($input) {
+function sanitizeInput($input)
+{
     // Remove leading/trailing white space
     $input = trim($input);
     // Remove backslashes
     $input = stripslashes($input);
     // Escape special characters
     $input = htmlspecialchars($input);
-    
+
     return $input;
 }
 
@@ -26,6 +26,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
     // Sanitize the input for the query
     $code = mysqli_real_escape_string($con, $code);
     $password = mysqli_real_escape_string($con, $password);
+
+    // Validate the scoutcode and password here
+
+    if (isset($_POST['remember-me'])) {
+        // Set a cookie to remember the user
+        setcookie('scoutcode', $code, time() + (86400 * 30), '/');
+        setcookie('password', $password, time() + (86400 * 30), '/');
+    } else {
+        // Clear any existing cookies
+        setcookie('scoutcode', '', time() - 3600, '/');
+        setcookie('password', '', time() - 3600, '/');
+    }
+
+    // Perform the login logic here
+    // Redirect the user to the appropriate page
 
     $query = "SELECT * FROM usercredentials AS uc WHERE uc.scoutcode='$code' AND uc.password='$password'";
     $res = mysqli_query($con, $query);
@@ -47,8 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
                 $_SESSION['password'] = $password;
                 while ($row = mysqli_fetch_assoc($result)) {
                     $_SESSION['email'] = $row['email'];
-                    $_SESSION['user_id']=$row['user_id'];
-                    $_SESSION['name']=$row['fname']."  ".$row['lname'];
+                    $_SESSION['user_id'] = $row['user_id'];
+                    $_SESSION['name'] = $row['fname'] . "  " . $row['lname'];
                 }
                 header('Location: ../Home/Home.php'); // Redirect to the Home page
                 exit;
@@ -63,9 +78,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-btn'])) {
             echo "Error: " . mysqli_error($con);
         }
     }
-
-    // Close the database connection
-    mysqli_close($con);
 }
 
+// Check if the cookies exist and populate the fields
+$scoutcode = isset($_COOKIE['scoutcode']) ? $_COOKIE['scoutcode'] : '';
+$password = isset($_COOKIE['password']) ? $_COOKIE['password'] : '';
+
 ?>
+

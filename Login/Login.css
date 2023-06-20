@@ -95,6 +95,25 @@ input[type="submit"]:hover {
 .register{
   text-align: center;
 }
+
+.remember-me-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.remember-me-label {
+  margin-left: 5px;
+  display: inline;
+}
+
+.remember-me-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
 /* Media Query for Mobile Screens */
 @media only screen
   and (min-device-width: 375px)

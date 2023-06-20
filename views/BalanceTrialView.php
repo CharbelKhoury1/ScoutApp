@@ -1,3 +1,13 @@
+<?php 
+include("../sideBar/sideBar.php");
+/*
+if (isset($_SESSION['user_id'])) {
+  $userId = $_SESSION['user_id'];
+} else {
+  header("Location: ../Home/Home.php");
+  exit();
+}*/
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +38,7 @@
     </form>
     <div id="transaction-table"></div>
     <script>
-      let currentData = {}; // Store the current data globally
+let currentData = {}; // Store the current data globally
 
 // Function to handle form submission
 function handleFormSubmit(event) {
