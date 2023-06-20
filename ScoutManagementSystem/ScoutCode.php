@@ -93,10 +93,10 @@ $con=connection();
         }
         ?>
         <!-- Add other static buttons here -->
-        <button onclick="scrollToSection('Scout-gallery')">
+        <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
         </button>
-        <button class="" onclick="scrollToSection('testimonials')">
+        <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
         </button>
         <button class="" onclick="window.location.href='../views/contactUsView.php'">
@@ -656,5 +656,13 @@ buttons.forEach(button => {
     });
   });
 </script>
+<script>
+  function redirectToHomeAndScrollToSection(sectionId) {
+    window.location.href = '../Home/Home.php#' + sectionId;
+    setTimeout(function () {
+      scrollToSection(sectionId);
+    }, 100); // Adjust the delay as needed
+  }
+  </script>
 </body>
 </html>
