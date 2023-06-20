@@ -1,3 +1,9 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
   display: flex;
   gap: 10px;
@@ -13,7 +19,7 @@
   position: relative;
   flex: 1;
   height: 100%;
-  border: 1px solid #e0e0e0;
+  border: 1px solid green;
   padding: 5px;
   cursor: pointer;
   transition: border-color 0.3s ease;
@@ -29,7 +35,7 @@
 }
 
 .box:hover {
-  border-color: grey;
+  border-color: darkgreen;
 }
 
 .box img {
@@ -70,9 +76,9 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  width: 165px;
+  width: 160px;
   background-color: #fff;
-  border: 1px solid #e0e0e0;
+  border: 1px solid green;
   padding: 10px;
 }
 
@@ -86,7 +92,7 @@
 }
 
 .option:hover {
-  background-color: grey;
+  background-color:  #4CAF50;
 }
 
 a {
