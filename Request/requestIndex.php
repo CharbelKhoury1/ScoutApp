@@ -1,3 +1,131 @@
+<?php
+
+session_start();
+
+include ("../common.inc.php");
+include ("../utility.php");
+$conn=connection();
+
+
+function calculateDaysDifference($d) {
+  $sysDate = date('Y-m-d'); // Get the current system date in 'Y-m-d' format
+
+  // Convert the selected date and system date to Unix timestamps
+  $selectedTimestamp = strtotime($d);
+  $sysTimestamp = strtotime($sysDate);
+
+  // Calculate the difference in seconds
+  $difference = $selectedTimestamp - $sysTimestamp;
+
+  // Convert the difference to days
+  $daysDifference = floor($difference / (60 * 60 * 24));
+
+  return $daysDifference;
+}
+
+
+if (isset($_POST['submit'])) {
+  if (!empty($_POST['dateN']) && !empty($_POST['receiverN']) && !empty($_POST['descriptionN']) && !empty($_FILES['file'])) {
+    $d = $_POST['dateN'];
+    $rec = $_POST['receiverN'];
+    $desc = $_POST['descriptionN'];
+    $file = $_FILES['file'];
+
+    $days = calculateDaysDifference($d);
+    if($days >= 14){
+
+      $fileName = $file['name'];
+      $fileTmpName = $_FILES['file']['tmp_name'];
+
+      // Read file data
+      $fileData = file_get_contents($fileTmpName);
+
+      $f = explode('.', $fileName);
+      $fileExt = strtolower($f[1]);
+
+      $allowedExt = array('pdf');
+      if (in_array($fileExt, $allowedExt)) {
+        $sql = "INSERT INTO `requests` (`date_submitted`, `date_of_event`, `approver`, `description`, `name`, `data`) VALUES (SYSDATE(), ?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($conn, $sql);
+      
+        // Bind the parameters
+        mysqli_stmt_bind_param($stmt, 'sssss', $d, $rec, $desc, $fileName, $fileData);
+      
+        // Execute the statement
+        $result = mysqli_stmt_execute($stmt);
+      
+        if ($result) {
+        //header("Location: process.html?");
+
+          $qr4 = "SELECT max(request_id) FROM requests";
+          $res4 = mysqli_query($conn, $qr4);
+          $row4 = mysqli_fetch_array($res4);
+          $idd = $row4[0];
+
+          $qr5 = "INSERT INTO `requeststatus`(`date`, `statusCode`, `request_id` , `userId` ) VALUES (SYSDATE() , '0' , '$idd' , '15')";
+          $res5 = mysqli_query($conn, $qr5);
+
+          if (isset($_FILES['mediaFile']) || isset($_POST['caption'])) {
+
+            $cap = $_POST['caption'];
+            $mediaFile = $_FILES['mediaFile'];
+
+            $fileN = $mediaFile['name'];
+            $fileTmpLocat = $mediaFile['tmp_name'];
+
+            $fM = explode('.', $fileN);
+            $fileExtension = strtolower($fM[1]);
+
+            $allowedExtension = array('jpeg', 'jpg', 'png');
+            if (in_array($fileExtension, $allowedExtension)) {
+              $qr1 = "SELECT max(request_id) FROM requests";
+              $res1 = mysqli_query($conn, $qr1);
+              $row1 = mysqli_fetch_array($res1);
+              $id = $row1[0];
+
+              $qr2 = "SELECT date_of_event FROM requests WHERE request_id=$id";
+              $res2 = mysqli_query($conn, $qr2);
+              $row2 = mysqli_fetch_array($res2);
+              $doe = $row2[0];
+
+              $qr3 = "INSERT INTO `event`(`description`, `date_of_event`, `request_id`) VALUES ('$cap' , '$doe' , '$id')";
+              $res3 = mysqli_query($conn, $qr3);
+
+              if ($res3) {
+                //header("Location: process.html?");
+              } else {
+                header("Location: requestIndex.php?Err=".urlencode("invalid"));
+                exit();
+              }
+            } else{
+              header("Location: requestIndex.php?Err=".urlencode("invalid"));
+              exit();
+            }
+          }else{
+            header("Location: requestIndex.php?Err=".urlencode("invalid"));
+            exit();
+          }
+        }else{
+          header("Location: requestIndex.php?Err=".urlencode("invalid"));
+          exit();
+        }
+      } else {
+        header("Location: requestIndex.php?Err=".urlencode("invalid"));
+        exit();
+      }
+    }else {
+      header("Location: requestIndex.php?Err=".urlencode("invalid"));
+      exit();
+    }
+  //header("Location: process.html?");
+  } else {
+    echo "<font color = 'red'><b>Please retry</b></font></br>";
+  }
+  //header("Location: process.html?");
+}
+?>
+
+
 <!DOCTYPE html>
 <html ng-app="app">
 
@@ -39,11 +167,17 @@
 
     <section>
 
-      <form action="request.php" method="POST" enctype="multipart/form-data">
+      <form action="" method="POST" enctype="multipart/form-data">
         <h2>Request Details</h2>
-        
+
+        <?php
+          if (isset($_GET['Err'])){
+            echo "<font color = 'red'><b>Please retry: ".$_GET['Err']."</b></font></br>";
+          }
+        ?>
+
         <div class="container">
-          <input type = "file" name="file" id = "file-input" accept=".pdf"/>
+          <input type = "file" name="file" id = "file-input" accept=".pdf" required/>
           <label for = "file-input">
             <i class="fa-solid fa-arrow-up-from-bracket"></i>
             &nbsp; Choose Files To Upload
@@ -54,13 +188,8 @@
           <table class="input-table">
             <tr>
               <td><label for="date">Select Event Date:</label></td>
-              <td><input type="date" name="dateN" id="date" ></td>
+              <td><input type="date" name="dateN" id="date" required></td>
             </tr>
-
-            <?php if(isset($_GET['error'])) { ?>
-            <p class="error"><?php echo $_GET['error']; ?></p>
-            <?php } ?>
-
             <tr>
 
               <td><label for="user">Receiver:</label></td>
