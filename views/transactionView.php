@@ -29,7 +29,6 @@ $hasPermission = hasTransactionPermission($userId);
     <title>Transaction View</title>
 </head>
 <body>
-    <?php require(__DIR__ . "/sideBar.php"); ?>
 
     <div class="container">
         <?php if (isset($hasPermission) && $hasPermission): ?>

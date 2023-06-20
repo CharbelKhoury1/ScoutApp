@@ -1,5 +1,8 @@
 <?php
 session_start();
+$code = ""; 
+$password = "";
+
 
 $code="";
 $password="";

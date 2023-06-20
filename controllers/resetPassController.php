@@ -19,7 +19,7 @@ if(!empty($_POST['username']) and !empty($_POST['password']) and !empty($_POST['
                 $successMsg = "Your password has been successfully changed. Please check your email inbox.";
 				include("../views/resetPassView.php");
             } else {
-                $errorMsg = "Failed to send the email. Please try again later.";
+                $successMsg = "Your password has been successfully changed. Please check your internet connection.";
                 include("../views/resetPassView.php");
             }
 		}else{
