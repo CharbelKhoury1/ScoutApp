@@ -42,3 +42,13 @@ a {
     text-decoration: none;
     color: #4c4c4c;
 }
+
+.error{
+    background: rgb(128, 214, 128);
+    color: white;
+    padding: 10px;
+    width: 95%;
+    border-radius: 5px;
+    margin: 20px auto;
+    justify-content: center;
+}
