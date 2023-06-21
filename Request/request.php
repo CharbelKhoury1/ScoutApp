@@ -203,6 +203,8 @@ if (isset($_POST['submit'])) {
 
           if ($res3) {
             header("Location: process.html?");
+            include("../Post/mail.php");
+     
           } else {
                 header("Location: request.php?error=An error occurred. res3!");
               }
