@@ -1,4 +1,3 @@
-<?php require_once("../sideBar/sideBar.php");?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +16,10 @@
             </div>
         </div>
         <table>
+        <h3>Regiment (الفوج): <?php echo isset($regimentName) ? $regimentName : ''; ?></h3>
+        <h3>Unit (الفرقة): <?php echo isset($unitName) ? $unitName : ''; ?></h3>
         <h3><?php echo isset($title) ? $title : ''; ?></h3>
+        <h3><?php echo isset($rankName) ? $rankName : ''; ?></h3>
             <tr>
                 <th><i class="fa fa-user" aria-hidden="true"></i> First Name</th>
                 <td><?php echo isset($firstName) ? $firstName : ''; ?></td>
@@ -37,7 +39,7 @@
         </table>
     </div>
 </body>
-</html>j
+</html>
 
 
 

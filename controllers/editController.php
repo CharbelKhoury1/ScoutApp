@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once("../sideBar/profileSideBar.php");
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else {
@@ -8,7 +8,6 @@ if (isset($_SESSION['user_id'])) {
 }
 include("../models/profileModel.php");
 
-//$userId = 6;
 $userDetails = getUserDetails($userId);
 
 if($userDetails){

@@ -59,6 +59,5 @@ button {
     margin-top: 5px;
 }
 th, td {
-    padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid green;
 }
