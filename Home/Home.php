@@ -1,8 +1,6 @@
 <?php
 session_start();
-// if (isset($_COOKIE['user_id'])){
-// $_SESSION['user_id']=$_COOKIE['user_id'];
-// }
+
 include ("../common.inc.php");
 include ("../utility.php");
 $con=connection();
@@ -73,22 +71,18 @@ $con=connection();
                         echo '<button onclick="window.location.href=\'../Request/request.php\'">';
                         echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
                         echo '</button>';
-                    } elseif ($featureName === "make transaction") {
-                        // Check if "view transaction" has already been displayed
+                    } elseif ($featureName === "make transaction" || $featureName === "view transaction") {
+                        // Check if "make transaction" or "view transaction" has already been displayed
                         if (!$transactionButtonDisplayed) {
                             echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
                             echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
                             echo '</button>';
                             $transactionButtonDisplayed = true; // Set the flag to true
                         }
-                    } elseif ($featureName === "view transaction") {
-                        // Check if "make transaction" has already been displayed
-                        if (!$transactionButtonDisplayed) {
-                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
-                            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
-                            echo '</button>';
-                            $transactionButtonDisplayed = true; // Set the flag to true
-                        }
+                    } elseif ($featureName === "change required days") {
+                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/changeDays.php\'">';
+                        echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
+                        echo '</button>';
                     }
                 }
             }
@@ -107,29 +101,45 @@ $con=connection();
     </div>
 </div>
 
-          <div class="profile-icon">
-          <?php if (isset($_SESSION['user_id'])): ?>
+<div class="profile-icon">
+    <?php if (isset($_SESSION['user_id'])): ?>
         <!-- User is logged in, show relevant content -->
         <div class="welcome-message">
             <p>Welcome, <?php echo $_SESSION['name']; ?></p>
             <!-- <button onclick="window.location.href='logout.php'">Logout</button> -->
         </div>
-        <!-- added this script to go to profile-->
-        <script>
-      document.querySelector('.profile-icon').addEventListener('click', function() {
-        window.location.href = '../controllers/profileController.php';
-      });
-    </script>
+        <?php
+        if (isset($_SESSION['user_id'])) {
+            // Get the user's rank from the joined tables based on their user ID
+            $userId = $_SESSION['user_id'];
+            $query = "SELECT r.name FROM unitrankhistory urh
+                      JOIN rank r ON urh.rankId = r.rank_id
+                      JOIN user u ON urh.userId = u.user_id
+                      WHERE urh.userId = $userId AND urh.end_date IS NULL";
+            $result = $con->query($query);
+            if ($result && $result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $userRank = $row['name'];
+            } else {
+                // Default rank if the user's rank is not found in the joined tables
+                $userRank = 'unknown';
+            }
+        }
+        ?>
+
+        <?php if ($userRank == 'General Commander' || $userRank == 'General Commissioner'): ?>
+            <img class="bell" src="../Icons/bell-svgrepo-com.svg" alt="bell" onclick="window.location.href='../ControlRequest/controlRequest.php'">
+        <?php endif; ?>
+
+        <img class="profile-image" src="../Pictures/ScoutsLogo.gif" alt="scoutslogo" onclick="window.location.href='../controllers/profileController.php'">
     <?php else: ?>
         <!-- User is not logged in, show login button -->
         <div class="login-btn">
             <button onclick="window.location.href='../Login/Login.php'">Login</button>
         </div>
     <?php endif; ?>
-    <img src="../Pictures/ScoutsLogo.gif" alt="scoutslogo">
-          </div>
+</div>
 
-          
           <div class="hero">
         <img src="../Pictures/WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">
       </div>
@@ -286,7 +296,7 @@ $con=connection();
       require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
       $app_id = '1250484182494643';
       $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
-      $access_token = 'EAARxTwlZBrbMBAHiFFgkZCy8bNvsIOBbXPu5OWZALWCijc4ALB5vZBXj9rN9M81zBBqR0ZC0gZAdkoGl9WyF1TGxxQCUNi5wxQrzVT81ZCAHPVXviqcq91NQSWZBVtocET4RDaix8L538YGLE0h6a6UtIF0HUwejIkIFe6vqZB5CdLBmoWtd0XGRQ';
+      $access_token = 'EAARxTwlZBrbMBAOLCLMZB94XtagZA9kOOUX5y3lgUQcitYUICSsEFaWAKrCW3itLCNLyuzDZB50ZBPOrVldeZA3ltZAuZCAcUTJqkyzJWCwDNec4xRMK9hd2F22Rx5ppWFTOl6ZBXpaLgBYu6ZCSRV0YNaClqq8pU7TroxW9C6IkRiGhQ0XLWuCxxY1nCf8noU3GU3hdST0qwyiwZDZD';
 
       $fb = new Facebook\Facebook([
         'app_id' => $app_id,
@@ -312,7 +322,7 @@ $con=connection();
 
           // Wrap each post in a div
           echo '<div class="post">';
-          // Display the attached images if available
+          // Display the attached images or videos if available
           if ($hasAttachments) {
             foreach ($attachments as $attachment) {
               if (isset($attachment['media']) && isset($attachment['media']['image'])) {
@@ -323,6 +333,12 @@ $con=connection();
                   echo '<img src="' . $imageSrc . '" alt="Post Picture">';
                   echo '</div>'; // Close picture div
                 }
+              } elseif (isset($attachment['media']) && isset($attachment['media']['video'])) {
+                $videoSrc = $attachment['media']['video']['src'];
+                // Display the video
+                echo '<div class="video">';
+                echo '<video src="' . $videoSrc . '" type="video/mp4" controls></video>';
+                echo '</div>'; // Close video div
               }
             }
           }
@@ -360,6 +376,7 @@ $con=connection();
     ?>
   </div>
 </section>
+
 
 
       <!-- added id -->
