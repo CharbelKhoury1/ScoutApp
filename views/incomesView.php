@@ -1,6 +1,5 @@
-<?php include("../sideBar/sideBar.php");?>
-<?php
-session_start();
+<?php 
+include("../sideBar/sideBar.php");
 if (isset($_SESSION["success_message"])) {
     $successMessage = $_SESSION["success_message"];
     unset($_SESSION["success_message"]); 
@@ -38,14 +37,6 @@ if (isset($_SESSION["error_message"])) {
                     <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
                     <td>
                         <i class="fa fa-times remove-icon" onclick="removeRow(this)"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text" name="description[]" class="description-column"></td>
-                    <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
-                    <td>
-                        <i class="fas fa-times remove-icon" onclick="removeRow(this)"></i>
                     </td>
                 </tr>
             </tbody>

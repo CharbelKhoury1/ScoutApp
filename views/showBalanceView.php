@@ -1,14 +1,12 @@
 <?php
 include("../sideBar/sideBar.php");
+include("../models/UnitsRegiments.php");
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else {
     header("Location: ../Home/Home.php");
     exit();
 }
-?>
-<?php
-include("../models/UnitsRegiments.php");
 $regiments = getAllRegimentNames();
 ?>
 <!DOCTYPE html>

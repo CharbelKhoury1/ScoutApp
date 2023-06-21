@@ -1,4 +1,6 @@
-<?php $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to connect to database: ". mysqli_error($con));?>
+<?php
+session_start();
+$con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to connect to database: ". mysqli_error($con));?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -20,7 +22,7 @@
     </div>
     <div class="links">
 
-        <button class="active" onclick="scrollToSection('hero')">
+        <button  onclick="window.location.href = '../Home/Home.php'">
             <img src="../Icons/home-alt-svgrepo-com.svg">Home
         </button>
         <?php
@@ -29,7 +31,6 @@
         if(isset($_SESSION['user_id'])){
             // Step 1: Retrieve feature names using a single SQL query with INNER JOIN
             $userID = $_SESSION['user_id'];
-            $con=connection();
             $query = "SELECT f.description AS featureName
                       FROM unitrankhistory urh
                       INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
@@ -83,7 +84,7 @@
         }
         ?>
         <!-- Add other static buttons here -->
-        <button class="" onclick="window.location.href='../views/transactionView.php'">
+        <button class="active" onclick="window.location.href='../views/transactionView.php'">
             <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
         </button>
         <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">

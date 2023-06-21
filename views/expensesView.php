@@ -1,4 +1,12 @@
-<?php include("../sideBar/sideBar.php");?>
+<?php 
+include("../sideBar/sideBar.php");
+if (isset($_SESSION['user_id'])) {
+  $userId = $_SESSION['user_id'];
+} else {
+  header("Location: ../Home/Home.php");
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,14 +35,6 @@
           <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
           <td>
             <i class="fa fa-times remove-icon"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td><input type="text" name="description[]" class="description-column"></td>
-          <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
-          <td>
-            <i class="fas fa-times remove-icon" onclick="removeRow(this)"></i>
           </td>
         </tr>
       </tbody>

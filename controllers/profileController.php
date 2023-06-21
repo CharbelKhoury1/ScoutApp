@@ -1,5 +1,5 @@
-<?php
-session_start();
+<?php 
+require_once("../sideBar/profileSideBar.php");
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else {
@@ -8,16 +8,21 @@ if (isset($_SESSION['user_id'])) {
 }
 include("../models/profileModel.php");
 
-$userDetails = getUserDetails($userId);
+$userPersonalDetails = getUserDetails($userId);
+$userDetails = getUserUnitRegimentRank($userId);
+$userProfilePhoto = getUserProfilePhoto($userId);
 
-if($userDetails){
-    $user = mysqli_fetch_assoc($userDetails);
-    mysqli_free_result($userDetails);
+if($userPersonalDetails && $userDetails){
+    $user = mysqli_fetch_assoc($userPersonalDetails);
+    mysqli_free_result($userPersonalDetails);
     $firstName = $user['fname'];
     $lastName = $user['lname'];
     $email = $user['email'];
     $phone = $user['mobile'];
     $title = $user['scoutTitle'];
+    $unitName = $userDetails['unitName'];
+    $regimentName = $userDetails['regimentName'];
+    $rankName = $userDetails['rankName'];
     include("../views/profileView.php");
     exit();
 } else {

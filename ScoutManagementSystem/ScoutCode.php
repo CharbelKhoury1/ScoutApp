@@ -32,7 +32,7 @@ $con=connection();
     </div>
     <div class="links">
 
-        <button class="active" onclick="scrollToSection('hero')">
+        <button class="" onclick="window.location.href='../Home/Home.php'">
             <img src="../Icons/home-alt-svgrepo-com.svg">Home
         </button>
         <?php
@@ -54,17 +54,17 @@ $con=connection();
                 while ($row = mysqli_fetch_assoc($result)) {
                     $featureName = $row['featureName'];
 
-                    // Display the corresponding part based on the feature name
-                    if ($featureName === "generate code") {
-                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#code-section\'">';
+                     // Display the corresponding part based on the feature name
+                      if ($featureName === "generate code") {
+                        echo '<button id="codeButton" class="active" onclick="setActiveButton(\'codeButton\'); showSection(\'code-section\')">';
                         echo '<img src="../Icons//icons8-password.svg">Code/Pass Generator';
                         echo '</button>';
-                    } elseif ($featureName === "search scout") {
-                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#search-section\'">';
+                      } elseif ($featureName === "search scout") {
+                        echo '<button id="searchButton" class="" onclick="setActiveButton(\'searchButton\'); showSection(\'search-section\')">';
                         echo '<img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout';
                         echo '</button>';
-                    } elseif ($featureName === "create unit") {
-                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#create-section\'">';
+                      } elseif ($featureName === "create unit") {
+                        echo '<button id="createButton" class="active" onclick="setActiveButton(\'createButton\'); showSection(\'create-section\')">';
                         echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
                         echo '</button>';
                     } elseif ($featureName === "make request") {
@@ -99,7 +99,7 @@ $con=connection();
         <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
         </button>
-        <button class="" onclick="window.location.href='../views/contactUsView.php'">
+        <button onclick="window.location.href='../views/contactUsView.php'">
             <img src="../Icons/phone-svgrepo-com.svg">Contact Us
         </button>
     </div>
@@ -656,6 +656,7 @@ buttons.forEach(button => {
     });
   });
 </script>
+
 <script>
   function redirectToHomeAndScrollToSection(sectionId) {
     window.location.href = '../Home/Home.php#' + sectionId;

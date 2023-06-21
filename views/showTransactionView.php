@@ -1,15 +1,12 @@
 <?php
 include("../sideBar/sideBar.php");
-/*
+include("../models/UnitsRegiments.php");
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else {
     header("Location: ../Home/Home.php");
     exit();
-}*/
-?>
-<?php
-include("../models/UnitsRegiments.php");
+}
 $regiments = getAllRegimentNames();
 ?>
 <!DOCTYPE html>
@@ -54,7 +51,7 @@ $regiments = getAllRegimentNames();
         </select>
         <span class="error-message" id="type-error"></span>
 
-        <label for="currency-code" class="label1">Select Currency: (اختر العملة)</label>
+        <label for="currency-code" class="label1">Select Currency:<br> (اختر العملة)</label>
         <select id="currency-code" name="currency-code" disabled class="select-element">
             <option value="0">LBP (ل.ل.)</option>
             <option value="1">USD ($)</option>
