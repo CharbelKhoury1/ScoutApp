@@ -16,7 +16,7 @@ function checkUsername($username) {
     
     $statement = mysqli_prepare($con, $query);
     if (!$statement) {
-        // Handle query preparation error
+        // Handle query preparation errori
         echo "Query preparation error: " . mysqli_error($con);
         mysqli_close($con);
         return false;
@@ -37,6 +37,43 @@ function checkUsername($username) {
     mysqli_close($con);
 
     return $count > 0; 
+}
+function verifyUser($username, $email)
+{
+    $con = connection();
+    $selectQry = "SELECT uc.scoutcode, u.fname
+                FROM usercredentials uc
+                INNER JOIN user u ON uc.userId = u.user_id
+                WHERE uc.scoutcode = ? 
+                AND u.email = ?
+                AND uc.userId = u.user_id";
+    $selectStatement = mysqli_prepare($con, $selectQry);
+    if (!$selectStatement) {
+        // Handle query preparation error
+        echo "Query preparation error: " . mysqli_error($con);
+        mysqli_close($con);
+        return false;
+    }
+    mysqli_stmt_bind_param($selectStatement, "ss", $username, $email);
+    if (!mysqli_stmt_execute($selectStatement)) {
+        // Handle query execution error
+        echo "Query execution error: " . mysqli_stmt_error($selectStatement);
+        mysqli_stmt_close($selectStatement);
+        mysqli_close($con);
+        return false;
+    }
+    mysqli_stmt_store_result($selectStatement);
+    $count = mysqli_stmt_num_rows($selectStatement);
+    mysqli_stmt_bind_result($selectStatement, $scoutcode, $name);
+    mysqli_stmt_fetch($selectStatement);
+    mysqli_stmt_close($selectStatement);
+    mysqli_close($con);
+
+    if ($count > 0) {
+        return $name;
+    } else {
+        return false;
+    }
 }
 
 function resetPass($username, $password) {

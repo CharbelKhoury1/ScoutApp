@@ -1,4 +1,3 @@
-<?php include("../sideBar/sideBar.php");?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,8 +19,8 @@
 	<div class="card">
 		<h1>Reset Password</h1>
 		<form action="../controllers/resetPassController.php" method="post" onsubmit="return validateForm()">
-			<label for="password" class="form-label">Username:</label>
-			<input type="text" name="username" placeholder="Enter your username" required>
+			<!--<label for="password" class="form-label">Username:</label>
+			<input type="text" name="username" placeholder="Enter your username" required>-->
 			<label for="password">Password:</label>
 			<div>
 				<input type="password" id="passwordInput" name="password" placeholder="Enter your password" required>
