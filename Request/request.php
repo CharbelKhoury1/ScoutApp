@@ -213,7 +213,7 @@ if (isset($_POST['submit'])) {
         header("Location: request.php?error error not supported!");
       }
     }else {
-      $message = "Days difference is less than the required value ($nb).";
+      $message = "Days difference is less than the required value $nb.";
       echo "<p class='error-message'>$message</p>";
       
     }
@@ -289,7 +289,7 @@ if (isset($_POST['submit'])) {
               <td><label for="user">Receiver:</label></td>
               <td><select name="receiverN" id="receiver">
               <option value="Mofawad 3am">General Commissioner (مفوض عام)</option>
-              <option value="Ra2is">General Commissioner & President (مفوض عام و رئيس)</option>
+              <option value="Ra2is">General Commissioner & General Commander (مفوض عام و رئيس)</option>
               </select></td>
             </tr>
             <tr>
