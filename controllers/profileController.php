@@ -10,6 +10,7 @@ include("../models/profileModel.php");
 
 $userPersonalDetails = getUserDetails($userId);
 $userDetails = getUserUnitRegimentRank($userId);
+$userProfilePhoto = getUserProfilePhoto($userId);
 
 if($userPersonalDetails && $userDetails){
     $user = mysqli_fetch_assoc($userPersonalDetails);

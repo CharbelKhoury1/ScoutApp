@@ -6,7 +6,7 @@ body {
 }
 
 .card {
-    width: 400px;
+    width: 500px;
     background-color: #f7f7f7;
     border-radius: 5px;
     padding: 20px;
@@ -43,6 +43,26 @@ body {
     text-decoration: none;
 }
 
+.table-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.profile-photo {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.profile-details h3 {
+    margin: 10px 0;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -66,6 +86,7 @@ td a {
 td a:hover {
     text-decoration: underline;
 }
+
 .card-options a.button {
     margin-right: 10px;
     text-decoration: none;
@@ -77,4 +98,20 @@ td a:hover {
 
 .card-options a.button:hover {
     background-color: darkgreen;
+}
+
+/* Hide the file input */
+input[type="file"] {
+    display: none;
+}
+
+/* Style the selected file name */
+.selected-file {
+    margin-top: 10px;
+}
+
+.change-profile-note {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #777;
 }

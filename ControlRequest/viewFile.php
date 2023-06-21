@@ -14,6 +14,7 @@ if (isset($_COOKIE['request_id'])) {
   if ($result && mysqli_num_rows($result) > 0) {
     // Fetch the data
     $row = mysqli_fetch_assoc($result);
+    $file = $row['name'];
 
     // Access the individual fields
     $fileData = $row['data'];
@@ -26,7 +27,7 @@ if (isset($_COOKIE['request_id'])) {
     // Output the PDF data
     ob_clean();
     flush();
-    echo "<p>File: $fileData </p>";
+    echo $fileData;
     exit();
 
   } else {
