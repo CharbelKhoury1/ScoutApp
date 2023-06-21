@@ -78,15 +78,16 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
                             echo '</button>';
                             $transactionButtonDisplayed = true; // Set the flag to true
                         }
+                    } elseif ($featureName === "change required days") {
+                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/changeDays.php\'">';
+                        echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
+                        echo '</button>';
+                    }
                     }
                 }
             }
-        }
         ?>
         <!-- Add other static buttons here -->
-        <button onclick="window.location.href='../views/transactionView.php'">
-            <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
-        </button>
         <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
         </button>
