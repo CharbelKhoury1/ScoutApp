@@ -38,7 +38,7 @@
 <body>
     <div class="card">
         <div class="card-header">
-            <h2>User Profile</h2>
+            <h2>User profile</h2>
             <div class="card-options">
                 <a href="../controllers/editController.php" class="button">Edit</a>
                 <a href="../controllers/logout.php" class="button">Logout</a>
