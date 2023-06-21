@@ -1,12 +1,11 @@
 <?php 
 include("../sideBar/sideBar.php");
-/*
 if (isset($_SESSION['user_id'])) {
   $userId = $_SESSION['user_id'];
 } else {
   header("Location: ../Home/Home.php");
   exit();
-}*/
+}
 ?>
 <!DOCTYPE html>
 <html>

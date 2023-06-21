@@ -84,7 +84,7 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
         }
         ?>
         <!-- Add other static buttons here -->
-        <button class="active" onclick="window.location.href='../views/transactionView.php'">
+        <button onclick="window.location.href='../views/transactionView.php'">
             <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
         </button>
         <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
@@ -93,7 +93,7 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
         <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
         </button>
-        <button class="" onclick="window.location.href='../views/contactUsView.php'">
+        <button class="active" onclick="window.location.href='../views/contactUsView.php'">
             <img src="../Icons/phone-svgrepo-com.svg">Contact Us
         </button>
     </div>

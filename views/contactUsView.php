@@ -1,4 +1,4 @@
-<?php include("../sideBar/sideBar.php");?>
+<?php include("../sideBar/contactSideBar.php");?>
 <!DOCTYPE html>
 <html>
 <head>
