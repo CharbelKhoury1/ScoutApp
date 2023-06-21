@@ -183,7 +183,7 @@ if (isset($_POST['submit'])) {
           $mediaFile = $_FILES['mediaFile'];
 
           $fileN = $mediaFile['name'];
-            $fileTmpLocat = $mediaFile['tmp_name'];
+          $fileTmpLocat = $mediaFile['tmp_name'];
 
           $fM = explode('.', $fileN);
           $fileExtension = strtolower($fM[1]);
@@ -288,9 +288,8 @@ if (isset($_POST['submit'])) {
 
               <td><label for="user">Receiver:</label></td>
               <td><select name="receiverN" id="receiver">
-              <option value="Mofawad 3am">Mofawad 3am</option>
-              <option value="Ra2is">ra2is</option>
-              <option value="Ne2ib">Ne2ib</option>
+              <option value="Mofawad 3am">General Commissioner (مفوض عام)</option>
+              <option value="Ra2is">General Commissioner & President (مفوض عام و رئيس)</option>
               </select></td>
             </tr>
             <tr>
