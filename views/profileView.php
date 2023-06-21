@@ -12,10 +12,26 @@
                 document.getElementById('profile-photo').src = e.target.result;
             };
             reader.readAsDataURL(file);
+            var formData = new FormData();
+            formData.append('profilePhoto', file);
+            addPhotoToDatabase(formData);
         }
         
         function openFileSelect() {
             document.getElementById('file-upload').click();
+        }
+        
+        function addPhotoToDatabase(formData) {
+            fetch('../controllers/profilePhotoController.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                window.location.href = '../controllers/profileController.php';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
     </script>
 </head>
@@ -30,6 +46,7 @@
         </div>
         <div class="profile-details">
             <div class="card-row">
+            <input id="file-upload" type="file" name="profilePhoto" accept="image/*" onchange="handleFileSelect(event);">
                 <div class="profile-photo" onclick="openFileSelect()">
                     <?php if (!empty($userProfilePhoto)) : ?>
                         <img id="profile-photo" src="<?php echo $userProfilePhoto; ?>" alt="Profile Photo" style="height: 150px; width: 150px;">
