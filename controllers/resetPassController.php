@@ -1,9 +1,15 @@
-<head><link rel="stylesheet" type="text/css" href="../views/css/sideBar.css"></head>
+<?php include("../sideBar/sideBar.php");?>
 <?php
 include("../models/resetPassModel.php");
 include("mail.php");
-if(!empty($_POST['username']) and !empty($_POST['password']) and !empty($_POST['confirmPassword'])){
-	$uname = SecureData($_POST['username']);
+if (isset($_SESSION['username'])){
+	$uname = SecureData($_SESSION['username']);
+}else{
+	header("location:../Home/Home.php");
+	exit();
+}
+if(!empty($_POST['password']) and !empty($_POST['confirmPassword'])){
+	//$uname = SecureData($_POST['username']);
 	$pass = SecureData($_POST['password']);
 	$check = checkUsername($uname);
 	if ($check){

@@ -30,7 +30,8 @@ label {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"], 
+input[type="email"]{
 	padding: 10px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -94,13 +95,13 @@ button[type="submit"],
 .eye-icon2 {
 	position: absolute;
 	right: calc(50% - 185px); 
-	top: calc(40% + 65px); 
+	top: calc(33.5% + 5px); 
 	cursor: pointer;
 	/*color: lightgray;*/
 }
 
 .eye-icon2 {
-	top: calc(61.5% + 5px); 
+	top: calc(45.5% + 5px); 
 }
 
 .images img:nth-child(1){
