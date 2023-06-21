@@ -25,6 +25,7 @@
             <h2>User Profile</h2>
             <div class="card-options">
                 <a href="../controllers/editController.php" class="button">Edit</a>
+                <a href="../controllers/logout.php" class="button">Logout</a>
             </div>
         </div>
         <div class="profile-details">
