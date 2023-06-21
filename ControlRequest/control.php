@@ -1,4 +1,5 @@
 
+
 <?php
 session_start();
 include ("../common.inc.php");
@@ -40,6 +41,11 @@ mysqli_close($conn);
 <!DOCTYPE html>
 <head>
 <link rel = "stylesheet" href = "test1.css"/>
+<script>
+  function viewFile(){
+    window.location.href = "../ControlRequest/viewFile.php";
+  }
+</script>
 <script>
     
   function confirmAction() {
@@ -85,7 +91,7 @@ mysqli_close($conn);
 
     <div class="container2">
         <div class="center">
-          <button class="big-button">View File</button>
+          <button class="big-button" onclick="viewFile()">View File</button>
         </div>
     </div>
 
