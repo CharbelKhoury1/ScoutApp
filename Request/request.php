@@ -20,16 +20,14 @@
     </div>
     <div class="links">
 
-        <button class="" onclick="scrollToSection('hero')">
-            <img src="../Icons/home-alt-svgrepo-com.svg">Home
-        </button>
+
         <?php
 
         // Assuming you have established a database connection
         if(isset($_SESSION['user_id'])){
             // Step 1: Retrieve feature names using a single SQL query with INNER JOIN
             $userID = $_SESSION['user_id'];
-            $con=connection();
+
             $query = "SELECT f.description AS featureName
                       FROM unitrankhistory urh
                       INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
@@ -61,46 +59,55 @@
                         echo '<button onclick="window.location.href=\'../Request/request.php\'">';
                         echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
                         echo '</button>';
-                    } elseif ($featureName === "make transaction") {
-                        // Check if "view transaction" has already been displayed
+                    } elseif ($featureName === "make transaction" || $featureName === "view transaction") {
+                        // Check if "make transaction" or "view transaction" has already been displayed
                         if (!$transactionButtonDisplayed) {
                             echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
                             echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
                             echo '</button>';
                             $transactionButtonDisplayed = true; // Set the flag to true
                         }
-                    } elseif ($featureName === "view transaction") {
-                        // Check if "make transaction" has already been displayed
-                        if (!$transactionButtonDisplayed) {
-                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
-                            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
-                            echo '</button>';
-                            $transactionButtonDisplayed = true; // Set the flag to true
-                        }
+                    } elseif ($featureName === "change required days") {
+                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/changeDays.php\'">';
+                        echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
+                        echo '</button>';
                     }
+                    elseif ($featureName === "view old ones") { // New elseif condition for 'view old ones'
+                      echo '<button onclick="window.location.href=\'../ScoutManagementSystem/old_members.php\'">';
+                      echo '<img src="../Icons/hourglass-svgrepo-com.svg">View Old Ones';
+                      echo '</button>';
+                  }
+                  elseif ($featureName === "create course") { // New elseif condition for 'view old ones'
+                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#course-section\'">';
+                    echo '<img src="../Icons/syllabus-svgrepo-com.svg">Create Course';
+                    echo '</button>';
                 }
+              }
             }
-        }
+          }
+      
         ?>
         <!-- Add other static buttons here -->
-        <button class="" onclick="window.location.href='../views/transactionView.php'">
-            <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
-        </button>
-        <button class="active" onclick="window.location.href='../Request/request.php'">
-            <img src="../Icons/git-pull-request-svgrepo-com.svg">Request
+        <button class="" onclick="redirectToHomeAndScrollToSection('hero')">
+            <img src="../Icons/home-alt-svgrepo-com.svg">Home
         </button>
         <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
         </button>
+        <button class="active" onclick="window.location.href='../Request/request.php'">
+            <img src="../Icons/git-pull-request-svgrepo-com.svg">Requets
+        </button>
         <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
         </button>
-        <button class="" onclick="window.location.href='../views/contactUsView.php'">
+        <button onclick="window.location.href='../views/contactUsView.php'">
             <img src="../Icons/phone-svgrepo-com.svg">Contact Us
         </button>
     </div>
 </div>
-    <script src="../views/javascript/sideBar.js"></script>
+    
+  
+    <script src="../Home/Home.js"></script>
   </body>
 </html>
 
