@@ -4,6 +4,7 @@ session_start();
 include 'Generate.php';
 include 'SearchScout.php';
 include 'CreateUnit.php';
+include 'CreateCourse.php';
 
 // Assuming you have included the necessary PHP code for database connection
 include ("../common.inc.php");
@@ -88,6 +89,21 @@ $con=connection();
                             $transactionButtonDisplayed = true; // Set the flag to true
                         }
                     }
+                    elseif ($featureName === "create course") { // New elseif condition for 'view old ones'
+                      echo '<button id="courseButton" class="" onclick="setActiveButton(\'courseButton\'); showSection(\'course-section\')">';
+                      echo '<img src="../Icons/syllabus-svgrepo-com.svg">Create Course';
+                      echo '</button>';
+                  }
+                  elseif ($featureName === "change required days") {
+                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/changeDays.php\'">';
+                    echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
+                    echo '</button>';
+                }
+                elseif ($featureName === "view old ones") { // New elseif condition for 'view old ones'
+                  echo '<button onclick="window.location.href=\'../ScoutManagementSystem/old_members.php\'">';
+                  echo '<img src="../Icons/hourglass-svgrepo-com.svg">View Old Ones';
+                  echo '</button>';
+              }
                 }
             }
         }
@@ -142,7 +158,21 @@ $con=connection();
             // Generate code and password, send email, and display the result
             // Make sure to define $mail, $code, and $password variables  
             // Check if the email was sent successfully
-            if (isset($mail) && $mail->send() && isset($code) && isset($password)) {
+             // Check if the email already has a code and password assigned
+
+             $existingQuery = "SELECT * FROM usercredentials WHERE userId IN (SELECT user_id FROM user WHERE email = '$email')";
+             $existingResult = mysqli_query($con, $existingQuery);
+
+             if (mysqli_num_rows($existingResult) > 0) {
+                 $result = 'User has already been given a code and password!';
+                 echo '<tr>
+                         <td></td>
+                         <td></td>
+                         <td>'.$result.'</td>
+                       </tr>';
+             } else {
+
+                if (isset($mail) && $mail->send() && isset($code) && isset($password)) {
                 $result = 'Email sent successfully!';
                 echo '<tr>
                       <td>'.$code.'</td>
@@ -189,6 +219,7 @@ $con=connection();
                       </tr>';
             }
         }
+      }
         ?>
 
       </tbody>
@@ -378,6 +409,13 @@ $con=connection();
               </td>
         </td>
       </tr>
+      <tr>
+        <td><label for="old-ones-checkbox">Old Ones:</label></td>
+        <td>
+          <input type="checkbox" id="old-ones-checkbox" name="oldones-checkbox">
+          <label for="old-ones-checkbox">Old Ones</label>
+        </td>
+      </tr>
 
           <?php
         }
@@ -484,6 +522,49 @@ $con=connection();
       <button type="submit" name="create">Create Unit</button>
     </form>
   </section>
+
+
+  <!-- Section : Training courses  -->
+
+  <section id="course-section" <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create-course'])) { echo 'style="display: block;"'; } else { echo 'style="display: none;"'; } ?>>
+    <h2>Create Training Courses</h2>
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+        <table class="input-table">
+            <tr>
+                <td><label for="course-name">Course Name:</label></td>
+                <td><input type="text" id="course-name" name="course-name" required></td>
+            </tr>
+            <tr>
+                <td><label for="start-date">Start Date:</label></td>
+                <td><input type="date" name="start-date" id="start-date" required></td>
+            </tr>
+            <tr>
+                <td><label for="end-date">End Date:</label></td>
+                <td><input type="date" name="end-date" id="end-date" required></td>
+            </tr>
+            <tr>
+                <td><label for="location">Location:</label></td>
+                <td><input type="text" name="location" id="location" required></td>
+            </tr>
+            <tr>
+                <td><label for="status">Status:</label></td>
+                <td>
+                    <select name="status" id="status">
+                        <option value="Active">Active</option>
+                        <option value="Not Active">Not Active</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="instructor">Instructor:</label></td>
+                <td><input type="text" name="instructor" id="instructor" required></td>
+            </tr>
+        </table>
+        <button type="submit" name="create-course">Create Course</button>
+    </form>
+</section>
+
+
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>

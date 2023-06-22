@@ -46,8 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {
       // Retrieve the auto-incremented 'user_id'
       $userId = mysqli_insert_id($con);
             
-      // Store the 'user_id' in a cookie variable
-      // setcookie('user_id', $userId , time() + (30 * 24 * 60 * 60));
       $_SESSION['email']=$email;
       $_SESSION['user_id']=$userId;
       $_SESSION['name']=$fname." ".$lname;
@@ -85,6 +83,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     $dateOfTheTitle = $_POST['dateofthetitle'];
     $placeOfTheTitle = $_POST['placeofthetitle'];
     
+    print_r($_SESSION);
     // Update the 'user' table
     $sqlUpdate = "UPDATE user SET
                     scoutAdmission_date = '$affiliationDate',
@@ -96,7 +95,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     
     if (mysqli_query($con, $sqlUpdate)) {
       // Data updated successfully
-      echo "User data updated successfully!";
+      echo "User data updated successfully! ";
+  
     } else {
       // Failed to update data in 'user' table
       echo "Error updating data in 'user' table: " . mysqli_error($con);
@@ -108,16 +108,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     $scoutUnitPresent = $_POST['unit-present'];
     $scoutStartDatePresent = $_POST['startdate-present'];
     
-    echo $scoutRankPresent."  ".$scoutRegimentPresent."  ".$scoutUnitPresent."  ".$scoutStartDatePresent;
+    // echo $scoutRankPresent."  ".$scoutRegimentPresent."  ".$scoutUnitPresent."  ".$scoutStartDatePresent;
 
-    // // Retrieve rank_id from the rank table
+    // Retrieve rank_id from the rank table
     $query = "SELECT rank_id FROM rank WHERE name = '$scoutRankPresent'";
     $result = mysqli_query($con, $query);
     if ($result && mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
       $rankId = $row['rank_id'];
     } else {
-      echo "Error: sasasas Rank not found.";
+      echo "Error: Rank not found.";
       exit;
     }
     

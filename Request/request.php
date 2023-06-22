@@ -1,4 +1,6 @@
-<?php $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to connect to database: ". mysqli_error($con));?>
+<?php 
+session_start();
+$con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to connect to database: ". mysqli_error($con));?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -115,7 +117,7 @@
 
 <?php
 
-session_start();
+
 
 include ("../common.inc.php");
 include ("../utility.php");
