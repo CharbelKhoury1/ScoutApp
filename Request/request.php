@@ -22,6 +22,9 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
     </div>
     <div class="links">
 
+    <button class="" onclick="redirectToHomeAndScrollToSection('hero')">
+            <img src="../Icons/home-alt-svgrepo-com.svg">Home
+        </button>
 
         <?php
 
@@ -58,7 +61,7 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
                         echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
                         echo '</button>';
                     } elseif ($featureName === "make request") {
-                        echo '<button onclick="window.location.href=\'../Request/request.php\'">';
+                        echo '<button active="class" onclick="window.location.href=\'../Request/request.php\'">';
                         echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
                         echo '</button>';
                     } elseif ($featureName === "make transaction" || $featureName === "view transaction") {
@@ -90,14 +93,9 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
       
         ?>
         <!-- Add other static buttons here -->
-        <button class="" onclick="redirectToHomeAndScrollToSection('hero')">
-            <img src="../Icons/home-alt-svgrepo-com.svg">Home
-        </button>
+      
         <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
-        </button>
-        <button class="active" onclick="window.location.href='../Request/request.php'">
-            <img src="../Icons/git-pull-request-svgrepo-com.svg">Requets
         </button>
         <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
@@ -210,7 +208,7 @@ if (isset($_POST['submit'])) {
           $qr3 = "INSERT INTO `event`(`description`, `date_of_event`, `request_id`) VALUES ('$cap' , '$doe' , '$id')";
           $res3 = mysqli_query($conn, $qr3);
 
-          if ($res3) {
+           if ($res3) {
             header("Location: process.html?");
             include("../Post/mail.php");
      

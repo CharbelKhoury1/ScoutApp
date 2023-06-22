@@ -12,7 +12,6 @@ $res = mysqli_query($conn,$query);
 $row = mysqli_fetch_array($res);
 $value = $row[0];
 
-echo "The current days difference is set to $value.";
 
 ?>
 <!DOCTYPE html>
@@ -126,9 +125,10 @@ echo "The current days difference is set to $value.";
   </div>
 
         <form action="conf.php" method="POST">
-            <table class="input-table">
+            <table style="margin-top: 20px;" class="input-table">
                 <tr>
                     <div id="message"></div>
+                    <td style="display: block;">The current days difference is set to <?php echo $value; ?></td>
                     <td><label for="days">Change Days Difference:</label></td>
                     <td><input type="number" name="quantity" required></td>
                 </tr>
