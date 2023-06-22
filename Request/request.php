@@ -1,6 +1,6 @@
 <?php 
 session_start();
-$con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to connect to database: ". mysqli_error($con));?>
+$conn=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to connect to database: ". mysqli_error($conn));?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -26,76 +26,177 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
             <img src="../Icons/home-alt-svgrepo-com.svg">Home
         </button>
 
-        <?php
+<?php
 
-        // Assuming you have established a database connection
-        if(isset($_SESSION['user_id'])){
-            // Step 1: Retrieve feature names using a single SQL query with INNER JOIN
-            $userID = $_SESSION['user_id'];
+// Assuming you have established a database connection
+if(isset($_SESSION['user_id'])){
+  // Step 1: Retrieve feature names using a single SQL query with INNER JOIN
+  $userID = $_SESSION['user_id'];
 
-            $query = "SELECT f.description AS featureName
-                      FROM unitrankhistory urh
-                      INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
-                      INNER JOIN features f ON rf.featureid = f.feature_id
-                      WHERE urh.userId = $userID AND urh.end_date IS NULL";
+  $select = "SELECT fname , lname FROM user WHERE user_id = $userID";
+  $selectresult = mysqli_query($conn, $select);
+  $selectrow = mysqli_fetch_array($selectresult);
+  $firstName = $selectrow[0];
+  $lastName = $selectrow[1];
+  $fullName = $firstName . " " . $lastName;
 
-            $result = mysqli_query($con, $query);
+  $query = "SELECT f.description AS featureName
+  FROM unitrankhistory urh
+  INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
+  INNER JOIN features f ON rf.featureid = f.feature_id
+  WHERE urh.userId = $userID AND urh.end_date IS NULL";
 
-            if ($result && mysqli_num_rows($result) > 0) {
-                $transactionButtonDisplayed = false; // Flag to track if transaction button has been displayed
+  $result = mysqli_query($conn, $query);
 
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $featureName = $row['featureName'];
+  if ($result && mysqli_num_rows($result) > 0) {
+    $transactionButtonDisplayed = false; // Flag to track if transaction button has been displayed
 
-                    // Display the corresponding part based on the feature name
-                    if ($featureName === "generate code") {
-                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#code-section\'">';
-                        echo '<img src="../Icons//icons8-password.svg">Code/Pass Generator';
-                        echo '</button>';
-                    } elseif ($featureName === "search scout") {
-                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#search-section\'">';
-                        echo '<img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout';
-                        echo '</button>';
-                    } elseif ($featureName === "create unit") {
-                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#create-section\'">';
-                        echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
-                        echo '</button>';
-                    } elseif ($featureName === "make request") {
-                        echo '<button active="class" onclick="window.location.href=\'../Request/request.php\'">';
-                        echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
-                        echo '</button>';
-                    } elseif ($featureName === "make transaction" || $featureName === "view transaction") {
-                        // Check if "make transaction" or "view transaction" has already been displayed
-                        if (!$transactionButtonDisplayed) {
-                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
-                            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
-                            echo '</button>';
-                            $transactionButtonDisplayed = true; // Set the flag to true
-                        }
-                    } elseif ($featureName === "change required days") {
-                        echo '<button onclick="window.location.href=\'../ScoutManagementSystem/changeDays.php\'">';
-                        echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
-                        echo '</button>';
+      while ($row = mysqli_fetch_assoc($result)) {
+        $featureName = $row['featureName'];
+
+        // Display the corresponding part based on the feature name
+        if ($featureName === "generate code") {
+          echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#code-section\'">';
+          echo '<img src="../Icons//icons8-password.svg">Code/Pass Generator';
+          echo '</button>';
+        } elseif ($featureName === "search scout") {
+          echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#search-section\'">';
+          echo '<img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout';
+          echo '</button>';
+        } elseif ($featureName === "create unit") {
+          echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#create-section\'">';
+          echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
+          echo '</button>';
+        } elseif ($featureName === "make request") {
+          echo '<button active="class" onclick="window.location.href=\'../Request/request.php\'">';
+          echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
+          echo '</button>';
+        } elseif ($featureName === "make transaction" || $featureName === "view transaction") {
+          // Check if "make transaction" or "view transaction" has already been displayed
+          if (!$transactionButtonDisplayed) {
+            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
+            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
+            echo '</button>';
+            $transactionButtonDisplayed = true; // Set the flag to true
+          }
+        } elseif ($featureName === "change required days") {
+          echo '<button onclick="window.location.href=\'../ScoutManagementSystem/changeDays.php\'">';
+          echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
+          echo '</button>';
+        }elseif ($featureName === "view old ones") { // New elseif condition for 'view old ones'
+          echo '<button onclick="window.location.href=\'../ScoutManagementSystem/old_members.php\'">';
+          echo '<img src="../Icons/hourglass-svgrepo-com.svg">View Old Ones';
+          echo '</button>';
+        }elseif ($featureName === "create course") { // New elseif condition for 'view old ones'
+          echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#course-section\'">';
+          echo '<img src="../Icons/syllabus-svgrepo-com.svg">Create Course';
+          echo '</button>';
+        }
+      }
+    if (isset($_POST['submit'])) {
+        if (!empty($_POST['dateN']) && !empty($_POST['receiverN'])  && !empty($_FILES['file'])) {
+          $d = $_POST['dateN'];
+          $rec = $_POST['receiverN'];
+          $desc = $_POST['descriptionN'];
+          $file = $_FILES['file'];
+      
+          $days = calculateDaysDifference($d);
+          $dayquery = "SELECT days_difference FROM requestsetting";
+          $dayresult = mysqli_query($conn, $dayquery);
+          $dayrow = mysqli_fetch_array($dayresult);
+          $nb = $dayrow[0];
+      
+          if($days >= $nb){
+      
+            $fileName = $file['name'];
+            $fileTmpName = $_FILES['file']['tmp_name'];
+      
+            // Read file data
+            $fileData = file_get_contents($fileTmpName);
+      
+            $sql = "INSERT INTO `requests` (`date_submitted`, `date_of_event`, `submitter`, `approver`, `description`, `name`,  `userId`, `data`) VALUES (SYSDATE(), ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = mysqli_prepare($conn, $sql);
+            
+            // Bind the parameters
+            mysqli_stmt_bind_param($stmt, 'sssssis', $d, $fullName, $rec, $desc, $fileName, $userID, $fileData);
+            
+            // Execute the statement
+            $result = mysqli_stmt_execute($stmt);
+            
+            if ($result) {
+      
+      
+              $qr4 = "SELECT max(request_id) FROM requests";
+              $res4 = mysqli_query($conn, $qr4);
+              $row4 = mysqli_fetch_array($res4);
+              $idd = $row4[0];
+      
+              $qr5 = "INSERT INTO `requeststatus`(`date`, `statusCode`, `request_id` , `userId` ) VALUES (SYSDATE() , '0' , '$idd' , $userID)";
+              $res5 = mysqli_query($conn, $qr5);
+      
+              if (!empty($_FILES['mediaFile']) || !empty($_POST['caption'])) {
+      
+                $cap = $_POST['caption'];
+                $mediaFile = $_FILES['mediaFile'];
+      
+                $fileN = $mediaFile['name'];
+                $fileTmpLocat = $mediaFile['tmp_name'];
+      
+                $fM = explode('.', $fileN);
+                $fileExtension = strtolower($fM[1]);
+      
+                $qr1 = "SELECT max(request_id) FROM requests";
+                $res1 = mysqli_query($conn, $qr1);
+                $row1 = mysqli_fetch_array($res1);
+                $id = $row1[0];
+      
+                $qr2 = "SELECT date_of_event FROM requests WHERE request_id=$id";
+                $res2 = mysqli_query($conn, $qr2);
+                $row2 = mysqli_fetch_array($res2);
+                $doe = $row2[0];
+      
+                $qr3 = "INSERT INTO `event`(`description`, `date_of_event`, `request_id`) VALUES ('$cap' , '$doe' , '$id')";
+                $res3 = mysqli_query($conn, $qr3);
+      
+                 if ($res3) {
+                  header("Location: process.html?");
+                  include("../Post/mail.php");
+           
+                } else {
+                      header("Location: request.php?error=An error occurred. res3!");
                     }
-                    elseif ($featureName === "view old ones") { // New elseif condition for 'view old ones'
-                      echo '<button onclick="window.location.href=\'../ScoutManagementSystem/old_members.php\'">';
-                      echo '<img src="../Icons/hourglass-svgrepo-com.svg">View Old Ones';
-                      echo '</button>';
-                  }
-                  elseif ($featureName === "create course") { // New elseif condition for 'view old ones'
-                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#course-section\'">';
-                    echo '<img src="../Icons/syllabus-svgrepo-com.svg">Create Course';
-                    echo '</button>';
-                }
+              }else{
+                header("Location: process.html?error=An error! result");
               }
+            } else {
+              header("Location: request.php?error error not supported!");
             }
+          }else {
+            $message = "Days difference is less than the required value $nb.";
+            echo "<p class='error-message'>$message</p>";
+            
           }
       
-        ?>
+        } else {
+          header("Location: request.php?error=All fields are required! big");
+        }
+      }
+    }
+    
+      
+      
+  }
+
+
+  
+?>
         <!-- Add other static buttons here -->
       
         <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
+        </button>
+        <button class="active" onclick="window.location.href='../Request/request.php'">
+            <img src="../Icons/git-pull-request-svgrepo-com.svg"> Requests
         </button>
         <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
@@ -140,98 +241,7 @@ function calculateDaysDifference($dddd) {
 }
 
 
-if (isset($_POST['submit'])) {
-  if (!empty($_POST['dateN']) && !empty($_POST['receiverN'])  && !empty($_FILES['file'])) {
-    $d = $_POST['dateN'];
-    $rec = $_POST['receiverN'];
-    $desc = $_POST['descriptionN'];
-    $file = $_FILES['file'];
 
-    $days = calculateDaysDifference($d);
-    $dayquery = "SELECT days_difference FROM requestsetting";
-    $dayresult = mysqli_query($conn, $dayquery);
-    $dayrow = mysqli_fetch_array($dayresult);
-    $nb = $dayrow[0];
-
-    if($days >= $nb){
-
-      $fileName = $file['name'];
-      $fileTmpName = $_FILES['file']['tmp_name'];
-
-      // Read file data
-      $fileData = file_get_contents($fileTmpName);
-
-      $f = explode('.', $fileName);
-      $fileExt = strtolower($f[1]);
-
-      $sql = "INSERT INTO `requests` (`date_submitted`, `date_of_event`, `approver`, `description`, `name`, `data`) VALUES (SYSDATE(), ?, ?, ?, ?, ?)";
-      $stmt = mysqli_prepare($conn, $sql);
-      
-      // Bind the parameters
-      mysqli_stmt_bind_param($stmt, 'sssss', $d, $rec, $desc, $fileName, $fileData);
-      
-      // Execute the statement
-      $result = mysqli_stmt_execute($stmt);
-      
-      if ($result) {
-
-
-        $qr4 = "SELECT max(request_id) FROM requests";
-        $res4 = mysqli_query($conn, $qr4);
-        $row4 = mysqli_fetch_array($res4);
-        $idd = $row4[0];
-
-        $qr5 = "INSERT INTO `requeststatus`(`date`, `statusCode`, `request_id` , `userId` ) VALUES (SYSDATE() , '0' , '$idd' , '15')";
-        $res5 = mysqli_query($conn, $qr5);
-
-        if (!empty($_FILES['mediaFile']) || !empty($_POST['caption'])) {
-
-          $cap = $_POST['caption'];
-          $mediaFile = $_FILES['mediaFile'];
-
-          $fileN = $mediaFile['name'];
-          $fileTmpLocat = $mediaFile['tmp_name'];
-
-          $fM = explode('.', $fileN);
-          $fileExtension = strtolower($fM[1]);
-
-          $qr1 = "SELECT max(request_id) FROM requests";
-          $res1 = mysqli_query($conn, $qr1);
-          $row1 = mysqli_fetch_array($res1);
-          $id = $row1[0];
-
-          $qr2 = "SELECT date_of_event FROM requests WHERE request_id=$id";
-          $res2 = mysqli_query($conn, $qr2);
-          $row2 = mysqli_fetch_array($res2);
-          $doe = $row2[0];
-
-          $qr3 = "INSERT INTO `event`(`description`, `date_of_event`, `request_id`) VALUES ('$cap' , '$doe' , '$id')";
-          $res3 = mysqli_query($conn, $qr3);
-
-           if ($res3) {
-            header("Location: process.html?");
-            include("../Post/mail.php");
-     
-          } else {
-                header("Location: request.php?error=An error occurred. res3!");
-              }
-        }else{
-          header("Location: process.html?error=An error! result");
-        }
-      } else {
-        header("Location: request.php?error error not supported!");
-      }
-    }else {
-      $message = "Days difference is less than the required value $nb.";
-      echo "<p class='error-message'>$message</p>";
-      
-    }
-
-  } else {
-    header("Location: request.php?error=All fields are required! big");
-  }
-
-}
 ?>
 
 
@@ -297,8 +307,8 @@ if (isset($_POST['submit'])) {
 
               <td><label for="user">Receiver:</label></td>
               <td><select name="receiverN" id="receiver">
-              <option value="Mofawad 3am">General Commissioner (مفوض عام)</option>
-              <option value="Ra2is">General Commissioner & General Commander (مفوض عام و رئيس)</option>
+              <option value="General Commissioner (مفوض عام)">General Commissioner (مفوض عام)</option>
+              <option value="General Commissioner and General Commander (مفوض عام و رئيس)">General Commissioner and General Commander (مفوض عام و رئيس)</option>
               </select></td>
             </tr>
             <tr>

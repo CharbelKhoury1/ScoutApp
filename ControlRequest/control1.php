@@ -81,7 +81,7 @@ mysqli_close($conn);
           <td> <?php echo $row['request_id']  ?> </td>
         </tr>
         <tr><td><label>Sender:</label></td>
-          <td> <?php echo $row['sender']  ?> </td>
+          <td> <?php echo $row['submitter']  ?> </td>
         </tr>
         <tr><td><label>Description:</label></td>
           <td> <?php echo $row['description']  ?> </td>

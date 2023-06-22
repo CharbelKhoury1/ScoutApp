@@ -43,7 +43,7 @@ $value = $row[0];
     </div>
     <div class="links">
 
-          <button class="active" onclick="window.location.href='../Home/Home.php'">
+          <button class="" onclick="window.location.href='../Home/Home.php'">
               <img src="../Icons/home-alt-svgrepo-com.svg">Home
           </button>
           <?php
@@ -115,6 +115,9 @@ $value = $row[0];
           <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
         </button>
+        <button class="active" onclick="window.location.href='../ScoutManagementSystem/changeDays.php'">
+              <img src="../Icons/history-svgrepo-com.svg">Change Required Days
+          </button>
         <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
         </button>
@@ -128,8 +131,9 @@ $value = $row[0];
             <table style="margin-top: 20px;" class="input-table">
                 <tr>
                     <div id="message"></div>
-                    <td style="display: block;">The current days difference is set to <?php echo $value; ?></td>
-                    <td><label for="days">Change Days Difference:</label></td>
+                    <h2>Change Required Days</h2>
+                    <td><b>The current required days is set to <?php echo $value; ?></b></td>
+                    <td><label for="days">Change Days Required:</label></td>
                     <td><input type="number" name="quantity" required></td>
                 </tr>
             </table>
