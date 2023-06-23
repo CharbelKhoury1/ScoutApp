@@ -20,7 +20,7 @@ if (isset($_SESSION["error_message"])) {
 </head>
 <body>
     <h1>INCOMES IN LBP</h1>
-    <form action="../controllers/incomesController.php" method="POST" onsubmit="return validateForm()">
+    <form action="../controllers/incomesController.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
         <table>
             <thead>
                 <tr>

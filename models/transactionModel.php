@@ -99,12 +99,13 @@ function getUserUnit($userId) {
   return $unitId;
 }
 
-function insertTransaction($description, $amount, $unitId, $currencyCode, $typeCode) {
+function insertTransaction($description, $amount, $unitId, $currencyCode, $typeCode, $attachment) {
   $con = connection();
   $date = date("Y-m-d");
-  $insertQRY = 'INSERT INTO transaction (transaction_amount, transaction_description, Date, currencyCode, typeCode, unitId) VALUES(?,?,?,?,?,?)';
+  $content = file_get_contents($attachment);
+  $insertQRY = 'INSERT INTO transaction (transaction_amount, transaction_description, `Date`, `attachment`, currencyCode, typeCode, unitId) VALUES(?,?,?,?,?,?,?)';
   $insertStatement = mysqli_prepare($con, $insertQRY);
-  mysqli_stmt_bind_param($insertStatement, "dssiii", $amount, $description, $date, $currencyCode, $typeCode, $unitId);
+  mysqli_stmt_bind_param($insertStatement, "dsssiii", $amount, $description, $date, $content, $currencyCode, $typeCode, $unitId);
   $success = mysqli_stmt_execute($insertStatement);
   mysqli_close($con);
   return $success;
