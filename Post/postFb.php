@@ -1,29 +1,29 @@
 <?php
 
 function checkInternetConnection()
-    {
-      $connected = @fsockopen("www.facebook.com", 80);
-      if ($connected) {
-        fclose($connected);
-        return true; // Internet connection established
-      } else {
-        return false; // No internet connection
-      }
-    }
+{
+  $connected = @fsockopen("www.facebook.com", 80);
+  if ($connected) {
+    fclose($connected);
+    return true; // Internet connection established
+  } else {
+    return false; // No internet connection
+  }
+}
 
-    if (checkInternetConnection()) {
-      require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
-      $app_id = '1250484182494643';
-      $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
-      $access_token = 'EAARxTwlZBrbMBAHiFFgkZCy8bNvsIOBbXPu5OWZALWCijc4ALB5vZBXj9rN9M81zBBqR0ZC0gZAdkoGl9WyF1TGxxQCUNi5wxQrzVT81ZCAHPVXviqcq91NQSWZBVtocET4RDaix8L538YGLE0h6a6UtIF0HUwejIkIFe6vqZB5CdLBmoWtd0XGRQ';
+if (checkInternetConnection()) {
+  require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
+  $app_id = '1250484182494643';
+  $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
+  $access_token = 'EAARxTwlZBrbMBAOLCLMZB94XtagZA9kOOUX5y3lgUQcitYUICSsEFaWAKrCW3itLCNLyuzDZB50ZBPOrVldeZA3ltZAuZCAcUTJqkyzJWCwDNec4xRMK9hd2F22Rx5ppWFTOl6ZBXpaLgBYu6ZCSRV0YNaClqq8pU7TroxW9C6IkRiGhQ0XLWuCxxY1nCf8noU3GU3hdST0qwyiwZDZD';
 
-      $fb = new Facebook\Facebook([
-        'app_id' => $app_id,
-        'app_secret' => $app_secret,
-        'default_graph_version' => 'v17.0',
-      ]);
+  $fb = new Facebook\Facebook([
+    'app_id' => $app_id,
+    'app_secret' => $app_secret,
+    'default_graph_version' => 'v17.0',
+  ]);
 
-      $fb->setDefaultAccessToken($access_token);
+  $fb->setDefaultAccessToken($access_token);
       
 
       try {
