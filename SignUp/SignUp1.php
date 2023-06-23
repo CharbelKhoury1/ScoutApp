@@ -88,7 +88,7 @@ if (isset($_GET['code']) && isset($_GET['password'])) {
       <input type="text" id="job" name="job">
 
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="email">
 
       <label for="medicalcondition">Medical Condition:</label>
       <input type="text" id="medicalcondition" name="medical_condition">

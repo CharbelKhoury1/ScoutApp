@@ -85,10 +85,20 @@ $con=connection();
                         echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
                         echo '</button>';
                     }
+                      elseif ($featureName === "view old ones") { // New elseif condition for 'view old ones'
+                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/old_members.php\'">';
+                    echo '<img src="../Icons/hourglass-svgrepo-com.svg">View Old Ones';
+                    echo '</button>';
+                    }
+                elseif ($featureName === "create course") { 
+                  echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#course-section\'">';
+                  echo '<img src="../Icons/syllabus-svgrepo-com.svg">Create Course';
+                  echo '</button>';
+                  }
                 }
+              }
             }
-          }
-      
+          
         ?>
         <!-- Add other static buttons here -->
         <button class="" onclick="scrollToSection('Scout-gallery')">
@@ -189,7 +199,7 @@ $con=connection();
 <div class="container">
 <div class="container1">
   <img src="../Pictures/ScoutPic2.jpg" alt="">
-  <h2>Values and Principles of Scouts and Guides National Orthodox</h2>
+  <h2><?php print_r($_SESSION); ?> Values and Principles of Scouts and Guides National Orthodox</h2>
   <p>Explore the core values and principles that guide the Scout et Guide National Orthodoxe (SNO) community. 
     Discover how SNO programs instill Orthodox Christian values such as faith, compassion,
      integrity, and service. Learn about the emphasis on personal and spiritual development, fostering a sense of morality, and promoting virtues that shape the character of SNO members.
