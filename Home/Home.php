@@ -3,6 +3,7 @@ session_start();
 
 include ("../common.inc.php");
 include ("../utility.php");
+
 $con=connection();
 ?>
 
@@ -84,20 +85,20 @@ $con=connection();
                         echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
                         echo '</button>';
                     }
-                    elseif ($featureName === "view old ones") { // New elseif condition for 'view old ones'
-                      echo '<button onclick="window.location.href=\'../ScoutManagementSystem/old_members.php\'">';
-                      echo '<img src="../Icons/hourglass-svgrepo-com.svg">View Old Ones';
-                      echo '</button>';
-                  }
-                  elseif ($featureName === "create course") { // New elseif condition for 'view old ones'
-                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#course-section\'">';
-                    echo '<img src="../Icons/syllabus-svgrepo-com.svg">Create Course';
+                      elseif ($featureName === "view old ones") { // New elseif condition for 'view old ones'
+                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/old_members.php\'">';
+                    echo '<img src="../Icons/hourglass-svgrepo-com.svg">View Old Ones';
                     echo '</button>';
+                    }
+                elseif ($featureName === "create course") { 
+                  echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#course-section\'">';
+                  echo '<img src="../Icons/syllabus-svgrepo-com.svg">Create Course';
+                  echo '</button>';
+                  }
                 }
               }
             }
-          }
-      
+          
         ?>
         <!-- Add other static buttons here -->
         <button class="" onclick="scrollToSection('Scout-gallery')">
@@ -142,18 +143,29 @@ $con=connection();
             <img class="bell" src="../Icons/bell-svgrepo-com.svg" alt="bell" onclick="window.location.href='../ControlRequest/controlRequest.php'">
         <?php endif; ?>
 
-        <img class="profile-image" src="../Pictures/ScoutsLogo.gif" alt="scoutslogo" onclick="window.location.href='../controllers/profileController.php'">
-    <?php else: ?>
+        <!-- Profile photo -->
+
+        <?php 
+        require_once("../controllers/homeProfile.php");
+        ?>
+        <?php if (!empty($userProfilePhoto)) : ?>
+              <img id="profile-photo" src="<?php echo $userProfilePhoto; ?>" alt="Profile Photo" onclick="window.location.href='../controllers/profileController.php'">
+        <?php else : ?>
+              <img class="profile-image" src="../Pictures/ScoutsLogo.gif" alt="scoutslogo" onclick="window.location.href='../controllers/profileController.php'">
+        <?php endif; ?>
+        <!-- end-->
+    
+        <?php else: ?>
         <!-- User is not logged in, show login button -->
         <div class="login-btn">
             <button onclick="window.location.href='../Login/Login.php'">Login</button>
         </div>
     <?php endif; ?>
 </div>
-
           <div class="hero">
         <img src="../Pictures/WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">
       </div>
+      
 
 <!-- sliders part -->
 <section class="slider">
@@ -187,7 +199,7 @@ $con=connection();
 <div class="container">
 <div class="container1">
   <img src="../Pictures/ScoutPic2.jpg" alt="">
-  <h2>Values and Principles of Scouts and Guides National Orthodox</h2>
+  <h2><?php print_r($_SESSION); ?> Values and Principles of Scouts and Guides National Orthodox</h2>
   <p>Explore the core values and principles that guide the Scout et Guide National Orthodoxe (SNO) community. 
     Discover how SNO programs instill Orthodox Christian values such as faith, compassion,
      integrity, and service. Learn about the emphasis on personal and spiritual development, fostering a sense of morality, and promoting virtues that shape the character of SNO members.

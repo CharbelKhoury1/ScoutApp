@@ -10,8 +10,9 @@ function handleFormSubmit(event) {
     const currencyCode = formData.get('currency-code');
     const typeCode = formData.get('type-code');
     const unitSelect = document.getElementById('unitSelect');
+    
 
-    // Validate if unit is selected and currency is chosen
+    // Validate if unit is selected and currency is chosenl
     const typeError = document.getElementById('type-error');
     const currencyError = document.getElementById('currency-error');
 
@@ -40,6 +41,7 @@ function handleFormSubmit(event) {
     })
         .then(response => response.json())
         .then(data => {
+            console.log('Data:', data);
             // Update the current data with the new response
             currentData = data;
 

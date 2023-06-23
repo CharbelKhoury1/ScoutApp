@@ -1,16 +1,10 @@
-<?php
-require_once __DIR__ . '/vendor/autoload.php';
-
-use PhpOffice\PhpSpreadsheet\IOFactory;
-
-function connection()
-{
-    $conn = mysqli_connect("127.0.0.1", "root", "", "scoutproject") or die("Failed to connect to database: " . mysqli_error($conn));
+<?php 
+function connection(){
+    $conn = mysqli_connect("127.0.0.1","root","","scoutproject") or die("Failed to connect to database: " . mysqli_error($conn));
     return $conn;
 }
 
-function insertTransaction($description, $amount, $unitId, $currencyCode, $typeCode, $attachment)
-{
+function insertTransaction($description, $amount, $unitId, $currencyCode, $typeCode, $attachment) {
     $con = connection();
     $date = date("Y-m-d");
     $content = file_get_contents($attachment);
@@ -22,6 +16,7 @@ function insertTransaction($description, $amount, $unitId, $currencyCode, $typeC
     return $success;
 }
 
+
 $con = connection();
 $query = "SELECT * FROM `transaction`";
 $result = mysqli_query($con, $query);
@@ -31,16 +26,43 @@ if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $fileData = $row['attachment'];
 
-    // Set appropriate headers for PDF download
+    // Set appropriate headers for PDF display
     header('Content-Type: application/pdf');
-    header('Content-Disposition: attachment; filename="transaction_attachment.pdf"');
+    header('Content-Disposition: inline;');
     header('Content-Length: ' . strlen($fileData));
 
     // Output the PDF data
+    ob_clean();
+    flush();
     echo $fileData;
     exit();
+  
+    
 }
 
+
+    
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF File Upload</title>
+</head>
+<body>
+    <h1>PDF File Upload</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <input type="file" name="fileUpload" accept="application/pdf">
+        <button type="submit">Upload</button>
+    </form>
+
+    
+    
+</body>
+</html>
+
+<?php 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_FILES["fileUpload"]) && $_FILES["fileUpload"]["error"] === UPLOAD_ERR_OK) {
         $attachment = $_FILES["fileUpload"]["tmp_name"];
@@ -56,22 +78,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>PDF File Upload</title>
-</head>
-
-<body>
-    <h1>PDF File Upload</h1>
-    <form action="" method="POST" enctype="multipart/form-data">
-        <input type="file" name="fileUpload" accept="application/pdf">
-        <button type="submit">Upload</button>
-    </form>
-</body>
-
-</html>
-
 

@@ -1,5 +1,6 @@
 <?php include("../sideBar/sideBar.php");?>
 <?php
+
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 } else {
@@ -7,7 +8,10 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 require('../models/transactionModel.php');
+
 $hasPermission = hasTransactionPermission($userId);
+
+
 ?>
 
 <!DOCTYPE html>

@@ -49,9 +49,9 @@
             <input id="file-upload" type="file" name="profilePhoto" accept="image/*" onchange="handleFileSelect(event);">
                 <div class="profile-photo" onclick="openFileSelect()">
                     <?php if (!empty($userProfilePhoto)) : ?>
-                        <img id="profile-photo" src="<?php echo $userProfilePhoto; ?>" alt="Profile Photo" style="height: 150px; width: 150px;">
+                        <img id="profile-photo" src="<?php echo $userProfilePhoto; ?>" alt="Profile Photo" style="height: 150px; width: 150px; border-radius: 50%;">
                     <?php else : ?>
-                        <img id="profile-photo" src="..\views\images\profile.png"  style="height: 150px; width: 150px;">
+                        <img id="profile-photo" src="..\views\images\profile.png"  style="height: 150px; width: 150px; border-radius: 50%;">
                     <?php endif; ?>
                     <div class="change-profile-note">Click on the photo to <br>change it</div>
                 </div>

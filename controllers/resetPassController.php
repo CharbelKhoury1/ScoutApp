@@ -2,12 +2,13 @@
 <?php
 include("../models/resetPassModel.php");
 include("mail.php");
-if (isset($_SESSION['username'])){
-	$uname = SecureData($_SESSION['username']);
+if (isset($_COOKIE['username'])){
+	$uname = SecureData($_COOKIE['username']);
 }else{
-	header("location:../Home/Home.php");
+	header("../Home/Home.php");
 	exit();
 }
+
 if(!empty($_POST['password']) and !empty($_POST['confirmPassword'])){
 	//$uname = SecureData($_POST['username']);
 	$pass = SecureData($_POST['password']);

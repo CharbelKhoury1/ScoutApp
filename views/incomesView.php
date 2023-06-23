@@ -20,13 +20,14 @@ if (isset($_SESSION["error_message"])) {
 </head>
 <body>
     <h1>INCOMES IN LBP</h1>
-    <form action="../controllers/incomesController.php" method="POST" onsubmit="return validateForm()">
+    <form action="../controllers/incomesController.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
         <table>
             <thead>
                 <tr>
                     <th class="empty-cell"></th>
                     <th>Description</th>
                     <th>LBP</th>
+                    <th>Attachment</th>
                     <th><i class="fas fa-plus" onclick="addRow()"></i></th>
                 </tr>
             </thead>
@@ -35,8 +36,15 @@ if (isset($_SESSION["error_message"])) {
                     <td>1</td>
                     <td><input type="text" name="description[]" class="description-column"></td>
                     <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
+                    <td class="attachment-column">
+                        <label for="file-upload" class="file-upload-label">
+                            <input id="file-upload" class="file-input" type="file" accept="application/pdf" name="attachment[]">
+                            <i class="fas fa-cloud-upload-alt"></i> Choose File
+                        </label>
+                    </td>
+
                     <td>
-                        <i class="fa fa-times remove-icon" onclick="removeRow(this)"></i>
+                        <i class="fa fa-times remove-icon"></i>
                     </td>
                 </tr>
             </tbody>
@@ -44,7 +52,7 @@ if (isset($_SESSION["error_message"])) {
                 <tr>
                     <td colspan="2">Total</td>
                     <td id="total-lbp">-</td>
-                    <td style="padding: 0;">
+                    <td colspan="2" style="padding: 0;">
                         <button type="submit" class="submit-button" name="submitlbp">Submit</button>
                     </td>
                 </tr>

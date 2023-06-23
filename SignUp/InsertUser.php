@@ -259,8 +259,48 @@ if(isset($_POST['regiment'])) {
 
   }
 
-    header("Location: ../Home/Home.php");  
-}
+ 
+    // Retrieve the submitted data
+    // $courses = $_POST['course'];
+    // $locations = $_POST['location'];
+    // $startDates = $_POST['start-date'];
+    // $endDates = $_POST['end-date'];
+  
+    // // Prepare the SQL statement for inserting training history records
+    // $insertQuery = "INSERT INTO traininghistory (courseId, userId) VALUES ";
+  
+    // // Iterate over the submitted data and build the query
+    // for ($i = 0; $i < count($courses); $i++) {
+    //   // Escape the values to prevent SQL injection
+    //   $courseName = mysqli_real_escape_string($con, $courses[$i]);
+    //   // $location = mysqli_real_escape_string($con, $locations[$i]);
+    //   // $startDate = mysqli_real_escape_string($con, $startDates[$i]);
+    //   // $endDate = mysqli_real_escape_string($con, $endDates[$i]);
+  
+    //   // Retrieve the course ID from the 'trainingcourses' table based on the course name
+    //   $courseIDQuery = "SELECT course_id FROM trainingcourses WHERE name = '$courseName'";
+    //   $courseIDResult = mysqli_query($con, $courseIDQuery);
+    //   $courseIDRow = mysqli_fetch_assoc($courseIDResult);
+    //   $courseIDValue = $courseIDRow['course_id'];
+  
+    //   // Append the values to the insert query
+    //   $insertQuery .= "('$courseIDValue', '$userId'),";
+    // }
+  
+    // // Remove the trailing comma from the query
+    // $insertQuery = rtrim($insertQuery, ',');
+  
+    // // Execute the insert query
+    // $result = mysqli_query($con, $insertQuery);
+  
+    // if ($result) {
+    //   echo "Training history records inserted successfully.";
+    // } else {
+    //   echo "Error occurred during training history insertion.";
+    // }
+
+    header("Location: ../Home/Home.php");
+  }
     // Close the database connection
     mysqli_close($con);
     ?>

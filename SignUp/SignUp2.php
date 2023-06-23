@@ -343,7 +343,7 @@
 
 
         <label for="affiliationdate">Affiliation Date: (تاريخ الانتساب)</label>
-        <input type="date" id="affiliationdate" name="affiliationdate" required>
+        <input type="date" id="affiliationdate" name="affiliationdate">
 
         <label for="promisedate">Oath Date (تاريخ الوعد):</label>
         <input type="date" id="promisedate" name="oathdate">
@@ -358,83 +358,110 @@
         <input type="text" id="placeofthetitle" name="placeofthetitle">
         
         <!-- hle hyde barke mnaamol mtl section lahala bye2dar l moufawad aw hada martabe aalye enno yzid l courses bl database w se3eta byerjaa b na2e l chakhes shu l courses w hasab aya date kmn -->
-        <table id="myTable">
-          <caption>Training courses you participated In <br>(what is the course / time (from date to date) / place):</caption>
-          <thead>
-            <tr>
-              <th>Course Name</th>
-              <th>Location</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <select id="course" name="course">
-                  <option disabled selected value="">Select Course</option>
-                  <?php
-                  // Assuming you have a 'regiment' table with 'name' column
-                  $query = "SELECT DISTINCT name FROM trainingcourses";
-                  $result = mysqli_query($con, $query);
-                  if (!$result) {
-                    die('Query failed');
-                  }
+        <table id="myTable2">
+  <caption>Training courses you participated in<br>(course / time (from date to date) / place):</caption>
+  <thead>
+    <tr>
+      <th>Course Name</th>
+      <th>Location</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <select class="course" name="course[]">
+          <option disabled selected value="">Select Course</option>
+          <?php
+          // Assuming you have a 'trainingcourses' table with 'name' column
+          $query = "SELECT DISTINCT name FROM trainingcourses";
+          $result = mysqli_query($con, $query);
+          if (!$result) {
+            die('Query failed');
+          }
 
-                  while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
-                  }
-                  ?>
-                </select>
-              </td>
-              <td>
-                <select id="location" name="location"></select>
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script>
-              $(document).ready(function() {
-        $('#course').change(function() {
-          var selectedCourse = $(this).val();
-          var locationDropdown = $('#location');
-          
-          // Clear previous options
-          locationDropdown.empty();
+          while ($row = mysqli_fetch_assoc($result)) {
+            echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+          }
+          ?>
+        </select>
+      </td>
+      <td>
+        <select class="location" name="location[]"></select>
+      </td>
+      <td>
+        <input type="date" name="start-date[]">
+      </td>
+      <td>
+        <input type="date" name="end-date[]">
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<button type="button" id="addRowBtn2">+</button>
 
-          $.ajax({
-            url: 'retrieve_locations.php', // Replace with the actual PHP file retrieving units
-            method: 'POST',
-            data: { course: selectedCourse },
-            dataType: 'json',
-            success: function(response) {
-              $.each(response.locations, function(index, course) {
-                locationDropdown.append($('<option>', {
-                  value: location,
-                  text: location
-                }));
-              });
-            },
-            error: function() {
-              console.log('Error occurred during locations retrieval');
-            }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Function to retrieve locations based on the selected course
+    function retrieveLocations(courseDropdown) {
+      var selectedCourse = courseDropdown.val();
+      var locationDropdown = courseDropdown.closest('tr').find('.location');
+
+      // Clear previous options
+      locationDropdown.empty();
+
+      $.ajax({
+        url: 'retrieve_locations.php', // Replace with the actual PHP file retrieving locations
+        method: 'POST',
+        data: { course: selectedCourse },
+        dataType: 'json',
+        success: function(response) {
+          $.each(response.locations, function(index, location) {
+            locationDropdown.append($('<option>', {
+              value: location,
+              text: location
+            }));
           });
-        });
+        },
+        error: function() {
+          console.log('Error occurred during locations retrieval');
+        }
       });
+    }
 
-      </script>
-              </td>
-              <td>
-                <input type="date" name="start-date[0]">
-              </td>
-              <td>
-                <input type="date" name="end-date[0]">
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button id="addRowBtn">+</button>
-        
+    // Add row button functionality
+    $('#addRowBtn2').click(function() {
+      var lastRow = $('#myTable2 tbody tr:last');
+      var newRow = lastRow.clone();
+
+      // Clear the selected course and location values for the new row
+      newRow.find('.course').val('');
+      newRow.find('.location').empty();
+
+      // Add the new row to the table
+      newRow.find('td:last').html('<button class="removeRowBtn2">-</button>');
+      $('#myTable2 tbody').append(newRow);
+    });
+
+    // Remove row button functionality
+    $(document).on('click', '.removeRowBtn2', function() {
+      $(this).closest('tr').remove();
+    });
+
+    // Course dropdown change event
+    $(document).on('change', '.course', function() {
+      retrieveLocations($(this));
+    });
+
+    // Initial retrieval of locations for the first row
+    retrieveLocations($('.course'));
+  });
+</script>
         <input type="submit" name='SignUp2' value="Sign Up">  
       </form>
-    
     </div>
   </body>
   </html>

@@ -17,17 +17,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitlbp"])) {
         for ($i = 0; $i < $expenseCount; $i++) {
             $description = SecureData($_POST["description"][$i]);
             $lbpAmount = SecureData($_POST["lbp"][$i]);
-            insertTransaction($description, $lbpAmount, $unitId,$currencyCode,$typeCode);
+            $attachment = null;
+            if (!empty($_FILES["attachment"]["tmp_name"][$i]) && !empty($_FILES["attachment"]["name"][$i])) {
+                $attachmentName = $_FILES["attachment"]["name"][$i];
+                $attachment = $_FILES["attachment"]["tmp_name"][$i];  
+            }
+            insertTransaction($description, $usdAmount, $unitId, $currencyCode, $typeCode, $attachment);
         }
-        $_SESSION["success_message"] = "Income records inserted successfully in the database.";
+        $_SESSION["success_message"] = "Expenses records inserted successfully in the database.";
     
-        header("Location: ../views/incomesView.php");
+        header("Location: ../views/expensesView.php");
         exit();
     }
     else {
         $_SESSION["error_message"] = "You do not have permission to access this page. <br> Please click <a href='../Login/Login.php'>here</a> to login.";
 
-        header("Location: ../views/incomesView.php");
+        header("Location: ../views/expensesView.php");
         exit();
        
     }
@@ -43,16 +48,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitusd"])) {
         for ($i = 0; $i < $expenseCount; $i++) {
             $description = SecureData($_POST["description"][$i]);
             $usdAmount = SecureData($_POST["usd"][$i]);
-            insertTransaction($description, $usdAmount, $unitId,$currencyCode,$typeCode);  
+            $attachment = null;
+            if (!empty($_FILES["attachment"]["tmp_name"][$i]) && !empty($_FILES["attachment"]["name"][$i])) {
+                $attachmentName = $_FILES["attachment"]["name"][$i];
+                $attachment = $_FILES["attachment"]["tmp_name"][$i];  
+            }
+            insertTransaction($description, $usdAmount, $unitId, $currencyCode, $typeCode, $attachment); 
         }
-        $_SESSION["success_message"] = "Income records inserted successfully in the database.";
+        $_SESSION["success_message"] = "Expenses records inserted successfully in the database.";
     
-        header("Location: ../views/incomesView.php");
+        header("Location: ../views/expensesUSDView.php");
         exit();
     }else {
         $_SESSION["error_message"] = "You do not have permission to access this page. <br> Please click <a href='../Login/Login.php'>here</a> to login.";
 
-        header("Location: ../views/incomesView.php");
+        header("Location: ../views/expensesUSDView.php");
         exit();
         
     }
