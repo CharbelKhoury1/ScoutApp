@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
     $age = isset($_POST['age']) ? mysqli_real_escape_string($con, $_POST['age']) : "";
     $trainingCourses = isset($_POST['trainingcourses']) ? mysqli_real_escape_string($con, $_POST['trainingcourses']) : "";
     $scoutClass = isset($_POST['scoutclass']) ? mysqli_real_escape_string($con, $_POST['scoutclass']) : "";
+    $oldOnes = isset($_POST['oldones-checkbox']) ? mysqli_real_escape_string($con, $_POST['oldones-checkbox']) : "";
 
     // Construct the WHERE clause based on the available search criteria
     if (!empty($fname)) {
@@ -123,6 +124,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
       $sql .= $whereClause;
     }
 
+    // Add the condition for the 'active' field based on the 'Old Ones' checkbox
+    if (!empty($oldOnes) && $oldOnes === 'on') {
+      $sql .= " AND u.active = 0";
+    } else {
+      $sql .= " AND u.active = 1";
+    }
   }
 }
 

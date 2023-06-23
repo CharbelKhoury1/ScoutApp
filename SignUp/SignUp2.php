@@ -1,7 +1,9 @@
   <?php
+  session_start();
+
     // Assuming you are using PHP to retrieve data from the database
         // Replace 'your_database_name' with the actual name of your database
-        include ("../common.inc.php");
+        // include ("../common.inc.php");
         include ("../utility.php");
         $con=connection();
 
@@ -25,20 +27,20 @@
 
         <label for="scoutrank">Scout rank (الرتبة الكشفية):</label>
         <select id="scoutrank" name="scoutrankpresent">
-          <option value="General Commander">General Commander</option>
-          <option value="General Leadership Member">General Leadership Member</option>
-          <option value="General Commisionner">General Commisionner</option>
+          <option value="Generalcommander">General Commander</option>
+          <option value="Generalleadershipmember">General Leadership Member</option>
+          <option value="Generalcommisionner">General Commisionner</option>
           <option value="Commissioner">Commissioner</option>
           <option value="Leader">Leader</option>
           <option value="Rover">Rover</option>
           <option value="Ranger">Ranger</option>
           <option value="Scout">Scout</option>
-          <option value="Girl Guide">Girl Guide</option>
+          <option value="Girlguide">Girl Guide</option>
           <option value="Cub">Cub</option>
           <option value="Browny">Browny</option>
           <option value="Beaver">Beaver</option>
           <option value="Daisy">Daisy</option>
-          <option value="Financial Custodian">Financial Custodian</option>
+          <option value="Financialcustodian">Financial Custodian</option>
           <option value="Secretary">Secretary</option>
         </select>
 
@@ -355,8 +357,80 @@
         <label for="placeofthetitle">Place of the title:</label>
         <input type="text" id="placeofthetitle" name="placeofthetitle">
         
-        <label for="trainingcourses">Training courses he participated in (what is the course / time (from date to date) / place):</label>    <!-- hle hyde barke mnaamol mtl section lahala bye2dar l moufawad aw hada martabe aalye enno yzid l courses bl database w se3eta byerjaa b na2e l chakhes shu l courses w hasab aya date kmn -->
-        <textarea id="trainingcourses" name="trainingcourses" rows="10"></textarea>
+        <!-- hle hyde barke mnaamol mtl section lahala bye2dar l moufawad aw hada martabe aalye enno yzid l courses bl database w se3eta byerjaa b na2e l chakhes shu l courses w hasab aya date kmn -->
+        <table id="myTable">
+          <caption>Training courses you participated In <br>(what is the course / time (from date to date) / place):</caption>
+          <thead>
+            <tr>
+              <th>Course Name</th>
+              <th>Location</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <select id="course" name="course">
+                  <option disabled selected value="">Select Course</option>
+                  <?php
+                  // Assuming you have a 'regiment' table with 'name' column
+                  $query = "SELECT DISTINCT name FROM trainingcourses";
+                  $result = mysqli_query($con, $query);
+                  if (!$result) {
+                    die('Query failed');
+                  }
+
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>";
+                  }
+                  ?>
+                </select>
+              </td>
+              <td>
+                <select id="location" name="location"></select>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+              $(document).ready(function() {
+        $('#course').change(function() {
+          var selectedCourse = $(this).val();
+          var locationDropdown = $('#location');
+          
+          // Clear previous options
+          locationDropdown.empty();
+
+          $.ajax({
+            url: 'retrieve_locations.php', // Replace with the actual PHP file retrieving units
+            method: 'POST',
+            data: { course: selectedCourse },
+            dataType: 'json',
+            success: function(response) {
+              $.each(response.locations, function(index, course) {
+                locationDropdown.append($('<option>', {
+                  value: location,
+                  text: location
+                }));
+              });
+            },
+            error: function() {
+              console.log('Error occurred during locations retrieval');
+            }
+          });
+        });
+      });
+
+      </script>
+              </td>
+              <td>
+                <input type="date" name="start-date[0]">
+              </td>
+              <td>
+                <input type="date" name="end-date[0]">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button id="addRowBtn">+</button>
         
         <input type="submit" name='SignUp2' value="Sign Up">  
       </form>

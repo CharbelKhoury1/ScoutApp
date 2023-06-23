@@ -152,13 +152,13 @@ while ($row6 = mysqli_fetch_array($res6)) {
 if (!empty($ids)) {
     $idList = implode(',', $ids);
 
-    $qr7 = "SELECT request_id, name, approver FROM requests WHERE request_id IN ($idList)";
+    $qr7 = "SELECT request_id, name, submitter FROM requests WHERE request_id IN ($idList)";
     $res7 = mysqli_query($conn, $qr7);
 
     if ($res7 && mysqli_num_rows($res7) > 0) {
         while ($row7 = mysqli_fetch_assoc($res7)) {
             $name = $row7['request_id'];
-            $lastUpdated = $row7['approver'];
+            $lastUpdated = $row7['submitter'];
             $link = $row7['name'];
             
             // Output the data for each record
