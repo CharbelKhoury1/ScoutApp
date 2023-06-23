@@ -31,7 +31,7 @@ if (isset($_SESSION['user_id'])) {
       <tbody id="table-body">
         <tr>
           <td>1</td>
-          <td><input type="text" name="description[]" class="description-column"></td>
+          <td><input type="text" name="description[]" class="description-column" ></td>
           <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
           <td>
             <i class="fa fa-times remove-icon"></i>

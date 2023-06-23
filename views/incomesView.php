@@ -27,6 +27,7 @@ if (isset($_SESSION["error_message"])) {
                     <th class="empty-cell"></th>
                     <th>Description</th>
                     <th>LBP</th>
+                    <th>Attachment</th>
                     <th><i class="fas fa-plus" onclick="addRow()"></i></th>
                 </tr>
             </thead>
@@ -35,8 +36,11 @@ if (isset($_SESSION["error_message"])) {
                     <td>1</td>
                     <td><input type="text" name="description[]" class="description-column"></td>
                     <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
+                    <td class="attachment-column">
+                        <input type="file" name="pdf_file" accept="application/pdf">
+                    </td>
                     <td>
-                        <i class="fa fa-times remove-icon" onclick="removeRow(this)"></i>
+                        <i class="fa fa-times remove-icon"></i>
                     </td>
                 </tr>
             </tbody>
@@ -44,7 +48,7 @@ if (isset($_SESSION["error_message"])) {
                 <tr>
                     <td colspan="2">Total</td>
                     <td id="total-lbp">-</td>
-                    <td style="padding: 0;">
+                    <td colspan="2" style="padding: 0;">
                         <button type="submit" class="submit-button" name="submitlbp">Submit</button>
                     </td>
                 </tr>

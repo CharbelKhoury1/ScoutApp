@@ -39,6 +39,16 @@ function addRow() {
   lbpCell.appendChild(lbpInput);
   newRow.appendChild(lbpCell);
 
+  const attachmentCell = document.createElement("td");
+  attachmentCell.className = "attachment-column";
+  const attachmentInput = document.createElement("input");
+  attachmentInput.type = "file";
+  attachmentInput.name = "pdf_file[]";
+  attachmentInput.accept = "application/pdf";
+  attachmentInput.style.border = "none";
+  attachmentCell.appendChild(attachmentInput);
+  newRow.appendChild(attachmentCell);
+
   const removeCell = document.createElement("td");
   const removeIcon = document.createElement("i");
   removeIcon.className = "fas fa-times remove-icon";

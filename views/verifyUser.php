@@ -39,7 +39,7 @@
 		<?php endif; ?>
 		<?php if (!empty($successMsg)): ?>
 			<div class="success-message"><?php echo $successMsg; ?></div>
-			<meta http-equiv="refresh" content="5;url=../Login/Login.php">
+			<meta http-equiv="refresh" content="5;url=../Login/Login.php">      
 		<?php endif; ?>
 	</div>	
 </body>

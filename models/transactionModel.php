@@ -61,7 +61,7 @@ function getUserUnit($userId) {
                       WHERE ur.userId = ? 
                       AND r.rank_id = rf.rankid
                       AND rf.featureid = 1
-                      AND (ur.end_date IS NULL OR ur.end_date >= CURDATE())";
+                      AND (ur.end_date IS NULL OR ur.end_date = '0000-00-00' OR ur.end_date >= CURDATE())";
                       
   $selectUnitIdStatement = mysqli_prepare($con, $selectUnitIdQry);
   if (!$selectUnitIdStatement) {

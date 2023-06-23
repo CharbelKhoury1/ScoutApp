@@ -3,6 +3,7 @@ session_start();
 
 include ("../common.inc.php");
 include ("../utility.php");
+
 $con=connection();
 ?>
 
@@ -83,7 +84,16 @@ $con=connection();
                         echo '<button onclick="window.location.href=\'../ScoutManagementSystem/changeDays.php\'">';
                         echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
                         echo '</button>';
-                    }
+                    }elseif ($featureName === "view old ones") { // New elseif condition for 'view old ones'
+                      echo '<button onclick="window.location.href=\'../ScoutManagementSystem/old_members.php\'">';
+                      echo '<img src="../Icons/hourglass-svgrepo-com.svg">View Old Ones';
+                      echo '</button>';
+                  }
+                  elseif ($featureName === "create course") { // New elseif condition for 'view old ones'
+                    echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#course-section\'">';
+                    echo '<img src="../Icons/syllabus-svgrepo-com.svg">Create Course';
+                    echo '</button>';
+                }
                 }
             }
         }
@@ -127,22 +137,33 @@ $con=connection();
         }
         ?>
 
-        <?php if ($userRank == 'General Commander' || $userRank == 'General Commissioner'): ?>
+        <?php if ($userRank == 'Generalcommander' || $userRank == 'Generalcommissioner'): ?>
             <img class="bell" src="../Icons/bell-svgrepo-com.svg" alt="bell" onclick="window.location.href='../ControlRequest/controlRequest.php'">
         <?php endif; ?>
 
-        <img class="profile-image" src="../Pictures/ScoutsLogo.gif" alt="scoutslogo" onclick="window.location.href='../controllers/profileController.php'">
-    <?php else: ?>
+        <!-- Profile photo -->
+
+        <?php 
+        require_once("../controllers/homeProfile.php");
+        ?>
+        <?php if (!empty($userProfilePhoto)) : ?>
+              <img id="profile-photo" src="<?php echo $userProfilePhoto; ?>" alt="Profile Photo" onclick="window.location.href='../controllers/profileController.php'">
+        <?php else : ?>
+              <img class="profile-image" src="../Pictures/ScoutsLogo.gif" alt="scoutslogo" onclick="window.location.href='../controllers/profileController.php'">
+        <?php endif; ?>
+        <!-- end-->
+    
+        <?php else: ?>
         <!-- User is not logged in, show login button -->
         <div class="login-btn">
             <button onclick="window.location.href='../Login/Login.php'">Login</button>
         </div>
     <?php endif; ?>
 </div>
-
           <div class="hero">
         <img src="../Pictures/WhatsApp Image 2023-05-10 at 4.32.21 PM.jpeg" alt="scout pic">
       </div>
+      
 
 <!-- sliders part -->
 <section class="slider">

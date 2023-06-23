@@ -65,7 +65,7 @@ function showTransaction($unitID, $currencyCode, $typeCode) {
         return false;
     }
 
-    $QRY = "SELECT `transaction_amount`, `transaction_description`, `Date` FROM `transaction` WHERE unitID = ? AND currencyCode = ? AND typeCode = ? ORDER BY `Date`";
+    $QRY = "SELECT `transaction_id`, `transaction_amount`, `transaction_description`, `Date` FROM `transaction` WHERE unitID = ? AND currencyCode = ? AND typeCode = ? ORDER BY `Date`";
     $stmt = mysqli_prepare($con, $QRY);
     if (!$stmt) {
         logError("Failed to prepare SQL statement: " . mysqli_error($con));
@@ -100,16 +100,14 @@ function showTransaction($unitID, $currencyCode, $typeCode) {
     return $dataRecords;
     
 }
-
-
-function showTransaction_byDate($unitID, $currencyCode, $typeCode, $date) {
+function showTransactionByID($transactionId) {
     $con = connection();
     if (!$con) {
         logError("Failed to connect to the database.");
         return false;
     }
 
-    $QRY = "SELECT `transaction_amount`, `transaction_description`, `Date` FROM `transaction` WHERE unitID = ? AND currencyCode = ? AND typeCode = ? AND `Date`= ?";
+    $QRY = "SELECT  `transaction_amount`, `transaction_description`, `Date` FROM `transaction` WHERE transaction_id = ?";
     $stmt = mysqli_prepare($con, $QRY);
     if (!$stmt) {
         logError("Failed to prepare SQL statement: " . mysqli_error($con));
@@ -117,7 +115,7 @@ function showTransaction_byDate($unitID, $currencyCode, $typeCode, $date) {
         return false;
     }
 
-    mysqli_stmt_bind_param($stmt, "iiis", $unitID, $currencyCode, $typeCode, $date);
+    mysqli_stmt_bind_param($stmt, "i", $transactionId);
     if (!mysqli_stmt_execute($stmt)) {
         logError("Failed to execute SQL statement: " . mysqli_stmt_error($stmt));
         mysqli_stmt_close($stmt);
@@ -142,51 +140,98 @@ function showTransaction_byDate($unitID, $currencyCode, $typeCode, $date) {
     mysqli_close($con);
 
     return $dataRecords;
+    
 }
 
-function getDates($unitID, $currencyCode, $typeCode){
+function updateTransaction($transactionId, $newAmount, $newDescription, $newDate) {
     $con = connection();
     if (!$con) {
         logError("Failed to connect to the database.");
         return false;
     }
 
-    $query = "SELECT DISTINCT `Date` FROM `transaction` WHERE unitID = ? AND currencyCode = ? AND typeCode = ? ORDER BY `Date` DESC";
-    $statement = mysqli_prepare($con, $query);
-    if (!$statement) {
-        logError("Failed to prepare SQL statement: " . mysqli_error($con));
+    // Check if the transaction exists
+    $checkQuery = "SELECT 1 FROM `transaction` WHERE transaction_id = ?";
+    $checkStmt = mysqli_prepare($con, $checkQuery);
+    mysqli_stmt_bind_param($checkStmt, "i", $transactionId);
+    if (!mysqli_stmt_execute($checkStmt)) {
+        logError("Failed to execute SQL statement: " . mysqli_stmt_error($checkStmt));
+        mysqli_stmt_close($checkStmt);
         mysqli_close($con);
         return false;
     }
 
-    mysqli_stmt_bind_param($statement, "iii", $unitID, $currencyCode, $typeCode);
-    if (!mysqli_stmt_execute($statement)) {
-        logError("Failed to execute SQL statement: " . mysqli_stmt_error($statement));
-        mysqli_stmt_close($statement);
+    $result = mysqli_stmt_get_result($checkStmt);
+    if (mysqli_num_rows($result) === 0) {
+        logError("Transaction not found.");
+        mysqli_stmt_close($checkStmt);
         mysqli_close($con);
         return false;
     }
 
-    $result = mysqli_stmt_get_result($statement);
-    if (!$result) {
-        logError("Failed to get result from SQL statement: " . mysqli_error($con));
-        mysqli_stmt_close($statement);
+    mysqli_stmt_close($checkStmt);
+
+    // Update the transaction details
+    $updateQuery = "UPDATE `transaction` SET transaction_amount = ?, transaction_description = ?, `Date` = ? WHERE transaction_id = ?";
+    $updateStmt = mysqli_prepare($con, $updateQuery);
+    mysqli_stmt_bind_param($updateStmt, "dssi", $newAmount, $newDescription, $newDate, $transactionId);
+    if (!mysqli_stmt_execute($updateStmt)) {
+        logError("Failed to execute SQL statement: " . mysqli_stmt_error($updateStmt));
+        mysqli_stmt_close($updateStmt);
         mysqli_close($con);
         return false;
     }
 
-    $dates = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $dates[] = $row['Date'];
-    }
-
-    mysqli_stmt_close($statement);
+    mysqli_stmt_close($updateStmt);
     mysqli_close($con);
 
-    return $dates;
-
+    return true;
 }
 
+function deleteTransaction($transactionId) {
+    $con = connection();
+    if (!$con) {
+        logError("Failed to connect to the database.");
+        return false;
+    }
+
+    // Check if the transaction exists
+    $checkQuery = "SELECT 1 FROM `transaction` WHERE transaction_id = ?";
+    $checkStmt = mysqli_prepare($con, $checkQuery);
+    mysqli_stmt_bind_param($checkStmt, "i", $transactionId);
+    if (!mysqli_stmt_execute($checkStmt)) {
+        logError("Failed to execute SQL statement: " . mysqli_stmt_error($checkStmt));
+        mysqli_stmt_close($checkStmt);
+        mysqli_close($con);
+        return false;
+    }
+
+    $result = mysqli_stmt_get_result($checkStmt);
+    if (mysqli_num_rows($result) === 0) {
+        logError("Transaction not found.");
+        mysqli_stmt_close($checkStmt);
+        mysqli_close($con);
+        return false;
+    }
+
+    mysqli_stmt_close($checkStmt);
+
+    // Delete the transaction
+    $deleteQuery = "DELETE FROM `transaction` WHERE transaction_id = ?";
+    $deleteStmt = mysqli_prepare($con, $deleteQuery);
+    mysqli_stmt_bind_param($deleteStmt, "i", $transactionId);
+    if (!mysqli_stmt_execute($deleteStmt)) {
+        logError("Failed to execute SQL statement: " . mysqli_stmt_error($deleteStmt));
+        mysqli_stmt_close($deleteStmt);
+        mysqli_close($con);
+        return false;
+    }
+
+    mysqli_stmt_close($deleteStmt);
+    mysqli_close($con);
+
+    return true;
+}
 // Add error logging to all functions
 
 function logError($errorMessage) {
