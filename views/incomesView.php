@@ -37,8 +37,12 @@ if (isset($_SESSION["error_message"])) {
                     <td><input type="text" name="description[]" class="description-column"></td>
                     <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
                     <td class="attachment-column">
-                        <input type="file" name="pdf_file" accept="application/pdf">
+                        <label for="file-upload" class="file-upload-label">
+                            <input id="file-upload" class="file-input" type="file" accept="application/pdf" name="attachment[]">
+                            <i class="fas fa-cloud-upload-alt"></i> Choose File
+                        </label>
                     </td>
+
                     <td>
                         <i class="fa fa-times remove-icon"></i>
                     </td>

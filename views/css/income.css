@@ -29,12 +29,28 @@ th, td {
 .description-column, .description-column input{
   width: 300px; 
 }
+.attachment-column {
+  position: relative;
+  width: 600px;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
 
-.attachment-column input[type="file"] {
-  width: 150px; /* Set the desired width for the file input */
-  border: none; /* Remove the border */
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
+.file-input {
+  opacity: 0;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  
 }
 
 .empty-cell {

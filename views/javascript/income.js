@@ -41,12 +41,21 @@ function addRow() {
 
   const attachmentCell = document.createElement("td");
   attachmentCell.className = "attachment-column";
+  const attachmentLabel = document.createElement("label");
+  attachmentLabel.htmlFor = "file-upload";
+  attachmentLabel.className = "file-upload-label";
   const attachmentInput = document.createElement("input");
+  attachmentInput.id = "file-upload";
+  attachmentInput.className = "file-input";
   attachmentInput.type = "file";
-  attachmentInput.name = "pdf_file[]";
   attachmentInput.accept = "application/pdf";
-  attachmentInput.style.border = "none";
-  attachmentCell.appendChild(attachmentInput);
+  attachmentInput.name = "attachment[]";
+  const attachmentIcon = document.createElement("i");
+  attachmentIcon.className = "fas fa-cloud-upload-alt";
+  attachmentLabel.appendChild(attachmentInput);
+  attachmentLabel.appendChild(attachmentIcon);
+  attachmentLabel.appendChild(document.createTextNode(" Choose File"));
+  attachmentCell.appendChild(attachmentLabel);
   newRow.appendChild(attachmentCell);
 
   const removeCell = document.createElement("td");
