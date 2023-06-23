@@ -65,7 +65,7 @@ $con=connection();
                         echo '<img src="../Icons/search-refraction-svgrepo-com.svg">Search Scout';
                         echo '</button>';
                       } elseif ($featureName === "create unit") {
-                        echo '<button id="createButton" class="" onclick="setActiveButton(\'createButton\'); showSection(\'create-section\')">';
+                        echo '<button id="createButton" class="active" onclick="setActiveButton(\'createButton\'); showSection(\'create-section\')">';
                         echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
                         echo '</button>';
                     } elseif ($featureName === "make request") {
