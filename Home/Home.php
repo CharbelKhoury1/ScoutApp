@@ -20,6 +20,8 @@ $con=connection();
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap" 
   rel="stylesheet">
+  <link rel="stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
   </head>
 
   <body>  
@@ -139,9 +141,35 @@ $con=connection();
         }
         ?>
 
-        <?php if ($userRank == 'Generalcommander' || $userRank == 'Generalcommissioner'): ?>
-            <img class="bell" src="../Icons/bell-svgrepo-com.svg" alt="bell" onclick="window.location.href='../ControlRequest/controlRequest.php'">
-        <?php endif; ?>
+      <?php 
+        if ($userRank == 'Generalcommander') {
+          $com = "SELECT * FROM requeststatus WHERE statusCode = '1' AND flag = 1";
+          $rescom = mysqli_query($con, $com);
+          if ($rescom && mysqli_num_rows($rescom) > 0) {
+            echo '<i class="far fa-bell fa-bounce fa-xl" style="color: #ff0000;" onclick="window.location.href=\'../ControlRequest/controlReqGenCom.php\'"></i>';
+          } else {
+            echo '<i class="far fa-bell fa-xl" style="color: #000000;" onclick="window.location.href=\'../ControlRequest/controlReqGenCom.php\'"></i>';
+          }
+        }
+      ?>
+           
+
+        
+
+
+      <?php 
+        if ($userRank == 'Generalcommissioner') {
+          $gen = "SELECT * FROM requeststatus WHERE statusCode = '0' AND flag IS NULL";
+          $resgen = mysqli_query($con, $gen);
+          if ($resgen && mysqli_num_rows($resgen) > 0) {
+            echo '<i class="far fa-bell fa-bounce fa-xl" style="color: #ff0000;" onclick="window.location.href=\'../ControlRequest/controlRequest.php\'"></i>';
+          } else {
+            echo '<i class="far fa-bell fa-xl" style="color: #000000;" onclick="window.location.href=\'../ControlRequest/controlRequest.php\'"></i>';
+          }
+        }
+      ?>
+
+           
 
         <!-- Profile photo -->
 

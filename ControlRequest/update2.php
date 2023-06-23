@@ -10,7 +10,7 @@ $conn=connection();
 
 if (isset($_COOKIE['request_id'])) {
   $selectedRequestId = $_COOKIE['request_id'];
-  $query = "UPDATE `requeststatus` SET `date`=SYSDATE(),`statusCode`='1',`userId`='15' WHERE request_id= $selectedRequestId";
+  $query = "UPDATE `requeststatus` SET `date`=SYSDATE(),`statusCode`='1' WHERE request_id= $selectedRequestId";
   $result = mysqli_query($conn, $query);
 
   if ($result) {
