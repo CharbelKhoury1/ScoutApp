@@ -156,14 +156,27 @@ section {
     background: rgb(143, 219, 143);
 }
 
-.error-message {
+.error {
     background: #F2DEDE;
     color: #A94442;
     padding: 10px;
     width: 95%;
     border-radius: 5px;
     margin: 20px auto;
-  }
+}
+
+.green-button{
+    background-color: green;
+    font-size: 1.2em;
+    font-family: sans-serif ;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+}
+.green-button:hover{
+    background: rgb(143, 219, 143);
+}
+
   
 
 
