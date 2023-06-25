@@ -115,7 +115,7 @@ a {
 
     <div class="container">
         <div class="left">
-            <h2>Requests Approved</h2>
+            <h2 style="color: lightgreen;">Requests Approved</h2>
         </div>
     </div>
 

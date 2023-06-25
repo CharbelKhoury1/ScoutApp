@@ -10,14 +10,37 @@ $conn=connection();
 
 if (isset($_COOKIE['request_id'])) {
   $selectedRequestId = $_COOKIE['request_id'];
-  $query = "UPDATE `requeststatus` SET `date`=SYSDATE(),`statusCode`='1',`userId`='15' WHERE request_id= $selectedRequestId";
-  $result = mysqli_query($conn, $query);
+  
+  $slt = "SELECT approver FROM requests WHERE request_id = $selectedRequestId";
+  $res = mysqli_query($conn, $slt);
+  $rw = mysqli_fetch_array($res);
+  $approver = $rw[0];
+  
+  if($approver == "General Commissioner and General Commander (مفوض عام و رئيس)"){
 
-  if ($result) {
-    header("Location: ../ControlRequest/controlRequest.php?error=Request Approved!");
-  } else {
-    echo "An error occurred: " . mysqli_error($conn);
+    $query = "UPDATE `requeststatus` SET `date`=SYSDATE(),`statusCode`='1', `flag` = 1 WHERE request_id= $selectedRequestId";
+    $result = mysqli_query($conn, $query);
+  
+    if ($result) {
+      header("Location: ../ControlRequest/controlRequest.php?error=Request Approved!");
+      include("../Post/mailTwo.php");
+    } else {
+      echo "An error occurred: " . mysqli_error($conn);
+    }
   }
+  else{
+    $qry = "UPDATE `requeststatus` SET `date`=SYSDATE(),`statusCode`='1' , `flag`= 1 WHERE request_id= $selectedRequestId";
+    $rslt = mysqli_query($conn, $qry);
+  
+    if ($rslt) {
+      header("Location: ../ControlRequest/controlRequest.php?error=Request Approved!");
+    } else {
+      echo "An error occurred: " . mysqli_error($conn);
+    }
+  }
+
+
+ 
 }
 
 mysqli_close($conn);

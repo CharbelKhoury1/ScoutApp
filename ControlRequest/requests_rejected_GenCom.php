@@ -168,7 +168,7 @@ if (!empty($ids)) {
                 <span><?php echo $lastUpdated; ?></span>
                 <span><?php echo $link; ?></span>
                 <span>
-                    <a href="control2.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                    <a href="control2GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
                 </span>
             </div>
             <?php

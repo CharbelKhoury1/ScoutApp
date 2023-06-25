@@ -12,7 +12,6 @@ $res = mysqli_query($conn,$query);
 $row = mysqli_fetch_array($res);
 $value = $row[0];
 
-
 ?>
 <!DOCTYPE html>
     <head>
@@ -115,9 +114,7 @@ $value = $row[0];
           <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
         </button>
-        <button class="active" onclick="window.location.href='../ScoutManagementSystem/changeDays.php'">
-              <img src="../Icons/history-svgrepo-com.svg">Change Required Days
-          </button>
+
         <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
         </button>

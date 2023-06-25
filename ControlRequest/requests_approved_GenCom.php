@@ -3,7 +3,7 @@ include("../ControlRequest/sidebarTest.php"); ?>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>History of rejected requests</title>
+  <title>History of approved requests</title>
   <style>
     .container {
       display: flex;
@@ -115,7 +115,7 @@ a {
 
     <div class="container">
         <div class="left">
-            <h2 style="color:red;">Requests Rejected</h2>
+            <h2 style="color: lightgreen;">Requests Approved</h2>
         </div>
     </div>
 
@@ -140,7 +140,7 @@ a {
         include ("../utility.php");
         $conn=connection();
 
-$qr6 = "SELECT request_id FROM requeststatus WHERE statusCode = 2";
+$qr6 = "SELECT request_id FROM requeststatus WHERE statusCode = 1";
 $res6 = mysqli_query($conn, $qr6);
 $ids = array();
 
@@ -168,16 +168,16 @@ if (!empty($ids)) {
                 <span><?php echo $lastUpdated; ?></span>
                 <span><?php echo $link; ?></span>
                 <span>
-                    <a href="control2.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                    <a href="control1GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
                 </span>
             </div>
             <?php
         }
     } else {
-        echo "No requests rejected yet!";
+        echo "No requests approved yet!";
     }
 } else {
-    echo "No requests rejected yet!";
+    echo "No requests approved yet!";
 }
 ?>
 

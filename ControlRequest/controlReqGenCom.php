@@ -3,7 +3,7 @@ include("../ControlRequest/sidebarTest.php"); ?>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>History of rejected requests</title>
+  <title>Division Example</title>
   <style>
     .container {
       display: flex;
@@ -109,13 +109,34 @@ a {
 }
 
   </style>
+    <script>
+    function showOptions() {
+      var historyDropdown = document.getElementById("historyDropdown");
+      var selectedValue = historyDropdown.value;
+
+      if (selectedValue === "Requests Approved") {
+        // Redirect to the "Requests Approved" page
+        window.location.href = "requests_approved.php";
+      } else if (selectedValue === "Requests Rejected") {
+        // Redirect to the "Requests Rejected" page
+        window.location.href = "requests_rejected.php";
+      }
+    }
+  </script>
 </head>
 
 <body>
 
     <div class="container">
         <div class="left">
-            <h2 style="color:red;">Requests Rejected</h2>
+            <h2>Pending Requests</h2>
+        </div>
+        <div class="right">
+            <select id="historyDropdown" onchange="showOptions()">
+                <option value="default" class="hidden">Request History</option>
+                <option value="Requests Approved">Requests Approved</option>
+                <option value="Requests Rejected">Requests Rejected</option>
+            </select>  
         </div>
     </div>
 
@@ -140,7 +161,7 @@ a {
         include ("../utility.php");
         $conn=connection();
 
-$qr6 = "SELECT request_id FROM requeststatus WHERE statusCode = 2";
+$qr6 = "SELECT request_id FROM requeststatus WHERE statusCode = 1 AND flag = 1";
 $res6 = mysqli_query($conn, $qr6);
 $ids = array();
 
@@ -168,16 +189,16 @@ if (!empty($ids)) {
                 <span><?php echo $lastUpdated; ?></span>
                 <span><?php echo $link; ?></span>
                 <span>
-                    <a href="control2.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                    <a href="controlGenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">View</a>
                 </span>
             </div>
             <?php
         }
     } else {
-        echo "No requests rejected yet!";
+        echo "No pending requests!";
     }
 } else {
-    echo "No requests rejected yet!";
+    echo "No pending requests!";
 }
 ?>
 

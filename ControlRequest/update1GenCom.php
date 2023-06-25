@@ -10,11 +10,11 @@ $conn=connection();
 
 if (isset($_COOKIE['request_id'])) {
   $selectedRequestId = $_COOKIE['request_id'];
-  $query = "UPDATE `requeststatus` SET `date`=SYSDATE(),`statusCode`='2', `flag`= 3 WHERE request_id= $selectedRequestId";
+  $query = "UPDATE `requeststatus` SET `date`=SYSDATE(),`statusCode`='2' , `flag`= 3 WHERE request_id= $selectedRequestId";
   $result = mysqli_query($conn, $query);
 
   if ($result) {
-    header("Location: ../ControlRequest/controlRequest.php?error=Request Rejected!");
+    header("Location: ../ControlRequest/requests_approved_GenCom.php?error=Request Rejected!");
   } else {
     echo "An error occurred: " . mysqli_error($conn);
   }

@@ -172,8 +172,9 @@ if(isset($_SESSION['user_id'])){
               header("Location: request.php?error error not supported!");
             }
           }else {
-            $message = "Days difference is less than the required value $nb.";
+            $message = "Days difference is less than the required value $nb";
             echo "<p class='error-message'>$message</p>";
+            header("Location: request.php?error= $message!");
             
           }
       
@@ -182,9 +183,9 @@ if(isset($_SESSION['user_id'])){
         }
       }
     }
-    
-      
-      
+
+
+
   }
 
 
@@ -257,6 +258,10 @@ function calculateDaysDifference($dddd) {
   </head>
 
   <body>
+
+  <?php if(isset($_GET['error'])) { ?>
+            <p class="error"><?php echo $_GET['error']; unset($_GET['error'])?></p>
+        <?php } ?>
 
     <div class="container" ng-controller="FirstCtrl">
       <table class="table table-bordered table-downloads">
@@ -340,8 +345,8 @@ function calculateDaysDifference($dddd) {
               </table>
             </div>
           </div>
-          <!--<a class="btn btn-success pull-right" type="submit" id="submitBtn" name="submit">Submit</a> -->
-          <input type="submit" id="submitBtn" name="submit" value="Submit">
+          <!--<a class="btn btn-success pull-right" type="submit" value="Submit" id="submitBtn" name="submit">Submit</a> -->
+          <input type="submit" class="green-button" id="submitBtn" name="submit" value="Submit">
           <!--<button type="submit" id="submitBtn" name="submit">Submit</button>-->
         </div>
       </form>
