@@ -55,10 +55,7 @@ function getUserUnit($userId) {
     return $unitId;
 }
 
-
-
-
-function showTransaction($unitID, $currencyCode, $typeCode) {
+function showTransaction($unitID, $currencyCode, $typeCode){
     $con = connection();
     if (!$con) {
         logError("Failed to connect to the database.");
@@ -98,8 +95,8 @@ function showTransaction($unitID, $currencyCode, $typeCode) {
     mysqli_close($con);
 
     return $dataRecords;
-    
 }
+
 function showTransactionByID($transactionId) {
     $con = connection();
     if (!$con) {
@@ -237,7 +234,7 @@ function deleteTransaction($transactionId) {
 function logError($errorMessage) {
     error_log($errorMessage);
 }
-
+  
 ?>
 
 
