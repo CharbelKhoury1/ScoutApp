@@ -21,7 +21,7 @@ if (isset($_SESSION['user_id'])) {
 <body>
   <div class="container">
     <h1>Transaction Details</h1>
-    <form id="balance-form">
+    <form id="balance-form" method="POST">
       <label for="type-code">Select Type:<br> (اختر النوع)</label>
       <select id="type-code" name="type-code">
         <option value="0">Income (مداخيل)</option>

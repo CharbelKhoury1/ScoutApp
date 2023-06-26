@@ -8,23 +8,21 @@ if (isset($_SESSION['user_id'])) {
 }
 include("../models/balanceModel.php");
 
-//$userId = 6;
 $unitId = getUserUnit($userId);
 if ($unitId){
     $lbp_data = getSumLBP($unitId);
     $usd_data = getSumUSD($unitId);
 
-    // Calculate the balance
     $lbp_balance = $lbp_data['income'] - $lbp_data['expense'];
     $usd_balance = $usd_data['income'] - $usd_data['expense'];
 
-    // Create the balance messages
+    $lbp_balance_formatted = ($lbp_balance == 0) ? 0 : number_format($lbp_balance * 1000, 0, '', ' ');
+
     $balanceMessagelbp = ($lbp_balance === 0) ? "There are currently no income or expense records in LBP." : "";
     $balanceMessageUsd = ($usd_balance === 0) ? "There are currently no income or expense records in USD." : "";
 
-    // Build the JSON response
     $response = array(
-        'lbp_balance' => $lbp_balance,
+        'lbp_balance' => $lbp_balance_formatted,
         'usd_balance' => $usd_balance,
         'balanceMessageUsd' => $balanceMessageUsd,
         'balanceMessagelbp' => $balanceMessagelbp,
