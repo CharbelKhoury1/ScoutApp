@@ -5,7 +5,7 @@ session_start();
 
 include ("../common.inc.php");
 include ("../utility.php");
-$con=connection();
+$con = connection();
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {
@@ -26,48 +26,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp1'])) {
     $education = $_POST['education'];
     $job = $_POST['job'];
     $email = $_POST['email'];
-
-    // Set the email cookie
-    // setcookie('email', $email, time() + (30 * 24 * 60 * 60));
-
     $medicalCondition = $_POST['medical_condition'];
-
-
     $code = $_POST['scoutcode'];
     $password = $_POST['password'];
-    
-    // Perform database operations (assumed connection is established)
-    
-    // Insert data into the 'user' table
-    $sql = "INSERT INTO user (fname, lname, father_name, mother_name, birth_date, birth_place, blood_type, landline, mobile, father_job, mother_job, father_mobile, mother_mobile, education, job, email, medical_condition) 
-            VALUES ('$fname', '$lname', '$fatherName', '$motherName', '$birthDate', '$birthPlace', '$bloodType', '$landline', '$mobile', '$fatherJob', '$motherJob', '$fatherMobile', '$motherMobile', '$education', '$job', '$email', '$medicalCondition')";
-    
-    if (mysqli_query($con, $sql)) {
-      // Retrieve the auto-incremented 'user_id'
-      $userId = mysqli_insert_id($con);
-            
-      $_SESSION['email']=$email;
-      $_SESSION['user_id']=$userId;
-      $_SESSION['name']=$fname." ".$lname;
 
-      // Update 'userId' for the existing record in 'usercredentials' table
-      $sqlCredentials = "UPDATE usercredentials SET userId = '$userId' WHERE scoutcode = '$code' AND password = '$password'";
-    
-      if (mysqli_query($con, $sqlCredentials)) {
-        // Data updated successfully
-        echo "User registered successfully!";
-      } else {
-        // Failed to update data in 'usercredentials' table
-        echo "Error updating data in 'usercredentials' table: " . mysqli_error($con);
-      }
+    // Prepare the insert statement for 'user' table
+    $sql = "INSERT INTO user (fname, lname, father_name, mother_name, birth_date, birth_place, blood_type, landline, mobile, father_job, mother_job, father_mobile, mother_mobile, education, job, email, medical_condition) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    // Prepare the statement
+    if ($stmt = mysqli_prepare($con, $sql)) {
+        // Bind the parameters
+        mysqli_stmt_bind_param($stmt, "sssssssssssssssss", $fname, $lname, $fatherName, $motherName, $birthDate, $birthPlace, $bloodType, $landline, $mobile, $fatherJob, $motherJob, $fatherMobile, $motherMobile, $education, $job, $email, $medicalCondition);
+        
+        // Execute the statement
+        if (mysqli_stmt_execute($stmt)) {
+            // Retrieve the auto-incremented 'user_id'
+            $userId = mysqli_insert_id($con);
+        
+            $_SESSION['email'] = $email;
+            $_SESSION['user_id'] = $userId;
+            $_SESSION['name'] = $fname . " " . $lname;
+        
+            // Update 'userId' for the existing record in 'usercredentials' table
+            $sqlCredentials = "UPDATE usercredentials SET userId = ? WHERE scoutcode = ? AND password = ?";
+            
+            // Prepare the statement
+            if ($stmtCredentials = mysqli_prepare($con, $sqlCredentials)) {
+                // Bind the parameters
+                mysqli_stmt_bind_param($stmtCredentials, "iss", $userId, $code, $password);
+        
+                // Execute the statement
+                if (mysqli_stmt_execute($stmtCredentials)) {
+                    // Data updated successfully
+                    echo "User registered successfully!";
+                    // Redirect to SignUp2.php
+                    header('Location: SignUp2.php');
+                    exit;
+                } else {
+                    // Failed to update data in 'usercredentials' table
+                    echo "Error updating data in 'usercredentials' table: " . mysqli_error($con);
+                }
+            } else {
+                // Failed to prepare the statement for 'usercredentials' table
+                echo "Error preparing statement for 'usercredentials' table: " . mysqli_error($con);
+            }
+        } else {
+            // Failed to execute the insert statement for 'user' table
+            echo "Error executing insert statement for 'user' table: " . mysqli_error($con);
+        }
+        
+        // Close the statement
+        mysqli_stmt_close($stmt);
     } else {
-      // Failed to insert data into 'user' table
-      echo "Error inserting data into 'user' table: " . mysqli_error($con);
+        // Failed to prepare the insert statement for 'user' table
+        echo "Error preparing statement for 'user' table: " . mysqli_error($con);
     }
-    // Redirect to SignUp2.php
-    header('Location: SignUp2.php');
-    
-}
+
+  
+  }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
   // Check if the 'user_id' is set in the session
@@ -259,45 +276,44 @@ if(isset($_POST['regiment'])) {
 
   }
 
- 
-    // Retrieve the submitted data
-    // $courses = $_POST['course'];
-    // $locations = $_POST['location'];
-    // $startDates = $_POST['start-date'];
-    // $endDates = $_POST['end-date'];
-  
-    // // Prepare the SQL statement for inserting training history records
-    // $insertQuery = "INSERT INTO traininghistory (courseId, userId) VALUES ";
-  
-    // // Iterate over the submitted data and build the query
-    // for ($i = 0; $i < count($courses); $i++) {
-    //   // Escape the values to prevent SQL injection
-    //   $courseName = mysqli_real_escape_string($con, $courses[$i]);
-    //   // $location = mysqli_real_escape_string($con, $locations[$i]);
-    //   // $startDate = mysqli_real_escape_string($con, $startDates[$i]);
-    //   // $endDate = mysqli_real_escape_string($con, $endDates[$i]);
-  
-    //   // Retrieve the course ID from the 'trainingcourses' table based on the course name
-    //   $courseIDQuery = "SELECT course_id FROM trainingcourses WHERE name = '$courseName'";
-    //   $courseIDResult = mysqli_query($con, $courseIDQuery);
-    //   $courseIDRow = mysqli_fetch_assoc($courseIDResult);
-    //   $courseIDValue = $courseIDRow['course_id'];
-  
-    //   // Append the values to the insert query
-    //   $insertQuery .= "('$courseIDValue', '$userId'),";
-    // }
-  
-    // // Remove the trailing comma from the query
-    // $insertQuery = rtrim($insertQuery, ',');
-  
-    // // Execute the insert query
-    // $result = mysqli_query($con, $insertQuery);
-  
-    // if ($result) {
-    //   echo "Training history records inserted successfully.";
-    // } else {
-    //   echo "Error occurred during training history insertion.";
-    // }
+ // Retrieve the submitted data
+$courses = $_POST['course'];
+$locations = $_POST['location'];
+$startDates = $_POST['start-date'];
+$endDates = $_POST['end-date'];
+
+// Prepare the SQL statement for inserting training history records
+$insertQuery = "INSERT INTO traininghistory (courseId, userId, location, start_date, end_date) VALUES ";
+
+// Iterate over the submitted data and build the query
+for ($i = 0; $i < count($courses); $i++) {
+  // Escape the values to prevent SQL injection
+  $courseName = mysqli_real_escape_string($con, $courses[$i]);
+  // $location = mysqli_real_escape_string($con, $locations[$i]);
+  // $startDate = mysqli_real_escape_string($con, $startDates[$i]);
+  // $endDate = mysqli_real_escape_string($con, $endDates[$i]);
+
+  // Retrieve the course ID from the 'trainingcourses' table based on the course name
+  $courseIDQuery = "SELECT course_id FROM trainingcourses WHERE name = '$courseName'";
+  $courseIDResult = mysqli_query($con, $courseIDQuery);
+  $courseIDRow = mysqli_fetch_assoc($courseIDResult);
+  $courseIDValue = $courseIDRow['course_id'];
+
+  // Append the values to the insert query
+  $insertQuery .= "('$courseIDValue', '$userId', '$location' , '$startDate' , '$endDate')";
+}
+
+// Remove the trailing comma and space from the query
+// $insertQuery = rtrim($insertQuery, ', ');
+
+// Execute the insert query
+$result = mysqli_query($con, $insertQuery);
+
+if ($result) {
+  echo "Training history records inserted successfully.";
+} else {
+  echo "Error occurred during training history insertion: " . mysqli_error($con);
+}
 
     header("Location: ../Home/Home.php");
   }
