@@ -78,3 +78,42 @@ th, td {
     border: 1px solid green;
 }
 
+.alert-box {
+    background-color: lightgreen;
+    padding: 10px;
+    margin: 0 auto;
+    margin-top: 10vh;
+    transform: translateY(-50%);
+    max-width: 400px;
+    border-radius: 5px;
+  }
+  .view-icon{
+    display: inline-block;
+    width: 40px;
+    height: 50px;
+    margin-right: 5px;
+    background-image: url('../views/images/view-svgrepo-com.svg'); 
+    background-size: cover;
+    filter: grayscale(100%);
+     
+  }
+  .download-icon {
+    display: inline-block;
+    width: 35px;
+    height: 40px;
+    margin-right: 5px;
+    background-image: url('../views/images/file-download-svgrepo-com.svg'); 
+    background-size: cover;
+    filter: grayscale(100%);
+    
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 300px;
+}
+th:nth-child(4)  
+td:nth-child(4) {
+    width: 200px;
+}
+  

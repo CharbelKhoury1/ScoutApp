@@ -76,4 +76,10 @@ function closeAlert() {
   let alertContainer = document.querySelector(".alert-success-container");
   alertContainer.style.display = "none";
 }
+
+function displaySelectedFileName(input) {
+  var fileName = input.files[0].name;
+  var fileNameElement = document.getElementById("file-name");
+  fileNameElement.textContent = fileName;
+}
   

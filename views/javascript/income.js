@@ -79,4 +79,10 @@ function closeAlert() {
   alertContainer.style.display = "none";
 }
 
+function displaySelectedFileName(input) {
+  var fileName = input.files[0].name;
+  var fileNameElement = document.getElementById("file-name");
+  fileNameElement.textContent = fileName;
+}
+
 

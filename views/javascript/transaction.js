@@ -10,13 +10,28 @@ function fetchBalance() {
   fetch('../controllers/balanceController.php')
       .then(response => response.json())
       .then(data => {
+
+        const chartContainerLBP = document.getElementById('chartContainerLBP');
+        const chartContainerUSD = document.getElementById('chartContainerUSD');
+        chartContainerLBP.innerHTML = ''; // Clear previous content
+        chartContainerUSD.innerHTML = ''; // Clear previous content
+
           const balanceTextLBP = document.createElement('div');
           balanceTextLBP.innerHTML = `<h3 class="balance-text">Current Balance: ${data.lbp_balance} LBP</h3>`;
+          chartContainerLBP.appendChild(balanceTextLBP);
           document.getElementById('chartContainerLBP').insertBefore(balanceTextLBP, document.getElementById('chartLBP'));
+
+          const chartLBP = document.createElement('canvas');
+          chartLBP.id = 'chartLBP';
+          chartContainerLBP.appendChild(chartLBP);
 
           const balanceTextUSD = document.createElement('div');
           balanceTextUSD.innerHTML = `<h3 class="balance-text">Current Balance: ${data.usd_balance} USD</h3>`;
           document.getElementById('chartContainerUSD').insertBefore(balanceTextUSD, document.getElementById('chartUSD'));
+          
+          const chartUSD = document.createElement('canvas');
+          chartUSD.id = 'chartUSD';
+          chartContainerUSD.appendChild(chartUSD);
 
           const chartDataLBP = {
               labels: ['LBP Income', 'LBP Expense'],
@@ -26,10 +41,6 @@ function fetchBalance() {
               }]
           };
 
-          const chartContainerLBP = document.getElementById('chartContainerLBP');
-          chartContainerLBP.style.display = 'block'; // Display the LBP chart container
-
-          const chartLBP = document.getElementById('chartLBP').getContext('2d');
           new Chart(chartLBP, {
               type: 'doughnut',
               data: chartDataLBP,
@@ -56,10 +67,6 @@ function fetchBalance() {
               }]
           };
 
-          const chartContainerUSD = document.getElementById('chartContainerUSD');
-          chartContainerUSD.style.display = 'block'; // Display the USD chart container
-
-          const chartUSD = document.getElementById('chartUSD').getContext('2d');
           new Chart(chartUSD, {
               type: 'doughnut',
               data: chartDataUSD,
@@ -76,8 +83,6 @@ function fetchBalance() {
                       }
                   }
               }
-          });
-
-         
+          }); 
       });
 }

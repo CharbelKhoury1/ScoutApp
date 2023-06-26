@@ -9,14 +9,14 @@ if (isset($_SESSION['user_id'])) {
 include("../models/transactionModel.php");
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitlbp"])) {
     $currencyCode = 0; //LBP
-    $typeCode = 1;//Expense
+    $typeCode = 0;//Incomes
     $unitId = getUserUnit($userId);
     if($unitId){
         $incomeCount = count($_POST["description"]);
         for ($i = 0; $i < $incomeCount; $i++) {
             $description = SecureData($_POST["description"][$i]);
             $lbpAmount = SecureData($_POST["lbp"][$i]);
-            $attachment = null;
+            //$attachment = null;
             if (!empty($_FILES["attachment"]["tmp_name"][$i]) && !empty($_FILES["attachment"]["name"][$i])) {
                 $attachmentName = $_FILES["attachment"]["name"][$i];
                 $attachment = $_FILES["attachment"]["tmp_name"][$i];  
@@ -41,20 +41,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitlbp"])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitusd"])) {
     //$userId = 6;
     $currencyCode = 1;//USD
-    $typeCode = 1;//Expense
+    $typeCode = 0;//Incomes
     $unitId = getUserUnit($userId);
     if ($unitId) {
         $incomeCount = count($_POST["description"]);
         for ($i = 0; $i < $incomeCount; $i++) {
             $description = SecureData($_POST["description"][$i]);
             $usdAmount = SecureData($_POST["usd"][$i]);
-            $attachment = null;
+            //$attachment = NULL;
             if (!empty($_FILES["attachment"]["tmp_name"][$i]) && !empty($_FILES["attachment"]["name"][$i])) {
                 $attachmentName = $_FILES["attachment"]["name"][$i];
                 $attachment = $_FILES["attachment"]["tmp_name"][$i];  
+                insertTransaction($description, $usdAmount, $unitId, $currencyCode, $typeCode, $attachment);
+            }else{
+                insertTransaction($description, $usdAmount, $unitId, $currencyCode, $typeCode, NULL);
             }
-
-            insertTransaction($description, $usdAmount, $unitId, $currencyCode, $typeCode, $attachment);
             //insertTransaction($description, $usdAmount, $unitId,$currencyCode,$typeCode);
         }
         $_SESSION["success_message"] = "Income records inserted successfully in the database.";

@@ -62,7 +62,7 @@ function showTransaction($unitID, $currencyCode, $typeCode){
         return false;
     }
 
-    $QRY = "SELECT `transaction_id`, `transaction_amount`, `transaction_description`, `Date` FROM `transaction` WHERE unitID = ? AND currencyCode = ? AND typeCode = ? ORDER BY `Date`";
+    $QRY = "SELECT `transaction_id`, `transaction_amount`, `transaction_description`, `Date`, `attachment` FROM `transaction` WHERE unitID = ? AND currencyCode = ? AND typeCode = ? ORDER BY `Date`";
     $stmt = mysqli_prepare($con, $QRY);
     if (!$stmt) {
         logError("Failed to prepare SQL statement: " . mysqli_error($con));
@@ -88,6 +88,9 @@ function showTransaction($unitID, $currencyCode, $typeCode){
 
     $dataRecords = array();
     while ($resultQRY = mysqli_fetch_assoc($result)) {
+        $attachment = $resultQRY['attachment'];
+        $resultQRY['attachment'] = $attachment ? base64_encode($attachment) : null;
+
         $dataRecords[] = $resultQRY;
     }
 
