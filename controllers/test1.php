@@ -1,26 +1,57 @@
-<?php
-include("../models/balanceTrialModel.php");
+<html>
+<head>
+    <title>Incomes in LBP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="../Pictures/ScoutsLogo.gif" type="image/png">
+    <style>
+        .file-input-container {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+        }
 
-$transactionId = 77;
+        .file-input {
+            display: none;
+        }
 
-$con = connection();
-$query = "SELECT attachment FROM `transaction` WHERE transaction_id = ? AND attachment IS NOT NULL";
-$stmt = mysqli_prepare($con, $query);
-mysqli_stmt_bind_param($stmt, "i", $transactionId);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$row = mysqli_fetch_assoc($result);
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f2f2f2;
+            color: #888;
+            font-size: 20px;
+        }
 
-if ($row && is_binary($row['attachment'])) {
-    echo "yes";
-} else {
-    echo "No file found.";
-}
+        .file-name {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Incomes in LBP</h1>
 
-function is_binary($data) {
-    return preg_match('~[^\x20-\x7E\t\r\n]~', $data) > 0;
-}
-?>
+    <label for="file-upload" class="file-upload-label">
+        <div class="file-input-container">
+            <input id="file-upload" class="file-input" type="file" accept="application/pdf" name="attachment[]" onchange="displaySelectedFileName(this)">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+    </label>
+    <div id="file-name" class="file-name"></div>
+
+    <script>
+        function displaySelectedFileName(input) {
+            var fileName = input.files[0].name;
+            var fileNameElement = document.getElementById("file-name");
+            fileNameElement.textContent = fileName;
+        }
+    </script>
+</body>
+</html>
+
 
 
 

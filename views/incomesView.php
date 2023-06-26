@@ -38,11 +38,11 @@ if (isset($_SESSION["error_message"])) {
                     <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
                     <td class="attachment-column">
                         <label for="file-upload" class="file-upload-label">
-                            <input id="file-upload" class="file-input" type="file" accept="application/pdf" name="attachment[]">
+                            <input id="file-upload" class="file-input" type="file" accept="application/pdf" name="attachment[]" onchange="displaySelectedFileName(this)">
                             <i class="fas fa-cloud-upload-alt"></i> Choose File
                         </label>
+                        <div id="file-name" class="file-name"></div>
                     </td>
-
                     <td>
                         <i class="fa fa-times remove-icon"></i>
                     </td>

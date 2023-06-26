@@ -98,7 +98,7 @@ function getUserUnit($userId) {
 
   return $unitId;
 }
-
+/*
 function insertTransaction($description, $amount, $unitId, $currencyCode, $typeCode, $attachment) {
   $con = connection();
   $date = date("Y-m-d");
@@ -110,6 +110,28 @@ function insertTransaction($description, $amount, $unitId, $currencyCode, $typeC
   mysqli_close($con);
   return $success;
 }
+*/
+function insertTransaction($description, $amount, $unitId, $currencyCode, $typeCode, $attachment) {
+    $con = connection(); 
+    $date = date("Y-m-d"); 
+    if ($attachment !== null) {
+        $content = file_get_contents($attachment); 
+    } else {
+        $content = null; 
+    }
+    
+    $insertQRY = 'INSERT INTO transaction (transaction_amount, transaction_description, `Date`, `attachment`, currencyCode, typeCode, unitId) VALUES(?,?,?,?,?,?,?)';
+    
+    $insertStatement = mysqli_prepare($con, $insertQRY); 
+    
+    mysqli_stmt_bind_param($insertStatement, "dsssiii", $amount, $description, $date, $content, $currencyCode, $typeCode, $unitId); 
+    
+    $success = mysqli_stmt_execute($insertStatement); 
+    mysqli_close($con); 
+    
+    return $success; 
+}
+
 
 function logError($errorMessage) {
   error_log($errorMessage);
