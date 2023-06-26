@@ -94,11 +94,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     }
 
     // Retrieve the form data
-    $affiliationDate = $_POST['affiliationdate'];
-    $oathDate = $_POST['oathdate'];
-    $scoutTitle = $_POST['scouttitle'];
-    $dateOfTheTitle = $_POST['dateofthetitle'];
-    $placeOfTheTitle = $_POST['placeofthetitle'];
+    $affiliationDate = isset($_POST['affiliationdate']) ? $_POST['affiliationdate'] : NULL;
+    $oathDate = isset($_POST['oathdate']) ? $_POST['oathdate'] : NULL;
+    $scoutTitle = isset($_POST['scouttitle']) ? $_POST['scouttitle'] : NULL;
+    $dateOfTheTitle = isset($_POST['dateofthetitle']) ? $_POST['dateofthetitle'] : NULL;
+    $placeOfTheTitle = isset($_POST['placeofthetitle']) ? $_POST['placeofthetitle'] : NULL;
+    
     
     print_r($_SESSION);
     // Update the 'user' table
@@ -220,9 +221,9 @@ if(isset($_POST['regiment'])) {
     // Scout class part
   // Retrieve the form data
   print_r($_POST);
-  $scoutclass = $_POST['scoutclass'];
-  $startDate = $_POST['start-Date'];
-  $endDate = $_POST['end-Date'];
+  $scoutclass = isset($_POST['scoutclass']) ? $_POST['scoutclass'] : NULL;
+  $startDate = isset($_POST['start-date']) ? $_POST['start-date'] : NULL;
+  $endDate = isset($_POST['end-date']) ? $_POST['end-date'] : NULL;
 
   // Initialize the INSERT query
   $query = "INSERT INTO degreehistory (userId, degreeId, start_date, end_date) VALUES ";
@@ -276,45 +277,52 @@ if(isset($_POST['regiment'])) {
 
   }
 
- // Retrieve the submitted data
-$courses = $_POST['course'];
-$locations = $_POST['location'];
-$startDates = $_POST['start-date'];
-$endDates = $_POST['end-date'];
+    // Retrieve the posted form data
+    $courses = $_POST['course'];
+    $locations = $_POST['location'];
+    $startDates = $_POST['start-date'];
+    $endDates = $_POST['end-date'];
+    
+    // Prepare and execute the SQL insert statement
+    $stmt = $con->prepare("INSERT INTO traininghistory (courseId, userId, location, start_date, end_date) VALUES (?, ?, ?, ?, ?)");
+    
+    for ($i = 0; $i < count($courses); $i++) {
+      $courseName = $courses[$i];
+      $location = $locations[$i];
+      $startDate = $startDates[$i];
+      $endDate = $endDates[$i];
+    
+      // Retrieve the course ID based on the selected course name
+      $courseIdQuery = "SELECT course_id FROM trainingcourses WHERE name = ?";
+      $courseIdStmt = $con->prepare($courseIdQuery);
+      $courseIdStmt->bind_param("s", $courseName);
+      $courseIdStmt->execute();
+      $courseIdResult = $courseIdStmt->get_result();
+      
+      if ($courseIdResult->num_rows > 0) {
+        $row = $courseIdResult->fetch_assoc();
+        $courseId = $row['course_id'];
+      } else {
+        // Handle the case where the course ID is not found (e.g., display an error message)
+        echo "Course ID not found for course: " . $courseName;
+        continue;
+      }
+    
+      // Bind the values to the prepared statement
+      $stmt->bind_param("iisss", $courseId, $userId, $location, $startDate, $endDate);
+    
+      // Execute the statement
+      $stmt->execute();
 
-// Prepare the SQL statement for inserting training history records
-$insertQuery = "INSERT INTO traininghistory (courseId, userId, location, start_date, end_date) VALUES ";
+      $userId = null;
+      $location = null;
+      $startDate = null;
+      $endDate = null;
 
-// Iterate over the submitted data and build the query
-for ($i = 0; $i < count($courses); $i++) {
-  // Escape the values to prevent SQL injection
-  $courseName = mysqli_real_escape_string($con, $courses[$i]);
-  // $location = mysqli_real_escape_string($con, $locations[$i]);
-  // $startDate = mysqli_real_escape_string($con, $startDates[$i]);
-  // $endDate = mysqli_real_escape_string($con, $endDates[$i]);
-
-  // Retrieve the course ID from the 'trainingcourses' table based on the course name
-  $courseIDQuery = "SELECT course_id FROM trainingcourses WHERE name = '$courseName'";
-  $courseIDResult = mysqli_query($con, $courseIDQuery);
-  $courseIDRow = mysqli_fetch_assoc($courseIDResult);
-  $courseIDValue = $courseIDRow['course_id'];
-
-  // Append the values to the insert query
-  $insertQuery .= "('$courseIDValue', '$userId', '$location' , '$startDate' , '$endDate')";
-}
-
-// Remove the trailing comma and space from the query
-// $insertQuery = rtrim($insertQuery, ', ');
-
-// Execute the insert query
-$result = mysqli_query($con, $insertQuery);
-
-if ($result) {
-  echo "Training history records inserted successfully.";
-} else {
-  echo "Error occurred during training history insertion: " . mysqli_error($con);
-}
-
+    }
+    
+    // Close the statement and database connection
+    $stmt->close();  
     header("Location: ../Home/Home.php");
   }
     // Close the database connection
