@@ -59,7 +59,7 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
                         echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
                         echo '</button>';
                     } elseif ($featureName === "make request") {
-                        echo '<button onclick="window.location.href=\'../Request/request.php\'">';
+                        echo '<button class="active" onclick="window.location.href=\'../Request/request.php\'">';
                         echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
                         echo '</button>';
                     } elseif ($featureName === "make transaction") {
@@ -84,9 +84,6 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
         }
         ?>
         <!-- Add other static buttons here -->
-        <button class="active" onclick="window.location.href='../views/transactionView.php'">
-            <img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance
-        </button>
         <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
         </button>

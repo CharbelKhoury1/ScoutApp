@@ -13,9 +13,9 @@ function checkInternetConnection()
 
 if (checkInternetConnection()) {
   require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
-  $app_id = '1250484182494643';
-  $app_secret = 'ce9dfe54a8f90b0230f61871e3045236';
-  $access_token = 'EAARxTwlZBrbMBAOLCLMZB94XtagZA9kOOUX5y3lgUQcitYUICSsEFaWAKrCW3itLCNLyuzDZB50ZBPOrVldeZA3ltZAuZCAcUTJqkyzJWCwDNec4xRMK9hd2F22Rx5ppWFTOl6ZBXpaLgBYu6ZCSRV0YNaClqq8pU7TroxW9C6IkRiGhQ0XLWuCxxY1nCf8noU3GU3hdST0qwyiwZDZD';
+  $app_id = '257544993552973 ';
+  $app_secret = '36f77fb166017bf958ac5247988ebb12';
+  $access_token = 'EAADqPF3auk0BAElytvEfnQn6YHZCKcebZCSOVJtLlilPchRoY9GLV4MG0xqXeFXPqfuN6Kqvh6aMhew46PacyvhMRH5oMYbkKGys2h7zmqP6ihhSlok1EDZBmWHbEvfqNOTL6HAAIad50ITDmXo8RGeb217DO79erbNOVzlTB40rO0KG73Y';
 
   $fb = new Facebook\Facebook([
     'app_id' => $app_id,
