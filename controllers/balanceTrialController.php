@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['currency_code']) && i
             $responseData = array(
                 'transactionRecords' => $transactionRecords
             );
-            // Send the response as JSON
             header('Content-Type: application/json');
             echo json_encode($responseData);
         }else{

@@ -152,8 +152,7 @@ $con=connection();
         </tr>
       </thead>
       <tbody>
-      <?php
-
+      <?
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
     // Handle the Generate button click event
     // Generate code and password, send email, and display the result
@@ -271,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
                 <option disabled selected>Select Rank</option> <!-- Disabled placeholder option -->
                 <?php
                 // Loop through the ranks table to populate options
-                $rankQuery = "SELECT name FROM rank";
+                $rankQuery = "SELECT `name` FROM `rank`";
                 $rankResult = mysqli_query($con, $rankQuery);
                 // var_dump($rankResult);
                 while ($rankRow = mysqli_fetch_assoc($rankResult)) {
@@ -325,7 +324,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
                 <?php
                 mysqli_set_charset($con, "utf8"); // Set character encoding
                 // Loop through the scout classes table to populate options
-                $scoutClassQuery = "SELECT name FROM degree";
+                $scoutClassQuery = "SELECT `name` FROM degree";
                 $scoutClassResult = mysqli_query($con, $scoutClassQuery);
                 while ($scoutClassRow = mysqli_fetch_assoc($scoutClassResult)) {
                   // $selected = ($scoutClassRow['name'] == $row['name']) ? 'selected' : '';
