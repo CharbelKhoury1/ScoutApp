@@ -130,6 +130,15 @@ function insertTransaction($description, $amount, $unitId, $currencyCode, $typeC
     mysqli_close($con); 
     
     return $success; 
+    if ($success) {
+        mysqli_close($con);
+        return true;
+    } else {
+        $error = mysqli_error($con);
+        mysqli_close($con);
+        error_log("Error inserting transaction: $error");
+        return false;
+    }
 }
 
 
