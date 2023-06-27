@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
   LEFT JOIN regiment reg ON un.regimentId = reg.regiment_id
   LEFT JOIN traininghistory th ON urh.userId = th.userId
   LEFT JOIN trainingcourses tc ON th.courseId = tc.course_id
-  WHERE urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE()";
+  WHERE (urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE())";
 
   // Construct the WHERE clause based on the available search criteria
   $whereClause = "";
