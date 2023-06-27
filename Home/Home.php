@@ -47,7 +47,7 @@ $con=connection();
                       FROM unitrankhistory urh
                       INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
                       INNER JOIN features f ON rf.featureid = f.feature_id
-                      WHERE urh.userId = $userID AND urh.end_date IS NULL";
+                      WHERE urh.userId = $userID AND (urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE())";
 
             $result = mysqli_query($con, $query);
 
@@ -127,7 +127,7 @@ $con=connection();
             // Get the user's rank from the joined tables based on their user ID
             $userId = $_SESSION['user_id'];
             $query = "SELECT r.name FROM unitrankhistory urh
-                      JOIN rank r ON urh.rankId = r.rank_id
+                      JOIN `rank` r ON urh.rankId = r.rank_id
                       JOIN user u ON urh.userId = u.user_id
                       WHERE urh.userId = $userId AND urh.end_date IS NULL";
             $result = $con->query($query);
@@ -153,10 +153,6 @@ $con=connection();
         }
       ?>
            
-
-        
-
-
       <?php 
         if ($userRank == 'Generalcommissioner') {
           $gen = "SELECT * FROM requeststatus WHERE statusCode = '0' AND flag IS NULL";
