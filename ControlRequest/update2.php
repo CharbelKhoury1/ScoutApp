@@ -14,7 +14,7 @@ if (isset($_COOKIE['request_id'])) {
   $result = mysqli_query($conn, $query);
 
   if ($result) {
-    header("Location: ../ControlRequest/requests_approved.php?error=Request Approved!");
+    header("Location: ../ControlRequest/requests_rejected.php?error=Request Approved!");
   } else {
     echo "An error occurred: " . mysqli_error($conn);
   }

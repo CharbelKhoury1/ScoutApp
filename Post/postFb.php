@@ -1,47 +1,48 @@
+
+
+
 <?php
 
-function checkInternetConnection()
-{
-  $connected = @fsockopen("www.facebook.com", 80);
-  if ($connected) {
-    fclose($connected);
-    return true; // Internet connection established
-  } else {
-    return false; // No internet connection
-  }
-}
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-if (checkInternetConnection()) {
-  require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
-  $app_id = '257544993552973 ';
-  $app_secret = '36f77fb166017bf958ac5247988ebb12';
-  $access_token = 'EAADqPF3auk0BAElytvEfnQn6YHZCKcebZCSOVJtLlilPchRoY9GLV4MG0xqXeFXPqfuN6Kqvh6aMhew46PacyvhMRH5oMYbkKGys2h7zmqP6ihhSlok1EDZBmWHbEvfqNOTL6HAAIad50ITDmXo8RGeb217DO79erbNOVzlTB40rO0KG73Y';
+require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
 
-  $fb = new Facebook\Facebook([
-    'app_id' => $app_id,
-    'app_secret' => $app_secret,
-    'default_graph_version' => 'v17.0',
-  ]);
+$fb = new Facebook\Facebook([
+  'app_id' => '257544993552973',
+  'app_secret' => '36f77fb166017bf958ac5247988ebb12',
+  'default_graph_version' => 'v17.0',
+]);
 
-  $fb->setDefaultAccessToken($access_token);
-      
+$helper = $fb->getRedirectLoginHelper();
+$permissions = ['pages_show_list' , 'pages_read_engagement' , 'pages_manage_posts']; // Add any additional permissions you need
 
-      try {
-        $response = $fb->post('/me/feed', ['message' => 'Hello, Facebook!']);
-        $graphNode = $response->getGraphNode();
-        echo 'Post ID: ' . $graphNode['id'];
-
-      } catch (Facebook\Exceptions\FacebookResponseException $e) {
-        // Handle API errors
-        echo 'Graph returned an error: ' . $e->getMessage();
-      } catch (Facebook\Exceptions\FacebookSDKException $e) {
-        // Handle SDK errors
-        echo 'Facebook SDK returned an error: ' . $e->getMessage();
-      }
-    } else {
-      echo '<p class="error-message">No internet connection. Please check your network connection and try again.</p>';
-    }
+$loginUrl = $helper->getLoginUrl('http://localhost:3000/Post/postFb.php', $permissions);
 
 
+// Redirect the user to the login URL
+
+// After the user grants permission and is redirected to the callback URL:
+$accessToken = $helper->getAccessToken();
+
+if (isset($accessToken)) {
+  // The user has granted permission, and you have the access token
+  try {
+    // Create a new post
+    $response = $fb->post('/me/feed', ['message' => 'Hello, Facebook!', 'access_token' => $accessToken]);
     
-    ?>
+    // Get the post ID
+    $postId = $response->getDecodedBody()['id'];
+    
+    echo 'Post created. ID: ' . $postId;
+  } catch (Facebook\Exceptions\FacebookResponseException $e) {
+    echo 'Graph returned an error: ' . $e->getMessage();
+  } catch (Facebook\Exceptions\FacebookSDKException $e) {
+    echo 'Facebook SDK returned an error: ' . $e->getMessage();
+  }
+} else {
+  // Access token not obtained
+  // Handle the error or display an appropriate message
+}
+?>
