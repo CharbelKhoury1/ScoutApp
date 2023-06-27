@@ -122,45 +122,45 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
 
 
     $scoutRankPresent = $_POST['scoutrankpresent'];
-    $scoutRegimentPresent = $_POST['nameofregiment-present'];
     $scoutUnitPresent = $_POST['unit-present'];
     $scoutStartDatePresent = $_POST['startdate-present'];
     
-    // echo $scoutRankPresent."  ".$scoutRegimentPresent."  ".$scoutUnitPresent."  ".$scoutStartDatePresent;
-
     // Retrieve rank_id from the rank table
     $query = "SELECT rank_id FROM rank WHERE name = '$scoutRankPresent'";
     $result = mysqli_query($con, $query);
     if ($result && mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
       $rankId = $row['rank_id'];
+    
+      // Retrieve unit_id from the unit table if provided
+      if (!empty($scoutUnitPresent)) {
+        $query = "SELECT unit_id FROM unit WHERE name = '$scoutUnitPresent'";
+        $result = mysqli_query($con, $query);
+        if ($result && mysqli_num_rows($result) > 0) {
+          $row = mysqli_fetch_assoc($result);
+          $unitId = $row['unit_id'];
+        } else {
+          echo "Error: Unit not found.";
+          exit;
+        }
+      } else {
+        $unitId = NULL; // Set unitId to NULL if unit is not provided
+      }
+    
+      // Insert data into the unitrankhistory table using the retrieved IDs
+      $query2 = "INSERT INTO unitrankhistory (start_date, end_date, userId, unitId, rankId) 
+                  VALUES ('$scoutStartDatePresent', NULL , '$userId', '$unitId', '$rankId')";
+    
+      if (mysqli_query($con, $query2)) {
+        echo "Present Data inserted into unitrankhistory table successfully."."<br>";
+      } else {
+        echo "Error: " . mysqli_error($con);
+      }
     } else {
       echo "Error: Rank not found.";
       exit;
     }
     
-    
-    // Retrieve unit_id from the unit table
-    $query1 = "SELECT unit_id FROM unit WHERE name = '$scoutUnitPresent'";
-    $result = mysqli_query($con, $query1);
-    if ($result && mysqli_num_rows($result) > 0) {
-      $row = mysqli_fetch_assoc($result);
-      $unitId = $row['unit_id'];
-    } else {
-      echo "Error: Unit not found.";
-      exit;
-    }
-    
-    // Insert data into the unitrankhistory table using the retrieved IDs
-    $query2 = "INSERT INTO unitrankhistory (start_date, end_date, userId, unitId, rankId) 
-              VALUES ('$scoutStartDatePresent', NULL , '$userId', '$unitId', '$rankId')";
-     
-    if (mysqli_query($con, $query2)) {
-      echo "Present Data inserted into unitrankhistory table successfully."."<br>";
-    } else {
-      echo "Error: " . mysqli_error($con);
-    }
-  
 
 if(isset($_POST['regiment'])) {
 
@@ -275,54 +275,64 @@ if(isset($_POST['regiment'])) {
     echo "Error: " . mysqli_error($con);
   }
 
+
   }
 
-    // Retrieve the posted form data
-    $courses = $_POST['course'];
-    $locations = $_POST['location'];
-    $startDates = $_POST['start-date'];
-    $endDates = $_POST['end-date'];
-    
-    // Prepare and execute the SQL insert statement
-    $stmt = $con->prepare("INSERT INTO traininghistory (courseId, userId, location, start_date, end_date) VALUES (?, ?, ?, ?, ?)");
-    
-    for ($i = 0; $i < count($courses); $i++) {
-      $courseName = $courses[$i];
-      $location = $locations[$i];
-      $startDate = $startDates[$i];
-      $endDate = $endDates[$i];
-    
-      // Retrieve the course ID based on the selected course name
-      $courseIdQuery = "SELECT course_id FROM trainingcourses WHERE name = ?";
-      $courseIdStmt = $con->prepare($courseIdQuery);
-      $courseIdStmt->bind_param("s", $courseName);
-      $courseIdStmt->execute();
-      $courseIdResult = $courseIdStmt->get_result();
-      
-      if ($courseIdResult->num_rows > 0) {
-        $row = $courseIdResult->fetch_assoc();
-        $courseId = $row['course_id'];
-      } else {
-        // Handle the case where the course ID is not found (e.g., display an error message)
-        echo "Course ID not found for course: " . $courseName;
-        continue;
+
+$course = isset($_POST['course']) ? $_POST['course'] : [];
+$location = isset($_POST['location']) ? $_POST['location'] : [];
+$startDate = isset($_POST['start-date']) ? $_POST['start-date'] : [];
+$endDate = isset($_POST['end-date']) ? $_POST['end-date'] : [];
+
+// Initialize the INSERT query
+$query = "INSERT INTO traininghistory (courseId, userId, location, start_date, end_date) VALUES ";
+
+// Check if any courses are selected
+if (!empty($course)) {
+  for ($i = 0; $i < count($course); $i++) {
+    mysqli_set_charset($con, "utf8"); // Set character encoding to UTF-8
+
+    // Inside the loop
+    $courseName = mysqli_real_escape_string($con, $course[$i]);
+    $locationName = mysqli_real_escape_string($con, $location[$i]);
+    $startDateValue = mysqli_real_escape_string($con, $startDate[$i]);
+    $endDateValue = mysqli_real_escape_string($con, $endDate[$i]);
+
+    // Query the trainingcourses table to get the course_id using prepared statement
+    $courseQuery = "SELECT course_id FROM trainingcourses WHERE name = ?";
+    $courseStatement = mysqli_prepare($con, $courseQuery);
+    mysqli_stmt_bind_param($courseStatement, 's', $courseName);
+    mysqli_stmt_execute($courseStatement);
+    $courseResult = mysqli_stmt_get_result($courseStatement);
+
+    if ($courseResult && mysqli_num_rows($courseResult) > 0) {
+      $courseRow = mysqli_fetch_assoc($courseResult);
+      $courseId = $courseRow['course_id'];
+
+      // Append the values to the query
+      $query .= "('$courseId', '$userId', '$locationName', '$startDateValue', '$endDateValue')";
+
+      // Add a comma if it's not the last record
+      if ($i < count($course) - 1) {
+        $query .= ", ";
       }
-    
-      // Bind the values to the prepared statement
-      $stmt->bind_param("iisss", $courseId, $userId, $location, $startDate, $endDate);
-    
-      // Execute the statement
-      $stmt->execute();
-
-      $userId = null;
-      $location = null;
-      $startDate = null;
-      $endDate = null;
-
+    } else {
+      // Handle the case when the course query fails
+      echo "Course Query error";
     }
-    
-    // Close the statement and database connection
-    $stmt->close();  
+  }
+
+  // Execute the INSERT query
+  $result = mysqli_query($con, $query);
+
+  // Check if the query was successful
+  if ($result) {
+    echo "Data inserted successfully!";
+  } else {
+    echo "Error: " . mysqli_error($con);
+  }
+}
+
     header("Location: ../Home/Home.php");
   }
     // Close the database connection
