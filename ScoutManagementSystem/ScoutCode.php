@@ -532,42 +532,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
           <select name="unit-leader" id="unit-leader">
             <option value="" disabled selected>Select a leader</option>
           </select>
-          </td>
-          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-        $(document).ready(function() {
-          // Handle regiment selection change event
-          $('#unit-regiment').change(function() {
-            var selectedRegiment = $(this).val();
-            var url = 'retrieve_leaders.php';
-
-            // Send an Ajax request to retrieve the leader options
-            $.ajax({
-              type: 'POST',
-              url: url,
-              data: { selectedRegiment: selectedRegiment },
-              dataType: 'json',
-              success: function(data) {
-                // Clear the existing leader options
-                $('#unit-leader').empty();
-
-                // Append the new leader options
-                $.each(data, function(key, value) {
-                  $('#unit-leader').append('<option value="' + value + '">' + value + '</option>');
-                });
-              },
-              error: function(xhr, status, error) {
-                console.log('Ajax request error:', error);
-              }
-            });
-          });
-        });
-        </script>
+        </td>
       </tr>
     </table>
     <button type="submit" name="create">Create Unit</button>
   </form>
 </section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#unit-regiment').on('change', function() {
+      var selectedRegiment = $(this).val();
+      var unitDropdown = $('#unit-leader');
+
+      $.ajax({
+        url: 'retrieve_leaders.php',
+        method: 'POST',
+        data: { selectedRegiment: selectedRegiment },
+        dataType: 'json',
+        success: function(response) {
+          unitDropdown.empty();
+          $.each(response.leaders, function(index, leader) {
+            unitDropdown.append($('<option>', {
+              value: leader,
+              text: leader
+            }));
+          });
+        },
+        error: function() {
+          console.log('Error occurred during leaders retrieval');
+        }
+      });
+    });
+  });
+</script>
 
 
   <!-- Section : Training courses  -->
@@ -610,36 +609,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
     </form>
 </section>
 
-
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('#unit-regiment').on('change', function() {
-        var selectedRegiment = $(this).val();
-        var unitDropdown = $('#unit-leader');
-
-        $.ajax({
-          url: 'retrieve_leaders.php', // Replace with the actual PHP file retrieving leaders
-          method: 'POST',
-          data: { regiment: selectedRegiment },
-          dataType: 'json',
-          success: function(response) {
-            unitDropdown.empty();
-            $.each(response.leaders, function(index, leader) {
-              unitDropdown.append($('<option>', {
-                value: leader,
-                text: leader
-              }));
-            });
-          },
-          error: function() {
-            console.log('Error occurred during leaders retrieval');
-          }
-        });
-      });
-    });
-  </script>
 
 <script>
   // sidebar js
