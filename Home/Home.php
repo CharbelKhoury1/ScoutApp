@@ -142,7 +142,7 @@ $con=connection();
         ?>
 
       <?php 
-        if ($userRank == 'Generalcommander') {
+        if ($userRank == `Generalcommander`) {
           $com = "SELECT * FROM requeststatus WHERE statusCode = '1' AND flag = 1";
           $rescom = mysqli_query($con, $com);
           if ($rescom && mysqli_num_rows($rescom) > 0) {
@@ -154,7 +154,7 @@ $con=connection();
       ?>
            
       <?php 
-        if ($userRank == 'Generalcommissioner') {
+        if ($userRank == `Generalcommissioner`) {
           $gen = "SELECT * FROM requeststatus WHERE statusCode = '0' AND flag IS NULL";
           $resgen = mysqli_query($con, $gen);
           if ($resgen && mysqli_num_rows($resgen) > 0) {
