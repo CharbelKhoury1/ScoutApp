@@ -116,10 +116,10 @@ a {
 
       if (selectedValue === "Requests Approved") {
         // Redirect to the "Requests Approved" page
-        window.location.href = "requests_approved.php";
+        window.location.href = "requests_approved_GenCom.php";
       } else if (selectedValue === "Requests Rejected") {
         // Redirect to the "Requests Rejected" page
-        window.location.href = "requests_rejected.php";
+        window.location.href = "requests_rejected_GenCom.php";
       }
     }
   </script>

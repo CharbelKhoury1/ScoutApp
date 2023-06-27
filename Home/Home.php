@@ -127,7 +127,7 @@ $con=connection();
             // Get the user's rank from the joined tables based on their user ID
             $userId = $_SESSION['user_id'];
             $query = "SELECT r.name FROM unitrankhistory urh
-                      JOIN rank r ON urh.rankId = r.rank_id
+                      JOIN `rank` r ON urh.rankId = r.rank_id
                       JOIN user u ON urh.userId = u.user_id
                       WHERE urh.userId = $userId AND urh.end_date IS NULL";
             $result = $con->query($query);
@@ -153,10 +153,6 @@ $con=connection();
         }
       ?>
            
-
-        
-
-
       <?php 
         if ($userRank == 'Generalcommissioner') {
           $gen = "SELECT * FROM requeststatus WHERE statusCode = '0' AND flag IS NULL";

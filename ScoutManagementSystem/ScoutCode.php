@@ -138,7 +138,7 @@ $con=connection();
         </tr>
         <tr>
           <td><label for="email">Email:</label></td>
-          <td><input type="email" id="email" name="email" required></td>
+          <td><input type="email" id="email" name="email"></td>
         </tr>
       </table>
       <button type="submit" name="generate">Generate</button>
@@ -152,25 +152,29 @@ $con=connection();
         </tr>
       </thead>
       <tbody>
-        <?php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
-            // Handle the Generate button click event
-            // Generate code and password, send email, and display the result
-            // Make sure to define $mail, $code, and $password variables  
-            // Check if the email was sent successfully
-             // Check if the email already has a code and password assigned
+      <?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
+  // Check if the form has been submitted
 
-             $existingQuery = "SELECT * FROM usercredentials WHERE userId IN (SELECT user_id FROM user WHERE email = '$email')";
-             $existingResult = mysqli_query($con, $existingQuery);
+  if (!isset($_POST['email'])) {
+    // Generate code/password based on first name and last name
+    $firstName = $_POST['first-name'];
+    $lastName = $_POST['last-name'];
+    $existingQuery = "SELECT * FROM usercredentials WHERE userId IN (SELECT user_id FROM user WHERE fname = '$firstName' AND lname = '$lastName')";
+  } else {
+    // Generate code/password based on email
+    $email = $_POST['email'];
+    $existingQuery = "SELECT * FROM usercredentials WHERE userId IN (SELECT user_id FROM user WHERE email = '$email')";
+  }
 
-             if (mysqli_num_rows($existingResult) > 0) {
-                 $result = 'User has already been given a code and password!';
-                 echo '<tr>
-                         <td></td>
-                         <td></td>
-                         <td>'.$result.'</td>
-                       </tr>';
-             } else {
+  $existingResult = mysqli_query($con, $existingQuery);
+
+  if (mysqli_num_rows($existingResult) > 0) {
+    $result = 'User has already been given a code and password!';
+    $code = '';
+    $password = '';
+  } else {
+    // Code and password generation logic
 
                 if (isset($mail) && $mail->send() && isset($code) && isset($password)) {
                 $result = 'Email sent successfully!';
@@ -196,7 +200,7 @@ $con=connection();
                           echo "Error: " . mysqli_error($con);
                       }
                        // Prepare and execute the INSERT statement
-                       $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, `password`, userId) VALUES (?, ?, ?)");
+                       $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, password, userId) VALUES (?, ?, ?)");
                        mysqli_stmt_bind_param($stmt, 'sss', $code, $password, $user_id);
                        $result = mysqli_stmt_execute($stmt);
                        
