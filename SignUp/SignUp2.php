@@ -135,7 +135,7 @@
         <select id="rank-0" name="rank[0]">
           <?php
           // Assuming you have a 'rank' table with 'name' column
-          $query = "SELECT name FROM rank";
+          $query = "SELECT name FROM `rank`";
           $result = mysqli_query($con, $query);
           if (!$result) {
             die('Query failed');
@@ -375,7 +375,7 @@
           <option disabled selected value="">Select Course</option>
           <?php
           // Assuming you have a 'trainingcourses' table with 'name' column
-          $query = "SELECT DISTINCT name FROM trainingcourses";
+          $query = "SELECT DISTINCT `name` FROM trainingcourses";
           $result = mysqli_query($con, $query);
           if (!$result) {
             die('Query failed');

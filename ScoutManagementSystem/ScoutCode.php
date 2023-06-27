@@ -196,7 +196,7 @@ $con=connection();
                           echo "Error: " . mysqli_error($con);
                       }
                        // Prepare and execute the INSERT statement
-                       $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, password, userId) VALUES (?, ?, ?)");
+                       $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, `password`, userId) VALUES (?, ?, ?)");
                        mysqli_stmt_bind_param($stmt, 'sss', $code, $password, $user_id);
                        $result = mysqli_stmt_execute($stmt);
                        
@@ -252,7 +252,7 @@ $con=connection();
                 <option disabled selected>Select Rank</option> <!-- Disabled placeholder option -->
                 <?php
                 // Loop through the ranks table to populate options
-                $rankQuery = "SELECT name FROM rank";
+                $rankQuery = "SELECT `name` FROM `rank`";
                 $rankResult = mysqli_query($con, $rankQuery);
                 // var_dump($rankResult);
                 while ($rankRow = mysqli_fetch_assoc($rankResult)) {
@@ -306,7 +306,7 @@ $con=connection();
                 <?php
                 mysqli_set_charset($con, "utf8"); // Set character encoding
                 // Loop through the scout classes table to populate options
-                $scoutClassQuery = "SELECT name FROM degree";
+                $scoutClassQuery = "SELECT `name` FROM degree";
                 $scoutClassResult = mysqli_query($con, $scoutClassQuery);
                 while ($scoutClassRow = mysqli_fetch_assoc($scoutClassResult)) {
                   // $selected = ($scoutClassRow['name'] == $row['name']) ? 'selected' : '';
