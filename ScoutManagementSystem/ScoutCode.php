@@ -45,7 +45,7 @@ $con=connection();
                       FROM unitrankhistory urh
                       INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
                       INNER JOIN features f ON rf.featureid = f.feature_id
-                      WHERE urh.userId = $userID AND (urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE())";
+                      WHERE urh.userId = $userID AND urh.end_date IS NULL";
 
             $result = mysqli_query($con, $query);
 
@@ -153,57 +153,94 @@ $con=connection();
       </thead>
       <tbody>
       <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
-  // Check if the form has been submitted
 
-  if (!isset($_POST['email'])) {
-    // Generate code/password based on first name and last name
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
+    // Handle the Generate button click event
+    // Generate code and password, send email, and display the result
+    // Make sure to define $mail, $code, and $password variables
+    $email = $_POST['email'];
     $firstName = $_POST['first-name'];
     $lastName = $_POST['last-name'];
-    $existingQuery = "SELECT * FROM usercredentials WHERE userId IN (SELECT user_id FROM user WHERE fname = '$firstName' AND lname = '$lastName')";
-  } else {
-    // Generate code/password based on email
-    $email = $_POST['email'];
-    $existingQuery = "SELECT * FROM usercredentials WHERE userId IN (SELECT user_id FROM user WHERE email = '$email')";
-  }
 
-  $existingResult = mysqli_query($con, $existingQuery);
-
-  if (mysqli_num_rows($existingResult) > 0) {
-    $result = 'User has already been given a code and password!';
-    $code = '';
-    $password = '';
-  } else {
-    // Code and password generation logic
-
-    if (isset($_POST['email']) && isset($mail) && $mail->send()) {
-      // Email generation and sending
-      $result = 'Email sent successfully!';
-    } elseif (isset($code) && isset($password)) {
-      // Prepare and execute the INSERT statement
-      $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, password) VALUES (?, ?)");
-      mysqli_stmt_bind_param($stmt, 'ss', $code, $password);
-      $insertResult = mysqli_stmt_execute($stmt);
-
-      if ($insertResult) {
-        $result = 'Record was inserted successfully into your database.';
-      } else {
-        $result = 'Error: ' . mysqli_error($con);
-      }
-
-      mysqli_stmt_close($stmt);
+    // Check if code and password generation has already been performed for this email
+    if (isset($_SESSION['last_email']) && $_SESSION['last_email'] === $email) {
+        $result = 'Code and password already generated for this email!';
+        echo '<tr>
+                <td></td>
+                <td></td>
+                <td>'.$result.'</td>
+              </tr>';
     } else {
-      $result = 'Failed to send an email!';
-    }
-  }
+        // Generate code and password
+        // ...
 
-  if (!empty($code) && !empty($password)) {
-    echo '<tr><td>'.$code.'</td><td>'.$password.'</td><td>'.$result.'</td></tr>';
-  } else {
-    echo '<tr><td></td><td></td><td>'.$result.'</td></tr>';
-  }
+        // Check if email is already in the sent emails array
+        if (isset($_SESSION['sent_emails']) && in_array($email, $_SESSION['sent_emails'])) {
+            $result = 'Email already sent a code and password!';
+            echo '<tr>
+                    <td></td>
+                    <td></td>
+                    <td>'.$result.'</td>
+                  </tr>';
+        } else {
+            if ($mail->send() && isset($mail) && isset($code) && isset($password)) {
+                echo '<tr>
+                        <td>'.$code.'</td>
+                        <td>'.$password.'</td>
+                        <td>Email sent successfully!</td>
+                      </tr>';
+
+                // Store the email in the session variable to track the last email entered
+                $_SESSION['last_email'] = $email;
+
+                // Add the email to the sent emails array
+                $_SESSION['sent_emails'][] = $email;
+
+                // Insert the code, password, and user ID into the database
+                // ...
+
+                // Prepare and execute the INSERT statement
+                $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, password) VALUES (?, ?)");
+                mysqli_stmt_bind_param($stmt, 'ss', $code, $password);
+                $result = mysqli_stmt_execute($stmt);
+
+                if ($result) {
+                    echo "Record was inserted successfully into your database.";
+                } else {
+                    echo "Error: " . mysqli_error($con);
+                }
+
+                mysqli_stmt_close($stmt);
+            } else {
+                $code = generateCode(6);
+                $password = generatePassword($firstName, $lastName);
+
+                // Prepare and execute the INSERT statement
+                $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, password) VALUES (?, ?)");
+                mysqli_stmt_bind_param($stmt, 'ss', $code, $password);
+                $result = mysqli_stmt_execute($stmt);
+
+                if ($result) {
+                    echo "Record was inserted successfully into your database.";
+                    echo '<tr>
+                            <td>'.$code.'</td>
+                            <td>'.$password.'</td>
+                            <td>Operation completed without email!</td>
+                          </tr>';
+
+                    // Add the email to the sent emails array
+                    $_SESSION['sent_emails'][] = $email;
+                } else {
+                    echo "Error: " . mysqli_error($con);
+                }
+            }
+        }
+    }
 }
 ?>
+
+
+
       </tbody>
     </table>
   </section>
