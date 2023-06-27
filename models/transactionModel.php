@@ -14,7 +14,7 @@ function hasTransactionPermission($userId) {
                            JOIN rankfeature rf ON r.rank_id = rf.rankid
                            JOIN unitrankhistory ur ON ur.rankId = r.rank_id
                            WHERE ur.userId = ?
-                           AND (ur.end_date IS NULL OR ur.end_date >= CURDATE())
+                           AND (ur.end_date IS NULL OR ur.end_date = '0000-00-00'  OR ur.end_date >= CURDATE())
                            AND rf.featureid = 1";
 
   $selectRankFeatureStatement = mysqli_prepare($con, $selectRankFeatureQry);

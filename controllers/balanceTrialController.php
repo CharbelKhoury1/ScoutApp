@@ -10,13 +10,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['currency_code']) && i
     $typeCode = $_POST['type_code'];
     $userId = $_SESSION['user_id'];
     $unitId = getUserUnit($userId);
-    $transactionRecords = showTransaction($unitId, $currencyCode, $typeCode);
-    $responseData = array(
-	    'transactionRecords' => $transactionRecords
-    );
-    // Send the response as JSON
-    header('Content-Type: application/json');
-    echo json_encode($responseData);
+    if($unitId){
+        $transactionRecords = showTransaction($unitId, $currencyCode, $typeCode);
+        if($transactionRecords){
+            $responseData = array(
+                'transactionRecords' => $transactionRecords
+            );
+            // Send the response as JSON
+            header('Content-Type: application/json');
+            echo json_encode($responseData);
+        }else{
+            logError("Failed to retrieve transaction records.");
+        }
+    }else{
+        logError("Failed to retrieve user unit.");
+    }
+    
+   
 }
 
 ?>
