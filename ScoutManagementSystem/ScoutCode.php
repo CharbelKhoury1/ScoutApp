@@ -152,7 +152,7 @@ $con=connection();
         </tr>
       </thead>
       <tbody>
-      <?
+      <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
     // Handle the Generate button click event
     // Generate code and password, send email, and display the result
@@ -493,53 +493,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
     </table>
   </section>
 
+<!-- Section: Create Scout Units -->
+<section id="create-section" <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) { echo 'style="display: block;"'; } else { echo 'style="display: none;"'; } ?>>
+  <h2>Create Scout Units</h2>
+  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+    <table class="input-table">
+      <tr>
+        <td><label for="unit-name">Unit Name:</label></td>
+        <td><input type="text" id="unit-name" name="unit-name" required></td>
+      </tr>
+      <tr>
+        <td><label for="unit-regiment">Regiment:</label></td>
+        <td>
+          <select name="unit-regiment" id="unit-regiment" required>
+            <!-- Populate the dropdown options with regiments from the database -->
+            <?php
+            // Assuming you have already established a database connection using mysqli_connect
+            $query = "SELECT DISTINCT name FROM regiment";
+            $result = mysqli_query($con, $query);
 
-  <!-- Section: Create Scout Units -->
-  <section id="create-section" <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) { echo 'style="display: block;"'; } else { echo 'style="display: none;"'; } ?>>
-    <h2>Create Scout Units</h2>
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-      <table class="input-table">
-        <tr>
-          <td><label for="unit-name">Unit Name:</label></td>
-          <td><input type="text" id="unit-name" name="unit-name" required></td>
-        </tr>
-        <tr>
-          <td><label for="unit-regiment">Regiment:</label></td>
-          <td>
-            <select name="unit-regiment" id="unit-regiment" required>
-              <!-- Populate the dropdown options with regiments from the database -->
-              <?php
-              // Assuming you have already established a database connection using mysqli_connect
-              $query = "SELECT DISTINCT name FROM regiment";
-              $result = mysqli_query($con, $query);
-
-              if ($result) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                  $regiment = $row['name'];
-                  echo "<option value='$regiment'>$regiment</option>";
-                }
-                mysqli_free_result($result);
-              } else {
-                echo "Error: " . mysqli_error($con);
+            if ($result) {
+              while ($row = mysqli_fetch_assoc($result)) {
+                $regiment = $row['name'];
+                echo "<option value='$regiment'>$regiment</option>";
               }
+              mysqli_free_result($result);
+            } else {
+              echo "Error: " . mysqli_error($con);
+            }
 
-              mysqli_close($con);
-              ?>
-            </select>
+            ?>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="unit-leader">Leader:</label></td>
+        <td>
+          <select name="unit-leader" id="unit-leader">
+            <option value="" disabled selected>Select a leader</option>
+          </select>
           </td>
-        </tr>
-        <tr>
-          <td><label for="unit-leader">Leader:</label></td>
-          <td>
-            <select name="unit-leader" id="unit-leader">
-              <option value="charbel">Charbel</option>
-            </select>
-          </td>
-        </tr>
-      </table>
-      <button type="submit" name="create">Create Unit</button>
-    </form>
-  </section>
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function() {
+          // Handle regiment selection change event
+          $('#unit-regiment').change(function() {
+            var selectedRegiment = $(this).val();
+            var url = 'retrieve_leaders.php';
+
+            // Send an Ajax request to retrieve the leader options
+            $.ajax({
+              type: 'POST',
+              url: url,
+              data: { selectedRegiment: selectedRegiment },
+              dataType: 'json',
+              success: function(data) {
+                // Clear the existing leader options
+                $('#unit-leader').empty();
+
+                // Append the new leader options
+                $.each(data, function(key, value) {
+                  $('#unit-leader').append('<option value="' + value + '">' + value + '</option>');
+                });
+              },
+              error: function(xhr, status, error) {
+                console.log('Ajax request error:', error);
+              }
+            });
+          });
+        });
+        </script>
+      </tr>
+    </table>
+    <button type="submit" name="create">Create Unit</button>
+  </form>
+</section>
 
 
   <!-- Section : Training courses  -->
