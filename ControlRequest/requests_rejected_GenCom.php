@@ -1,4 +1,8 @@
 <?php
+
+include ("../common.inc.php");
+include ("../utility.php");
+$conn=connection();
 include("../ControlRequest/sidebarTest.php"); ?>
 <!DOCTYPE html>
 <html>
@@ -73,6 +77,7 @@ include("../ControlRequest/sidebarTest.php"); ?>
     justify-content: space-between;
     margin-bottom: 1em;
     padding: 1em;
+    margin-top: 30px;
 }
 
 .heading {
@@ -108,6 +113,38 @@ a {
     justify-content: center;
 }
 
+input[type='date']{
+
+width: 160px;
+height: 40px;
+padding: 8px;
+font-size: 16px;
+border: 1px solid #ccc;
+border-radius: 4px;
+background-color: #fff;
+border-color: green;
+border-width: 2px;
+color: #333;
+}
+
+.filter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+.green-button{
+    background-color: green;
+    font-size: 1.2em;
+    font-family: sans-serif ;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+}
+.green-button:hover{
+    background: rgb(143, 219, 143);
+}
+
   </style>
 </head>
 
@@ -117,6 +154,38 @@ a {
         <div class="left">
             <h2 style="color:red;">Requests Rejected</h2>
         </div>
+    </div>
+
+    <div class="filter">
+      <form action="" method="POST">
+        <label><b>From:</b></label>
+        <input type="date" name="dateFrom">
+
+        <label><b>To:</b></label>
+        <input type="date" name="dateTo">
+
+        <label><b>Type of file:</b></label>
+        <?php $sql = "SELECT Form_description FROM forms";
+        $result = mysqli_query($conn, $sql);
+
+        // Check if any results are returned
+        if (mysqli_num_rows($result) > 0) {
+          // Start generating the select dropdown
+          echo '<select name="Form_description">';
+          echo '<option value="All files">All files</option>';
+
+          // Loop through the results and generate option tags
+          while ($row = mysqli_fetch_assoc($result)) {
+            $fileName = $row['Form_description'];
+            echo '<option value="' . $fileName . '">' . $fileName . '</option>';
+          }
+
+          echo '</select>';
+        } else {
+          echo "No files found in the database.";
+        }?>
+        <input type="submit" class="green-button" id="submitBtn" name="btn" value="Apply">
+      </form>
     </div>
 
     <div class="policy-container">
@@ -136,9 +205,7 @@ a {
         <?php
         // Add your database connection and query here
        
-        include ("../common.inc.php");
-        include ("../utility.php");
-        $conn=connection();
+
 
 $qr6 = "SELECT request_id FROM requeststatus WHERE statusCode = 2";
 $res6 = mysqli_query($conn, $qr6);
@@ -152,36 +219,211 @@ while ($row6 = mysqli_fetch_array($res6)) {
 if (!empty($ids)) {
     $idList = implode(',', $ids);
 
-    $qr7 = "SELECT request_id, name, submitter FROM requests WHERE request_id IN ($idList)";
-    $res7 = mysqli_query($conn, $qr7);
-
-    if ($res7 && mysqli_num_rows($res7) > 0) {
-        while ($row7 = mysqli_fetch_assoc($res7)) {
-            $name = $row7['request_id'];
-            $lastUpdated = $row7['submitter'];
-            $link = $row7['name'];
-            
-            // Output the data for each record
-            ?>
-            <div class="policy">
-                <span><?php echo $name; ?></span>
-                <span><?php echo $lastUpdated; ?></span>
-                <span><?php echo $link; ?></span>
-                <span>
-                    <a href="control2GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
-                </span>
-            </div>
-            <?php
+    if (isset($_POST['btn'])) {
+      
+        if (!empty($_POST['dateFrom']) && empty($_POST['dateTo']) && !empty($_POST['Form_description'])) {
+          // dateFrom and Form_description are set, retrieve files from dateFrom till SYSDATE() of the specified Form_description
+          $from = $_POST['dateFrom'];
+          $des = $_POST['Form_description'];
+          $desWithExtension = $des . ".pdf";
+          if($des == 'All files'){
+            $sql = "SELECT request_id, name, submitter FROM requests WHERE date_submitted >= '$from' AND date_submitted <= CURDATE() AND request_id IN ($idList)";
+            $res = mysqli_query($conn, $sql);
+            // Execute the query and handle the results
+            if ($res && mysqli_num_rows($res) > 0) {
+                while ($row7 = mysqli_fetch_assoc($res)) {
+                    $name = $row7['request_id'];
+                    $lastUpdated = $row7['submitter'];
+                    $link = $row7['name'];
+                    
+                    // Output the data for each record
+                    ?>
+                    <div class="policy">
+                        <span><?php echo $name; ?></span>
+                        <span><?php echo $lastUpdated; ?></span>
+                        <span><?php echo $link; ?></span>
+                        <span>
+                            <a href="control2GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                        </span>
+                    </div>
+                    <?php
+                  }
+              }else{ echo "No requests approved yet!";}
+          }else{
+          
+            $sql = "SELECT request_id, name, submitter FROM requests WHERE date_submitted >= '$from' AND date_submitted <= CURDATE() AND name = '$desWithExtension' AND request_id IN ($idList)";
+            $res = mysqli_query($conn, $sql);
+            // Execute the query and handle the results
+            if ($res && mysqli_num_rows($res) > 0) {
+              while ($row7 = mysqli_fetch_assoc($res)) {
+                  $name = $row7['request_id'];
+                  $lastUpdated = $row7['submitter'];
+                  $link = $row7['name'];
+                  
+                  // Output the data for each record
+                  ?>
+                  <div class="policy">
+                      <span><?php echo $name; ?></span>
+                      <span><?php echo $lastUpdated; ?></span>
+                      <span><?php echo $link; ?></span>
+                      <span>
+                          <a href="control2GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                      </span>
+                  </div>
+                  <?php
+                }
+            } else {
+              echo "No requests approved yet!";
+            }
+          }
+  
+        } elseif (empty($_POST['dateFrom']) && empty($_POST['dateTo']) && !empty($_POST['Form_description'])) {
+          // dateFrom and Form_description are set, retrieve files from dateFrom till SYSDATE() of the specified Form_description
+          $des = $_POST['Form_description'];
+          $desWithExtension = $des . ".pdf";
+          if($des == 'All files'){
+            $qr7 = "SELECT request_id, name, submitter FROM requests WHERE request_id IN ($idList)";
+            $res7 = mysqli_query($conn, $qr7);
+            if ($res7 && mysqli_num_rows($res7) > 0) {
+              while ($row7 = mysqli_fetch_assoc($res7)) {
+                  $name = $row7['request_id'];
+                  $lastUpdated = $row7['submitter'];
+                  $link = $row7['name'];
+                  
+                  // Output the data for each record
+                  ?>
+                  <div class="policy">
+                      <span><?php echo $name; ?></span>
+                      <span><?php echo $lastUpdated; ?></span>
+                      <span><?php echo $link; ?></span>
+                      <span>
+                          <a href="control2GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                      </span>
+                  </div>
+                  <?php
+                }
+            } else {
+              echo "No requests approved yet!";
+            }
+          } else {
+            $sql = "SELECT request_id, name, submitter FROM requests WHERE name = '$desWithExtension' AND request_id IN ($idList)";
+            $res = mysqli_query($conn, $sql);
+            // Execute the query and handle the results
+            if ($res && mysqli_num_rows($res) > 0) {
+              while ($row7 = mysqli_fetch_assoc($res)) {
+                  $name = $row7['request_id'];
+                  $lastUpdated = $row7['submitter'];
+                  $link = $row7['name'];
+                  
+                  // Output the data for each record
+                  ?>
+                  <div class="policy">
+                      <span><?php echo $name; ?></span>
+                      <span><?php echo $lastUpdated; ?></span>
+                      <span><?php echo $link; ?></span>
+                      <span>
+                          <a href="control2GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                      </span>
+                  </div>
+                  <?php
+                }
+            } else {
+              echo "No requests approved yet!";
+            }
+          }
+  
+        
+        } elseif (!empty($_POST['dateFrom']) && !empty($_POST['dateTo']) && !empty($_POST['Form_description'])) {
+          // dateFrom, dateTo, and Form_description are all set, retrieve files between the specified dates of the specified Form_description
+          $from = $_POST['dateFrom'];
+          $to = $_POST['dateTo'];
+          $des = $_POST['Form_description'];
+          $desWithExtension = $des . ".pdf";
+          if($des == 'All files'){
+            $sql = "SELECT request_id, name, submitter FROM requests WHERE date_submitted >= '$from' AND date_submitted <= '$to' AND request_id IN ($idList)";
+            $res = mysqli_query($conn, $sql);
+            // Execute the query and handle the results
+              if ($res && mysqli_num_rows($res) > 0) {
+                while ($row7 = mysqli_fetch_assoc($res)) {
+                  $name = $row7['request_id'];
+                  $lastUpdated = $row7['submitter'];
+                  $link = $row7['name'];
+                  // Output the data for each record
+                  ?>
+                  <div class="policy">
+                      <span><?php echo $name; ?></span>
+                      <span><?php echo $lastUpdated; ?></span>
+                      <span><?php echo $link; ?></span>
+                      <span>
+                          <a href="control2GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                      </span>
+                  </div>
+                  <?php
+                }
+              } else {
+              echo "No requests approved yet!";
+              }
+  
+          }else{
+          
+            $sql = "SELECT request_id, name, submitter FROM requests WHERE date_submitted >= '$from' AND date_submitted <= '$to' AND name = '$desWithExtension' AND request_id IN ($idList)";
+            $res = mysqli_query($conn, $sql);
+            // Execute the query and handle the results
+            if ($res && mysqli_num_rows($res) > 0) {
+              while ($row7 = mysqli_fetch_assoc($res)) {
+                  $name = $row7['request_id'];
+                  $lastUpdated = $row7['submitter'];
+                  $link = $row7['name'];
+                  // Output the data for each record
+                  ?>
+                  <div class="policy">
+                      <span><?php echo $name; ?></span>
+                      <span><?php echo $lastUpdated; ?></span>
+                      <span><?php echo $link; ?></span>
+                      <span>
+                          <a href="control2GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                      </span>
+                  </div>
+                  <?php
+                }
+            } else {
+              echo "No requests approved yet!";
+            }
+          }
         }
-    } else {
-        echo "No requests rejected yet!";
+    }else{
+  
+          $qr7 = "SELECT request_id, name, submitter FROM requests WHERE request_id IN ($idList)";
+          $res7 = mysqli_query($conn, $qr7);
+  
+          if ($res7 && mysqli_num_rows($res7) > 0) {
+            while ($row7 = mysqli_fetch_assoc($res7)) {
+              $name = $row7['request_id'];
+              $lastUpdated = $row7['submitter'];
+              $link = $row7['name'];
+              
+              // Output the data for each record
+              ?>
+              <div class="policy">
+                  <span><?php echo $name; ?></span>
+                  <span><?php echo $lastUpdated; ?></span>
+                  <span><?php echo $link; ?></span>
+                  <span>
+                      <a href="control2GenCom.php?request_id=<?php echo $name; ?>" onclick="setRequestId('<?php echo $name; ?>')">Change</a>
+                  </span>
+              </div>
+              <?php
+            }
+        } else {
+          echo "No requests approved yet!";
+        }
+        
     }
-} else {
-    echo "No requests rejected yet!";
-}
-?>
-
     
+  }
+  
+  
+  ?>
 
 
     </div>

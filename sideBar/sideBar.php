@@ -1,41 +1,40 @@
 <?php
 session_start();
-$con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to connect to database: ". mysqli_error($con));?>
+$con = mysqli_connect("127.0.0.1", "root", "", "scoutproject") or die("Failed to connect to database: " . mysqli_error($con));
+?>
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>My Website</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="../views/css/sideBar.css">
-  </head>
-  <body> 
-  <div class="sidebar">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../views/css/sideBar.css">
+</head>
+<body>
+<div class="sidebar">
     <div class="logo">
         <img src="../Icons/menu-svgrepo-com.svg" alt="sds">
         <img src="../Icons/arrow-right-svgrepo-com.svg" alt="sdsd">
         <img src="../Icons/close-md-svgrepo-com.svg" alt="dsd">
     </div>
     <div class="links">
-
-        <button  onclick="window.location.href = '../Home/Home.php'">
+        <button onclick="window.location.href = '../Home/Home.php'">
             <img src="../Icons/home-alt-svgrepo-com.svg">Home
         </button>
         <?php
-
         // Assuming you have established a database connection
-        if(isset($_SESSION['user_id'])){
+        if (isset($_SESSION['user_id'])) {
             // Step 1: Retrieve feature names using a single SQL query with INNER JOIN
             $userID = $_SESSION['user_id'];
             $query = "SELECT f.description AS featureName
                       FROM unitrankhistory urh
                       INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
                       INNER JOIN features f ON rf.featureid = f.feature_id
-                      WHERE urh.userId = $userID AND urh.end_date IS NULL";
+                      WHERE urh.userId = $userID AND (urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE())";
 
             $result = mysqli_query($con, $query);
 
@@ -84,7 +83,6 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
         }
         ?>
         <!-- Add other static buttons here -->
-     
         <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
         </button>
@@ -96,6 +94,7 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
         </button>
     </div>
 </div>
-    <script src="../views/javascript/sideBar.js"></script>
-  </body>
+<script src="../views/javascript/sideBar.js"></script>
+</body>
 </html>
+

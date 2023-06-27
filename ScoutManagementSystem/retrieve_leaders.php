@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             FROM unitrankhistory urh
             INNER JOIN user u ON u.user_id = urh.userId 
             INNER JOIN regiment reg ON reg.regiment_id = urh.regimentId 
-            WHERE reg.name = '$selectedRegiment' AND urh.end_date IS NULL";
+            WHERE reg.name = '$selectedRegiment' AND (urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE())";
 
   $result = mysqli_query($con, $query);
 
