@@ -12,9 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Assuming you have already established a database connection using mysqli_connect
   $query = "SELECT CONCAT(u.fname, ' ', u.lname) AS name
             FROM user u
-            JOIN unitrankhistory urh ON u.user_id = urh.userId
-            JOIN unit un ON urh.unitId = un.unitd
-            JOIN regiment reg ON un.regimentId = reg.regiment_id
+            INNER JOIN unitrankhistory urh ON u.user_id = urh.userId
+            INNER JOIN unit un ON urh.unitId = un.unitd
+            INNER JOIN regiment reg ON un.regimentId = reg.regiment_id
             WHERE reg.name = '$selectedRegiment'
             AND urh.end_date IS NULL
             AND u.fname <> un.leader";
