@@ -45,7 +45,7 @@ $con=connection();
                       FROM unitrankhistory urh
                       INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
                       INNER JOIN features f ON rf.featureid = f.feature_id
-                      WHERE urh.userId = $userID AND (urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE())";
+                      WHERE urh.userId = $userID AND urh.end_date IS NULL";
 
             $result = mysqli_query($con, $query);
 
@@ -154,77 +154,91 @@ $con=connection();
       <tbody>
       <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
-  // Check if the form has been submitted
-
-  if (!isset($_POST['email'])) {
-    // Generate code/password based on first name and last name
+    // Handle the Generate button click event
+    // Generate code and password, send email, and display the result
+    // Make sure to define $mail, $code, and $password variables
+    $email = $_POST['email'];
     $firstName = $_POST['first-name'];
     $lastName = $_POST['last-name'];
-    $existingQuery = "SELECT * FROM usercredentials WHERE userId IN (SELECT user_id FROM user WHERE fname = '$firstName' AND lname = '$lastName')";
-  } else {
-    // Generate code/password based on email
-    $email = $_POST['email'];
-    $existingQuery = "SELECT * FROM usercredentials WHERE userId IN (SELECT user_id FROM user WHERE email = '$email')";
-  }
 
-  $existingResult = mysqli_query($con, $existingQuery);
+    // Check if code and password generation has already been performed for this email
+    if (isset($_SESSION['last_email']) && $_SESSION['last_email'] === $email) {
+        $result = 'Code and password already generated for this email!';
+        echo '<tr>
+                <td></td>
+                <td></td>
+                <td>'.$result.'</td>
+              </tr>';
+    } else {
+        // Generate code and password
+        // ...
 
-  if (mysqli_num_rows($existingResult) > 0) {
-    $result = 'User has already been given a code and password!';
-    $code = '';
-    $password = '';
-  } else {
-    // Code and password generation logic
-
-                if (isset($mail) && $mail->send() && isset($code) && isset($password)) {
-                $result = 'Email sent successfully!';
+        // Check if email is already in the sent emails array
+        if (isset($_SESSION['sent_emails']) && in_array($email, $_SESSION['sent_emails'])) {
+            $result = 'Email already sent a code and password!';
+            echo '<tr>
+                    <td></td>
+                    <td></td>
+                    <td>'.$result.'</td>
+                  </tr>';
+        } else {
+            if ($mail->send() && isset($mail) && isset($code) && isset($password)) {
                 echo '<tr>
-                      <td>'.$code.'</td>
-                      <td>'.$password.'</td>
-                      <td>'.$result.'</td>
+                        <td>'.$code.'</td>
+                        <td>'.$password.'</td>
+                        <td>Email sent successfully!</td>
                       </tr>';
 
-                      $email = $_POST['email'];
-                      $query = "SELECT user_id FROM user WHERE email = '$email'";
-                      $res = mysqli_query($con, $query);
-                      
-                      if ($res) {
-                          $res1 = mysqli_fetch_assoc($res);
-                          if ($res1) {
-                              $user_id = $res1['user_id'];
-                              // Process the user ID as needed
-                          } 
-                          // mysqli_free_result($res);
-                      } else {
-                          // Query execution failed
-                          echo "Error: " . mysqli_error($con);
-                      }
-                       // Prepare and execute the INSERT statement
-                       $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, password, userId) VALUES (?, ?, ?)");
-                       mysqli_stmt_bind_param($stmt, 'sss', $code, $password, $user_id);
-                       $result = mysqli_stmt_execute($stmt);
-                       
-                       if ($result) {
-                           echo "Record was inserted successfully into your database.";
-                       } else {
-                           echo "Error: " . mysqli_error($con);
-                       }
-                       
-                       mysqli_stmt_close($stmt);
-                      //  mysqli_close($con);
-                       
+                // Store the email in the session variable to track the last email entered
+                $_SESSION['last_email'] = $email;
 
+                // Add the email to the sent emails array
+                $_SESSION['sent_emails'][] = $email;
+
+                // Insert the code, password, and user ID into the database
+                // ...
+
+                // Prepare and execute the INSERT statement
+                $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, password) VALUES (?, ?)");
+                mysqli_stmt_bind_param($stmt, 'ss', $code, $password);
+                $result = mysqli_stmt_execute($stmt);
+
+                if ($result) {
+                    echo "Record was inserted successfully into your database.";
+                } else {
+                    echo "Error: " . mysqli_error($con);
+                }
+
+                mysqli_stmt_close($stmt);
             } else {
-                $result = 'Failed to send the email!';
-                echo '<tr>
-                      <td></td>
-                      <td></td>
-                      <td>'.$result.'</td>
-                      </tr>';
+                $code = generateCode(6);
+                $password = generatePassword($firstName, $lastName);
+
+                // Prepare and execute the INSERT statement
+                $stmt = mysqli_prepare($con, "INSERT INTO usercredentials (scoutcode, password) VALUES (?, ?)");
+                mysqli_stmt_bind_param($stmt, 'ss', $code, $password);
+                $result = mysqli_stmt_execute($stmt);
+
+                if ($result) {
+                    echo "Record was inserted successfully into your database.";
+                    echo '<tr>
+                            <td>'.$code.'</td>
+                            <td>'.$password.'</td>
+                            <td>Operation completed without email!</td>
+                          </tr>';
+
+                    // Add the email to the sent emails array
+                    $_SESSION['sent_emails'][] = $email;
+                } else {
+                    echo "Error: " . mysqli_error($con);
+                }
             }
         }
-      }
-        ?>
+    }
+}
+?>
+
+
 
       </tbody>
     </table>
@@ -479,53 +493,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
     </table>
   </section>
 
+<!-- Section: Create Scout Units -->
+<section id="create-section" <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) { echo 'style="display: block;"'; } else { echo 'style="display: none;"'; } ?>>
+  <h2>Create Scout Units</h2>
+  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+    <table class="input-table">
+      <tr>
+        <td><label for="unit-name">Unit Name:</label></td>
+        <td><input type="text" id="unit-name" name="unit-name" required></td>
+      </tr>
+      <tr>
+        <td><label for="unit-regiment">Regiment:</label></td>
+        <td>
+          <select name="unit-regiment" id="unit-regiment" required>
+            <!-- Populate the dropdown options with regiments from the database -->
+            <?php
+            // Assuming you have already established a database connection using mysqli_connect
+            $query = "SELECT DISTINCT name FROM regiment";
+            $result = mysqli_query($con, $query);
 
-  <!-- Section: Create Scout Units -->
-  <section id="create-section" <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) { echo 'style="display: block;"'; } else { echo 'style="display: none;"'; } ?>>
-    <h2>Create Scout Units</h2>
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-      <table class="input-table">
-        <tr>
-          <td><label for="unit-name">Unit Name:</label></td>
-          <td><input type="text" id="unit-name" name="unit-name" required></td>
-        </tr>
-        <tr>
-          <td><label for="unit-regiment">Regiment:</label></td>
-          <td>
-            <select name="unit-regiment" id="unit-regiment" required>
-              <!-- Populate the dropdown options with regiments from the database -->
-              <?php
-              // Assuming you have already established a database connection using mysqli_connect
-              $query = "SELECT DISTINCT name FROM regiment";
-              $result = mysqli_query($con, $query);
-
-              if ($result) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                  $regiment = $row['name'];
-                  echo "<option value='$regiment'>$regiment</option>";
-                }
-                mysqli_free_result($result);
-              } else {
-                echo "Error: " . mysqli_error($con);
+            if ($result) {
+              while ($row = mysqli_fetch_assoc($result)) {
+                $regiment = $row['name'];
+                echo "<option value='$regiment'>$regiment</option>";
               }
+              mysqli_free_result($result);
+            } else {
+              echo "Error: " . mysqli_error($con);
+            }
 
-              mysqli_close($con);
-              ?>
-            </select>
+            ?>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="unit-leader">Leader:</label></td>
+        <td>
+          <select name="unit-leader" id="unit-leader">
+            <option value="" disabled selected>Select a leader</option>
+          </select>
           </td>
-        </tr>
-        <tr>
-          <td><label for="unit-leader">Leader:</label></td>
-          <td>
-            <select name="unit-leader" id="unit-leader">
-              <option value="charbel">Charbel</option>
-            </select>
-          </td>
-        </tr>
-      </table>
-      <button type="submit" name="create">Create Unit</button>
-    </form>
-  </section>
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function() {
+          // Handle regiment selection change event
+          $('#unit-regiment').change(function() {
+            var selectedRegiment = $(this).val();
+            var url = 'retrieve_leaders.php';
+
+            // Send an Ajax request to retrieve the leader options
+            $.ajax({
+              type: 'POST',
+              url: url,
+              data: { selectedRegiment: selectedRegiment },
+              dataType: 'json',
+              success: function(data) {
+                // Clear the existing leader options
+                $('#unit-leader').empty();
+
+                // Append the new leader options
+                $.each(data, function(key, value) {
+                  $('#unit-leader').append('<option value="' + value + '">' + value + '</option>');
+                });
+              },
+              error: function(xhr, status, error) {
+                console.log('Ajax request error:', error);
+              }
+            });
+          });
+        });
+        </script>
+      </tr>
+    </table>
+    <button type="submit" name="create">Create Unit</button>
+  </form>
+</section>
 
 
   <!-- Section : Training courses  -->

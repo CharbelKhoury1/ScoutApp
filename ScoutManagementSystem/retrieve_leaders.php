@@ -1,5 +1,4 @@
 <?php
-
 // Assuming you have included the necessary PHP code for database connection
 $con = mysqli_connect("localhost", "root", "", "scoutproject");
 if (!$con) {
@@ -7,31 +6,38 @@ if (!$con) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Retrieve the selected regiment from the AJAX request
-  $selectedRegiment = mysqli_real_escape_string($con, $_POST['unit-regiment']);
+  // Retrieve the selected regiment from the Ajax request
+  $selectedRegiment = $_POST['unit-regiment'];
 
-  // Prepare the SQL query to retrieve the leaders
-  $query = "SELECT CONCAT(u.fname, ' ', u.lname) AS leader
-            FROM unitrankhistory urh
-            INNER JOIN user u ON u.user_id = urh.userId 
-            INNER JOIN regiment reg ON reg.regiment_id = urh.regimentId 
-            WHERE reg.name = '$selectedRegiment' AND (urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE())";
+  // Assuming you have already established a database connection using mysqli_connect
+  $query = "SELECT CONCAT(u.fname, ' ', u.lname) AS name
+            FROM user u
+            INNER JOIN unitrankhistory urh ON u.user_id = urh.userId
+            INNER JOIN unit un ON urh.unitId = un.unitd
+            INNER JOIN regiment reg ON un.regimentId = reg.regiment_id
+            WHERE reg.name = '$selectedRegiment'
+            AND urh.end_date IS NULL
+            AND u.fname <> un.leader";
 
   $result = mysqli_query($con, $query);
 
   if ($result) {
-    $leaders = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-      $leaders[] = $row['leader'];
-    }
-    mysqli_free_result($result);
+    $leaderOptions = array();
 
-    // Return the leaders as JSON response
-    echo json_encode(['leaders' => $leaders]);
+    while ($row = mysqli_fetch_assoc($result)) {
+      $leaderName = $row['name'];
+      $leaderOptions[] = $leaderName;
+    }
+
+    mysqli_free_result($result);
+    mysqli_close($con);
+
+    // Send the leader options as a JSON response
+    header('Content-Type: application/json');
+    echo json_encode($leaderOptions);
+    exit(); // Terminate the script execution after sending the response
   } else {
     echo "Error: " . mysqli_error($con);
   }
 }
-
-mysqli_close($con);
 ?>
