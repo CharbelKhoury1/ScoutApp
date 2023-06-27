@@ -298,10 +298,10 @@
           </select>
         </td>
         <td>
-          <input type="date" name="start-Date[0]">
+          <input type="date" name="start-date[0]">
         </td>
         <td>
-          <input type="date" name="end-Date[0]">
+          <input type="date" name="end-date[0]">
         </td>
         <td>
           <button class="removeRowBtn1" disabled>-</button>
@@ -321,8 +321,8 @@
         var newRow = $('#row-0').clone(); // Clone the first row
         newRow.attr('id', 'row-' + rowCount); // Update the ID of the new row
         newRow.find('[name^="scoutclass"]').attr('name', 'scoutclass[' + rowCount + ']'); // Update the name attribute of the select element
-        newRow.find('[name^="start-Date"]').attr('name', 'start-Date[' + rowCount + ']'); // Update the name attribute of the start date input
-        newRow.find('[name^="end-Date"]').attr('name', 'end-Date[' + rowCount + ']'); // Update the name attribute of the end date input
+        newRow.find('[name^="start-date"]').attr('name', 'start-date[' + rowCount + ']'); // Update the name attribute of the start date input
+        newRow.find('[name^="end-date"]').attr('name', 'end-date[' + rowCount + ']'); // Update the name attribute of the end date input
 
         newRow.find('.removeRowBtn1').click(function() {
           $(this).closest('tr').remove();
@@ -371,7 +371,7 @@
   <tbody>
     <tr>
       <td>
-        <select class="course" name="course[]">
+        <select class="course" name="course[0]">
           <option disabled selected value="">Select Course</option>
           <?php
           // Assuming you have a 'trainingcourses' table with 'name' column
@@ -388,13 +388,13 @@
         </select>
       </td>
       <td>
-        <select class="location" name="location[]"></select>
+        <select class="location" name="location[0]"></select>
       </td>
       <td>
-        <input type="date" name="start-date[]">
+        <input type="date" name="start-date[0]">
       </td>
       <td>
-        <input type="date" name="end-date[]">
+        <input type="date" name="end-date[0]">
       </td>
       <td></td>
     </tr>
@@ -405,6 +405,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
+    var rowIndex = 0; // Initialize the row index counter
+
     // Function to retrieve locations based on the selected course
     function retrieveLocations(courseDropdown) {
       var selectedCourse = courseDropdown.val();
@@ -437,6 +439,15 @@
       var lastRow = $('#myTable2 tbody tr:last');
       var newRow = lastRow.clone();
 
+      // Increment the row index
+      rowIndex++;
+
+      // Update the names of the form elements in the new row
+      newRow.find('.course').attr('name', 'course[' + rowIndex + ']');
+      newRow.find('.location').attr('name', 'location[' + rowIndex + ']');
+      newRow.find('input[name^="start-date"]').attr('name', 'start-date[' + rowIndex + ']');
+      newRow.find('input[name^="end-date"]').attr('name', 'end-date[' + rowIndex + ']');
+
       // Clear the selected course and location values for the new row
       newRow.find('.course').val('');
       newRow.find('.location').empty();
@@ -460,6 +471,8 @@
     retrieveLocations($('.course'));
   });
 </script>
+
+
         <input type="submit" name='SignUp2' value="Sign Up">  
       </form>
     </div>

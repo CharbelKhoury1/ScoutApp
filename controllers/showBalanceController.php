@@ -9,11 +9,13 @@ if (isset($_GET['unitId'])) {
   $lbp_balance = $lbp_data['income'] - $lbp_data['expense'];
   $usd_balance = $usd_data['income'] - $usd_data['expense'];
 
-  $balanceMessagelbp = ($lbp_balance === 0) ? "There are currently no income or expense records in LBP." : "";
-  $balanceMessageUsd = ($usd_balance === 0) ? "There are currently no income or expense records in USD." : "";
+  $lbp_balance_formatted = ($lbp_balance == 0) ? 0 : number_format($lbp_balance * 1000, 0, '', ' ');
 
+  $balanceMessagelbp = ($lbp_balance_formatted === 0) ? "There are currently no income or expense records in LBP." : "";
+  $balanceMessageUsd = ($usd_balance === 0) ? "There are currently no income or expense records in USD." : "";
+  
   $response = array(
-      'lbp_balance' => $lbp_balance,
+      'lbp_balance' => $lbp_balance_formatted,
       'usd_balance' => $usd_balance,
       'balanceMessageUsd' => $balanceMessageUsd,
       'balanceMessagelbp' => $balanceMessagelbp,

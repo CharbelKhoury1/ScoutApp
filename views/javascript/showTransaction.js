@@ -1,6 +1,7 @@
 let currentData = {}; // Store the current data globally
+let tableDisplayed = false; 
 
-        // Function to handle form submission
+// Function to handle form submission
 function handleFormSubmit(event) {
     event.preventDefault();
 
@@ -10,7 +11,10 @@ function handleFormSubmit(event) {
     const currencyCode = formData.get('currency-code');
     const typeCode = formData.get('type-code');
     const unitSelect = document.getElementById('unitSelect');
-    
+
+    localStorage.setItem('selectedCurrencyCode', currencyCode);
+    localStorage.setItem('selectedTypeCode', typeCode);
+
 
     // Validate if unit is selected and currency is chosenl
     const typeError = document.getElementById('type-error');
@@ -48,7 +52,27 @@ function handleFormSubmit(event) {
             .catch(error => {
                 console.error('Error:', error);
             });
+    retrieveTransactionRecords(currencyCode, typeCode);
 }
+// Retrieve transaction records from the server
+function retrieveTransactionRecords(currencyCode, typeCode) {
+    // Make AJAX request to the controller endpoint
+    fetch('../controllers/balanceTrialController.php', {
+      method: 'POST',
+      body: new URLSearchParams({
+        'currency_code': currencyCode,
+        'type_code': typeCode
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        currentData = data;
+        displayTransactionRecords();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
 
 // Function to display transaction records in the table
 function displayTransactionRecords() {
@@ -57,6 +81,7 @@ function displayTransactionRecords() {
 
     if (!currentData || currentData.transactionRecords.length === 0) {
             tableContainer.innerHTML = '<p>No records found.</p>';
+            tableDisplayed = false;
             return;
     }
 
@@ -135,6 +160,8 @@ function displayTransactionRecords() {
         tableContainer.appendChild(currencyTypeElement); // Append the currency and type element
         tableContainer.appendChild(table); // Append the new table
 
+        tableDisplayed = true;
+
         // Reset the form
         const balanceForm = document.getElementById('balance-form');
         balanceForm.reset();
@@ -175,3 +202,34 @@ balanceForm.addEventListener('submit', handleFormSubmit);
 // Add event listener to the unit select change event
 const unitSelect = document.getElementById('unitSelect');
 unitSelect.addEventListener('change', handleUnitSelection);
+
+window.addEventListener('DOMContentLoaded', () => {
+    // Check if there are previously selected values in local storage
+    const selectedCurrencyCode = localStorage.getItem('selectedCurrencyCode');
+    const selectedTypeCode = localStorage.getItem('selectedTypeCode');
+  
+    if (selectedCurrencyCode && selectedTypeCode) {
+      // Pre-select the options in the form
+      document.getElementById('currency-code').value = selectedCurrencyCode;
+      document.getElementById('type-code').value = selectedTypeCode;
+  
+      retrieveTransactionRecords(selectedCurrencyCode, selectedTypeCode);
+    } else {
+      tableDisplayed = false; // If no selected values, set the flag to false
+    }
+  });
+  
+  // Hide the table if returning to the page or refreshing it
+  window.addEventListener('beforeunload', () => {
+    if (tableDisplayed) {
+      const tableContainer = document.getElementById('transaction-table');
+      tableContainer.innerHTML = '';
+      tableDisplayed = false;
+    }
+  });
+  
+  window.addEventListener('load', () => {
+    // Remove the stored values from local storage when the page is loaded
+    localStorage.removeItem('selectedCurrencyCode');
+    localStorage.removeItem('selectedTypeCode');
+  });

@@ -44,7 +44,7 @@ if(isset($_SESSION['user_id'])){
   FROM unitrankhistory urh
   INNER JOIN rankfeature rf ON urh.rankId = rf.rankid
   INNER JOIN features f ON rf.featureid = f.feature_id
-  WHERE urh.userId = $userID AND urh.end_date IS NULL";
+  WHERE urh.userId = $userID AND (urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE())";
 
   $result = mysqli_query($conn, $query);
 
