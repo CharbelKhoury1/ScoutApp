@@ -21,9 +21,10 @@ function addRow() {
     <td><input type="number" name="lbp[]" min="0" oninput="calculateTotal()"></td>
     <td class="attachment-column">
         <label for="file-upload-${index}" class="file-upload-label">
-            <input id="file-upload-${index}" class="file-input" type="file" accept="application/pdf" name="attachment[]">
+            <input id="file-upload-${index}" class="file-input" type="file" accept="application/pdf" name="attachment[]" onchange="displaySelectedFileName(this)">
             <i class="fas fa-cloud-upload-alt"></i> Choose File
         </label>
+        <div id="file-name" class="file-name"></div>
     </td>
     <td>
         <i class="fa fa-times remove-icon" onclick="removeRow(this)"></i>
@@ -78,11 +79,22 @@ function closeAlert() {
   let alertContainer = document.querySelector(".alert-success-container");
   alertContainer.style.display = "none";
 }
-
+/*
 function displaySelectedFileName(input) {
   var fileName = input.files[0].name;
   var fileNameElement = document.getElementById("file-name");
   fileNameElement.textContent = fileName;
+}
+*/
+function displaySelectedFileName(input) {
+  var file = input.files[0];
+  var fileNameElement = input.parentNode.parentNode.querySelector(".file-name");
+
+  if (file) {
+    fileNameElement.textContent = file.name;
+  } else {
+    fileNameElement.textContent = "";
+  }
 }
 
 
