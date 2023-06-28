@@ -1,27 +1,50 @@
+
+
 <?php
+
 require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+
 $fb = new Facebook\Facebook([
-  'app_id' => '1959252487767032',
-  'app_secret' => 'ba1e13e19de5facfd490492460782a61',
-  'default_graph_version' => 'v17.0',
+  'app_id' => '154636180952262',
+  'app_secret' => '0b2faa329e43335709569ae19c2b4235',
+  'default_graph_version' => 'v13.0',
 ]);
 
-$access_token = 'EAAb17gSPAZCgBADwBfeD9Pr29TfdOIeqEtxOUbAAkBAXY0zCtomAOisWy32RUXzL8NbnoshrIB7ntj64Lg2r5vnIlQVYLrFrCcn0n9po6VcRZAX3wBuHQD3WdHMcosKFRhBVovPrRVS3BM9vUBCPEqNCNxXVTqW4EXNUlkngZDZD'; // Replace with the access token you obtained
+$helper = $fb->getRedirectLoginHelper();
 
 try {
-  $response = $fb->post('/689296817927096/feed', [
-    'message' => 'Hello, Facebook!',
-    'name' => 'My Post', // Add a name parameter
-    'access_token' => $access_token,
-  ]);
-  
-  $graphNode = $response->getGraphNode();
-  
-  echo 'Post ID: ' . $graphNode['id'];
+  $accessToken = $helper->getAccessToken();
+} catch (Facebook\Exceptions\FacebookResponseException $e) {
+  echo 'Graph returned an error: ' . $e->getMessage();
+  exit;
+} catch (Facebook\Exceptions\FacebookSDKException $e) {
+  echo 'Facebook SDK returned an error: ' . $e->getMessage();
+  exit;
+}
+
+if (!isset($accessToken)) {
+  // Redirect to login page or display an error message
+  exit;
+}
+
+// Use the access token to make API requests or perform actions on behalf of the user
+
+// Example: Publish a post to a Facebook page
+$pageId = '689296817927096';
+$message = 'Hello, Facebook!';
+
+try {
+  $response = $fb->post("/$pageId/feed", ['message' => $message], $accessToken);
+  $postId = $response->getDecodedBody()['id'];
+  echo 'Post ID: ' . $postId;
 } catch (Facebook\Exceptions\FacebookResponseException $e) {
   echo 'Graph returned an error: ' . $e->getMessage();
 } catch (Facebook\Exceptions\FacebookSDKException $e) {
   echo 'Facebook SDK returned an error: ' . $e->getMessage();
 }
 ?>
+

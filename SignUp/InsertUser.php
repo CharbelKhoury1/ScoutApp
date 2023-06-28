@@ -131,7 +131,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     if ($result && mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
       $rankId = $row['rank_id'];
-    
+    } else{
+      echo "Rank not found:";
+    }
       // Retrieve unit_id from the unit table if provided
       if (!empty($scoutUnitPresent)) {
         $query = "SELECT unit_id FROM unit WHERE name = '$scoutUnitPresent'";
@@ -156,11 +158,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
       } else {
         echo "Error: " . mysqli_error($con);
       }
-    } else {
-      echo "Error: Rank not found.";
-      exit;
-    }
-    
+  
 
 if(isset($_POST['regiment'])) {
 
@@ -170,12 +168,11 @@ if(isset($_POST['regiment'])) {
   $scoutStartDates = $_POST['start-date'];
   $scoutEndDates = $_POST['end-date'];
 
-  echo "scoutregimentsts:" . var_dump($scoutRegiments)."<br>";
-  echo "scoutUnits".var_dump($scoutUnits)."<br>";
-  echo "scoutranks".var_dump($scoutRanks)."<br>";
-  echo "startdates".var_dump($scoutStartDates)."<br>";
-  echo "scoutenddates". var_dump($scoutEndDates)."<br>";
-
+  print_r($scoutRegiments);
+  print_r($scoutUnits);
+  print_r($scoutRanks);
+  print_r($scoutStartDates);
+  print_r($scoutEndDates);
 
   // Loop through the arrays to process each row
   for ($i = 0; $i < count($scoutRegiments); $i++) {
@@ -186,7 +183,7 @@ if(isset($_POST['regiment'])) {
       $scoutEndDate = $scoutEndDates[$i];
 
       // Process the row data as needed
-    //      Retrieve rank_id from the rank table
+    //Retrieve rank_id from the rank table
     $query = "SELECT rank_id FROM rank WHERE name = '$scoutRank'";
     $result = mysqli_query($con, $query);
     if ($result && mysqli_num_rows($result) > 0) {
@@ -333,8 +330,10 @@ if (!empty($course)) {
   }
 }
 
-    header("Location: ../Home/Home.php");
-  }
+header("Location: ../Home/Home.php");
+
+}
+  
     // Close the database connection
     mysqli_close($con);
     ?>
