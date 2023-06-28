@@ -166,5 +166,19 @@ function redirectToHomeAndScrollToSection(sectionId) {
   }, 100); // Adjust the delay as needed
 }
 
+window.addEventListener('DOMContentLoaded', function() {
+  var postContents = document.querySelectorAll('.post-content');
+
+  postContents.forEach(function(postContent) {
+    postContent.addEventListener('scroll', function() {
+      if (postContent.scrollHeight > postContent.clientHeight) {
+        postContent.style.overflowY = 'scroll';
+      } else {
+        postContent.style.overflowY = 'hidden';
+      }
+    });
+  });
+});
+
 
 

@@ -405,7 +405,7 @@ $con=connection();
 
         // Add link to the Facebook page of the scouts
         echo '<div class="post">';
-        echo '<div class="post-content">';
+        echo '<div class="post-contentfb">';
         echo '<a href="https://www.facebook.com/SNOGNO" target="_blank">Visit our Facebook page for more updates</a>';
         echo '</div>'; // Close post-content div
         echo '</div>'; // Close post div

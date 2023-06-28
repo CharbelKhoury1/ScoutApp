@@ -29,7 +29,7 @@
         <select id="scoutrank" name="scoutrankpresent">
           <option value="Generalcommander">General Commander</option>
           <option value="Generalleadershipmember">General Leadership Member</option>
-          <option value="Generalcommisionner">General Commisionner</option>
+          <option value="Generalcommissionner">General Commisionner</option>
           <option value="Commissioner">Commissioner</option>
           <option value="Leader">Leader</option>
           <option value="Rover">Rover</option>
