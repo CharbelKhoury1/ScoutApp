@@ -1,29 +1,28 @@
 <?php
-require_once '../sdk/php-graph-sdk-5.x/src/Facebook/autoload.php';
-
-$fb = new Facebook\Facebook([
-  'app_id' => '1959252487767032',
-  'app_secret' => 'ba1e13e19de5facfd490492460782a61',
-  'default_graph_version' => 'v17.0',
-]);
-
-$access_token = 'EAAb17gSPAZCgBADwBfeD9Pr29TfdOIeqEtxOUbAAkBAXY0zCtomAOisWy32RUXzL8NbnoshrIB7ntj64Lg2r5vnIlQVYLrFrCcn0n9po6VcRZAX3wBuHQD3WdHMcosKFRhBVovPrRVS3BM9vUBCPEqNCNxXVTqW4EXNUlkngZDZD'; // Replace with your actual access token
-
-try {
-  $fb->setDefaultAccessToken($access_token);
-
-  $postParams = [
-    'message' => 'Hello, Facebook!',
-  ];
-
-  $response = $fb->post('/689296817927096/feed', $postParams);
-
-  $graphNode = $response->getGraphNode();
-
-  echo 'Post ID: ' . $graphNode['id'];
-} catch (Facebook\Exceptions\FacebookResponseException $e) {
-  echo 'Graph returned an error: ' . $e->getMessage();
-} catch (Facebook\Exceptions\FacebookSDKException $e) {
-  echo 'Facebook SDK returned an error: ' . $e->getMessage();
+// Check if the user is logged in with Facebook
+session_start();
+if (!isset($_SESSION['access_token'])) {
+    header("Location: postFb.php");
+    exit();
 }
+
+// Display the post creation form
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Post</title>
+</head>
+<body>
+    <h1>Create a New Post</h1>
+    <form method="post" action="create-post.php">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required><br>
+
+        <label for="content">Content:</label>
+        <textarea name="content" id="content" required></textarea><br>
+
+        <input type="submit" value="Create Post">
+    </form>
+</body>
+</html>
