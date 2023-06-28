@@ -68,7 +68,7 @@ if(isset($_SESSION['user_id'])){
           echo '<img src="../Icons/add-svgrepo-com.svg">Create Unit';
           echo '</button>';
         } elseif ($featureName === "make request") {
-          echo '<button active="class" onclick="window.location.href=\'../Request/request.php\'">';
+          echo '<button class="active" onclick="window.location.href=\'../Request/request.php\'">';
           echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
           echo '</button>';
         } elseif ($featureName === "make transaction" || $featureName === "view transaction") {
@@ -195,9 +195,6 @@ if(isset($_SESSION['user_id'])){
       
         <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
-        </button>
-        <button class="active" onclick="window.location.href='../Request/request.php'">
-            <img src="../Icons/git-pull-request-svgrepo-com.svg"> Requests
         </button>
         <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
