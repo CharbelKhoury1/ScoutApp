@@ -77,7 +77,22 @@ $con = mysqli_connect("127.0.0.1", "root", "", "scoutproject") or die("Failed to
                             echo '</button>';
                             $transactionButtonDisplayed = true; // Set the flag to true
                         }
+                    
+                    } elseif ($featureName === "change required days") {
+                            echo '<button onclick="window.location.href=\'../ScoutManagementSystem/changeDays.php\'">';
+                            echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
+                            echo '</button>';
                     }
+                    elseif ($featureName === "view old ones") { // New elseif condition for 'view old ones'
+                            echo '<button onclick="window.location.href=\'../ScoutManagementSystem/old_members.php\'">';
+                            echo '<img src="../Icons/hourglass-svgrepo-com.svg">View Old Ones';
+                            echo '</button>';
+                        }
+                    elseif ($featureName === "create course") { 
+                            echo '<button onclick="window.location.href=\'../ScoutManagementSystem/ScoutCode.php#course-section\'">';
+                            echo '<img src="../Icons/syllabus-svgrepo-com.svg">Create Course';
+                            echo '</button>';
+                        }
                 }
             }
         }
