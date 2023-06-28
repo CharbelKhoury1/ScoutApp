@@ -9,14 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
   $sql = "SELECT u.fname, u.lname, r.name AS rank_name, reg.name AS regiment_name, un.name AS unit_name, deg.name AS degree_name, tc.name AS trainingcourses_name, u.blood_type, YEAR(CURRENT_DATE()) - YEAR(u.birth_date) AS age, u.scoutTitle as scout_title, u.scoutTitle_date, u.scoutAdmission_date as admission_date, u.scoutOath_date as oath_date
   FROM unitrankhistory urh
   INNER JOIN user u ON urh.userId = u.user_id
-  INNER JOIN rank r ON urh.rankId = r.rank_id
+  INNER JOIN `rank` r ON urh.rankId = r.rank_id
   INNER JOIN unit un ON urh.unitId = un.unit_id
   LEFT JOIN degreehistory dh ON u.user_id = dh.userId
   LEFT JOIN degree deg ON dh.degreeId = deg.degree_id
   LEFT JOIN regiment reg ON un.regimentId = reg.regiment_id
   LEFT JOIN traininghistory th ON urh.userId = th.userId
   LEFT JOIN trainingcourses tc ON th.courseId = tc.course_id
-  WHERE urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE()";
+  WHERE (urh.end_date IS NULL OR urh.end_date = '0000-00-00' OR urh.end_date >= CURDATE())";
 
   // Construct the WHERE clause based on the available search criteria
   $whereClause = "";

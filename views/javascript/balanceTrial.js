@@ -11,6 +11,17 @@ function handleFormSubmit(event) {
   const currencyCode = formData.get('currency-code');
   const typeCode = formData.get('type-code');
 
+  console.log('Currency Code:', currencyCode);
+  console.log('Type Code:', typeCode);
+
+  
+  if (!currencyCode || !typeCode) {
+    console.log('Form submission error: Please select both currency and type.');
+    const errorElement = document.getElementById('error-message');
+    errorElement.textContent = 'Please select both currency and type.';
+    return;
+  }
+
   localStorage.setItem('selectedCurrencyCode', currencyCode);
   localStorage.setItem('selectedTypeCode', typeCode);
 
@@ -24,7 +35,6 @@ function handleFormSubmit(event) {
   retrieveTransactionRecords(currencyCode, typeCode);
 }
 
-// Retrieve transaction records from the server
 function retrieveTransactionRecords(currencyCode, typeCode) {
   // Make AJAX request to the controller endpoint
   fetch('../controllers/balanceTrialController.php', {

@@ -6,67 +6,58 @@ require '../controllers/phpmailer/vendor/autoload.php';
 
 // Check if the email has already been sent
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
-  // Get form input values
-  $firstName = $_POST["first-name"];
-  $lastName = $_POST["last-name"];
+              // Get form input values
+      $firstName = $_POST["first-name"];
+      $lastName = $_POST["last-name"];
+      $email = $_POST["email"];
 
-  // Generate code and password
-  $code = generateCode(6);
-  $password = generatePassword($firstName, $lastName);
+      // SMTP server configuration
+      $smtpHost = 'smtp.gmail.com';
+      $smtpPort = 587;
+      $smtpUsername = 'ckhoury100@gmail.com';// put the email of the sender
+      $smtpPassword = 'jrudddefbbmyfpmd';// get this from APP Paswords in google security
 
-  // Check if email is set
-  if (isset($_POST['email'])) {
-    $email = $_POST["email"];
+      // Recipient email
+      $recipientEmail = $email;
 
-    // SMTP server configuration
-    $smtpHost = 'smtp.gmail.com';
-    $smtpPort = 587;
-    $smtpUsername = 'ckhoury100@gmail.com';// put the email of the sender
-    $smtpPassword = 'jrudddefbbmyfpmd';// get this from APP Passwords in Google security
+      $code=generateCode(6);
+      $password=generatePassword($firstName,$lastName);
 
-    // Recipient email
-    $recipientEmail = $email;
+      // Email content
+      $subject = "National Scouts and Guides - Code and Password";
+      $message = "Dear $firstName $lastName,\n\n";
+      $message .= "Thank you for joining the National Scouts and Guides community!\n\n";
+      $message .= "Here are your login details:\n";
+      $message .= "Code: $code\n";
+      $message .= "Password: $password\n\n";
+      $message .= "We look forward to your active participation!\n\n";
+      $message .= "Best regards,\nNational Scouts and Guides";
 
-    // Email content
-    $subject = "National Scouts and Guides - Code and Password";
-    $message = "Dear $firstName $lastName,\n\n";
-    $message .= "Thank you for joining the National Scouts and Guides community!\n\n";
-    $message .= "Here are your login details:\n";
-    $message .= "Code: $code\n";
-    $message .= "Password: $password\n\n";
-    $message .= "We look forward to your active participation!\n\n";
-    $message .= "Best regards,\nNational Scouts and Guides";
+      // Email headers
+      $headers = "From: $smtpUsername\r\n";
+      $headers .= "Reply-To: $smtpUsername\r\n";
+      $headers .= "MIME-Version: 1.0\r\n";
+      $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
-    // Email headers
-    $headers = "From: $smtpUsername\r\n";
-    $headers .= "Reply-To: $smtpUsername\r\n";
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-    // Send email using PHPMailer library
-    $mail = new PHPMailer;
-    $mail->isSMTP();
-    $mail->Host = $smtpHost;
-    $mail->Port = $smtpPort;
-    $mail->SMTPAuth = true;
-    $mail->Username = $smtpUsername;
-    $mail->Password = $smtpPassword;
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Use STARTTLS
-    $mail->SMTPDebug = SMTP::DEBUG_OFF; // Set the debug mode as per your requirement
-    $mail->SMTPAutoTLS = false;
-    $mail->SMTPDebug = 0;
-    $mail->setFrom($smtpUsername);
-    $mail->addAddress($recipientEmail);
-    $mail->Subject = $subject;
-    $mail->msgHTML(str_replace(['[CODE]', '[PASSWORD]'], [$code, $password], $message), $headers);
-  } else {
-    // Handle the case when email field is not set
-    $email = '';
-    // Your custom logic here for when email is not provided
-    // ...
-  }
-}
-
+      // Send email using PHPMailer library
+      $mail = new PHPMailer;
+      $mail->isSMTP();
+      $mail->Host = $smtpHost;
+      $mail->Port = $smtpPort;
+      $mail->SMTPAuth = true;
+      $mail->Username = $smtpUsername;
+      $mail->Password = $smtpPassword;
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Use STARTTLS
+      $mail->SMTPDebug = SMTP::DEBUG_OFF; // Set the debug mode as per your requirement
+      $mail->SMTPAutoTLS = false;
+      $mail->SMTPDebug = 0;
+      $mail->setFrom($smtpUsername);
+      $mail->addAddress($recipientEmail);
+      $mail->Subject = $subject;
+      $mail->msgHTML(str_replace(['[CODE]', '[PASSWORD]'], [$code, $password], $message), $headers);
+              
+          }
+  
 // Function to generate a random code
 function generateCode($length) {
   $characters = "0123456789";

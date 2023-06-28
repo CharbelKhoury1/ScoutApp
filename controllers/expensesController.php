@@ -21,8 +21,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitlbp"])) {
             if (!empty($_FILES["attachment"]["tmp_name"][$i]) && !empty($_FILES["attachment"]["name"][$i])) {
                 $attachmentName = $_FILES["attachment"]["name"][$i];
                 $attachment = $_FILES["attachment"]["tmp_name"][$i];  
+                insertTransaction($description, $lbpAmount, $unitId, $currencyCode, $typeCode, $attachment);
+            }else{
+                insertTransaction($description, $lbpAmount, $unitId, $currencyCode, $typeCode, NULL);
             }
-            insertTransaction($description, $usdAmount, $unitId, $currencyCode, $typeCode, $attachment);
         }
         $_SESSION["success_message"] = "Expenses records inserted successfully in the database.";
     
@@ -52,8 +54,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submitusd"])) {
             if (!empty($_FILES["attachment"]["tmp_name"][$i]) && !empty($_FILES["attachment"]["name"][$i])) {
                 $attachmentName = $_FILES["attachment"]["name"][$i];
                 $attachment = $_FILES["attachment"]["tmp_name"][$i];  
+                insertTransaction($description, $usdAmount, $unitId, $currencyCode, $typeCode, $attachment); 
+            }else{
+                insertTransaction($description, $usdAmount, $unitId, $currencyCode, $typeCode, NULL);
             }
-            insertTransaction($description, $usdAmount, $unitId, $currencyCode, $typeCode, $attachment); 
+            
         }
         $_SESSION["success_message"] = "Expenses records inserted successfully in the database.";
     

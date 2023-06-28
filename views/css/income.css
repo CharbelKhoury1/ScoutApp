@@ -36,8 +36,7 @@ td {
 
 .attachment-column {
   position: relative;
-  width: 400px; /* Adjust the width as needed */
-  border: none;
+  width: 400px; 
   padding: 0;
   margin: 0;
 }
