@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			include("../views/verifyUser.php");
         }
     }else{
-        $errorMsg = "An email will be sent to you. You will be redirected to the login page in a few seconds";
+        $errorMsg = "An email will be sent to you.";
 		include("../views/verifyUser.php");
     }
 }

@@ -1,5 +1,6 @@
 <?php 
 include("../sideBar/sideBar.php");
+include("backArrow.php");
 if (isset($_SESSION["success_message"])) {
   $successMessage = $_SESSION["success_message"];
   unset($_SESSION["success_message"]); 

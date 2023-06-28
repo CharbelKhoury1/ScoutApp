@@ -1,5 +1,6 @@
 <?php
 include("../sideBar/sideBar.php");
+include("backArrow.php");
 if (isset($_SESSION['user_id'])) {
   $userId = $_SESSION['user_id'];
 } else {
