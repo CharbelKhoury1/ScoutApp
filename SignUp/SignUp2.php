@@ -13,6 +13,11 @@
   <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
+    <style>
+    .required {
+      color: red;
+    }
+  </style>
     <link rel="icon" type="image/x-icon" href="../Pictures/ScoutsLogo.gif">
     <link rel="stylesheet" href="SignUp.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +30,7 @@
       <h1>Scout Info</h1>
       <form method="post" action="InsertUser.php">
 
-        <label for="scoutrank">Scout rank (الرتبة الكشفية):</label>
+        <label for="scoutrank">Scout rank (الرتبة الكشفية):<span class="required">*</span></label>
         <select id="scoutrank" name="scoutrankpresent">
           <option value="Generalcommander">General Commander</option>
           <option value="Generalleadershipmember">General Leadership Member</option>
@@ -44,7 +49,7 @@
           <option value="Secretary">Secretary</option>
         </select>
 
-            <label for="nameofregiment">Name of regiment (اسم الفوج التابع له):</label>
+            <label for="nameofregiment">Name of regiment (اسم الفوج التابع له):<span class="required">*</span></label>
       <select id="nameofregiment" name="nameofregiment-present">
         <option disabled selected value="">Select Regiment</option>
         <?php
@@ -60,7 +65,7 @@
         ?>
       </select>
 
-      <label for="unit">Name of Unit (اسم الفرقة التابع لها ):</label>
+      <label for="unit">Name of Unit (اسم الفرقة التابع لها ):<span class="required">*</span></label>
       <select id="unit" name="unit-present"></select>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script>
@@ -95,7 +100,7 @@
       </script>
 
       
-      <label for="unit">When did you hold this status:</label>
+      <label for="unit">When did you hold this status:<span class="required">*</span></label>
       <input type="date" name="startdate-present" id="startdate-present">
 
       <table id="myTable">
@@ -342,7 +347,7 @@
 
 
 
-        <label for="affiliationdate">Affiliation Date: (تاريخ الانتساب)</label>
+        <label for="affiliationdate">Affiliation Date: (تاريخ الانتساب)<span class="required">*</span></label>
         <input type="date" id="affiliationdate" name="affiliationdate">
 
         <label for="promisedate">Oath Date (تاريخ الوعد):</label>
