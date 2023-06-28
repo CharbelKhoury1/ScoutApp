@@ -57,7 +57,7 @@ if (isset($_SESSION['user_id'])) {
         </form>
     </div>
     <?php if (!empty($msg)) { ?>
-        <div class="alert-box"><?php echo $msg; ?></div>
-        <meta http-equiv="refresh" content="5;url=../views/BalanceTrialView.php">
+        <div class="alert-box"><?php echo $msg; echo " You will be redirected to the login page in a few seconds"?></div>
+        <meta http-equiv="refresh" content="3;url=../views/BalanceTrialView.php">
     <?php } ?>
 </body>
