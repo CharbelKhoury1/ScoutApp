@@ -199,6 +199,8 @@ grid-gap: 10px;
 border-radius: 20px;
 width: 100%;
 height: auto;
+margin: 0;
+padding: 0;
 }
 
 .Scout-gallery h2 {
@@ -239,22 +241,20 @@ max-width: 80%;
 margin: 0 auto;
 width: 100%;
 height: 300px; /* Adjust the height as per your requirements */
-overflow: hidden;
-word-wrap: break-word;
 overflow-y: scroll;
+word-wrap: break-word;
+/* overflow-y: scroll; */
 
 }
 .post-contentfb{
-  text-align: center;
+text-align: center;
 margin: 10px;
 max-width: 80%;
 margin: 0 auto;
 width: 100%;
-height: 100px; /* Adjust the height as per your requirements */
+height: 30px; /* Adjust the height as per your requirements */
 overflow: hidden;
 word-wrap: break-word;
-overflow-y: scroll;
-
 }
 
 .post-message {
