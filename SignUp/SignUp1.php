@@ -11,7 +11,6 @@ if (isset($_GET['code']) && isset($_GET['password'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,30 +21,35 @@ if (isset($_GET['code']) && isset($_GET['password'])) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap" rel="stylesheet">
+  <style>
+    .required {
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1>General Info</h1>
     <form method="post" action="InsertUser.php">
-      <label for="firstName">First Name:</label>
+      <label for="firstName">First Name<span class="required">*</span>:</label>
       <input type="text" id="firstName" name="fname" required>
 
-      <label for="lastName">Last Name:</label>
+      <label for="lastName">Last Name<span class="required">*</span>:</label>
       <input type="text" id="lastName" name="lname" required>
 
-      <label for="fathername">Father Name:</label>
+      <label for="fathername">Father Name<span class="required">*</span>:</label>
       <input type="text" id="fathername" name="father_name" required>
 
-      <label for="mothername">Mother Name:</label>
+      <label for="mothername">Mother Name<span class="required">*</span>:</label>
       <input type="text" id="mothername" name="mother_name" required>
 
-      <label for="dateofbirth">Date of birth:</label>
+      <label for="dateofbirth">Date of birth<span class="required">*</span>:</label>
       <input type="date" id="dateofbirth" name="birth_date" required>
 
-      <label for="placeofbirth">Place of birth:</label>
+      <label for="placeofbirth">Place of birth<span class="required">*</span>:</label>
       <input type="text" id="placeofbirth" name="birth_place" required>
 
-      <label for="bloodtype">Blood Type:</label>
+      <label for="bloodtype">Blood Type<span class="required">*</span>:</label>
       <select id="bloodtype" name="blood_type" required>
         <option value="">Select Blood Type</option>
         <option value="A+">A+</option>
@@ -58,25 +62,25 @@ if (isset($_GET['code']) && isset($_GET['password'])) {
         <option value="AB-">AB-</option>
       </select>
 
-      <label for="landline">LandLine:</label>
+      <label for="landline">LandLine<span class="required">*</span>:</label>
       <input type="tel" id="landline" name="landline" required>
 
       <label for="phonenumber">Phone Number:</label>
-      <input type="tel" id="phonenumber" name="mobile" pattern="^(03|70|71|76|78|79)\d{6}$" required onkeypress="return isNumberKey(event)">
+      <input type="tel" id="phonenumber" name="mobile" pattern="^(03|70|71|76|78|79)\d{6}$" onkeypress="return isNumberKey(event)">
 
-      <label for="fatherjob">Father Job:</label>
+      <label for="fatherjob">Father Job<span class="required">*</span>:</label>
       <input type="text" id="fatherjob" name="father_job" required>
-      
-      <label for="fatherphonenumber">Father Phone Number:</label>
+
+      <label for="fatherphonenumber">Father Phone Number<span class="required">*</span>:</label>
       <input type="tel" id="fatherphonenumber" name="father_mobile" pattern="^(03|70|71|76|78|79)\d{6}$" required onkeypress="return isNumberKey(event)">
 
-      <label for="motherphonenumber">Mother Phone Number:</label>
-      <input type="tel" id="motherphonenumber" name="mother_mobile" pattern="^(03|70|71|76|78|79)\d{6}$" required onkeypress="return isNumberKey(event)">
+      <label for="motherphonenumber">Mother Phone Number:<span class="required">*</span></label>
+      <input type="tel" id="motherphonenumber" name="mother_mobile" pattern="^(03|70|71|76|78|79)\d{6}$" onkeypress="return isNumberKey(event)">
 
-      <label for="motherjob">Mother Job:</label>
+      <label for="motherjob">Mother Job<span class="required">*</span>:</label>
       <input type="text" id="motherjob" name="mother_job" required>
 
-      <label for="education">Education Level:</label>
+      <label for="education">Education Level<span class="required">*</span>:</label>
       <select id="education" name="education" required>
         <option value="">Select Education Level</option>
         <option value="highSchool">High School</option>
@@ -90,7 +94,7 @@ if (isset($_GET['code']) && isset($_GET['password'])) {
       <label for="email">Email:</label>
       <input type="email" id="email" name="email">
 
-      <label for="medicalcondition">Medical Condition:</label>
+      <label for="medicalcondition">Medical Condition:<span class="required">*</span></label>
       <input type="text" id="medicalcondition" name="medical_condition">
 
       <input type="hidden" name="scoutcode" value="<?php echo $code; ?>">
