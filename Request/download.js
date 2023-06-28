@@ -4,11 +4,11 @@ var app = angular.module('app', []);
 app.controller('FirstCtrl', ['$scope','$http', '$filter', function($scope, $http, $filter){
     
 $scope.tableDatas = [
-    {name: 'value1', fileName:'Avis Camp', filePath: '../Requests/Requests/Avis Camp.docx', selected: true},
-    {name: 'value2', fileName:'Avis Sortie', filePath: '../Requests/Requests/Avis Sortie.docx', selected: true},
+    {name: 'value1', fileName:'Avis Camp', filePath: '../Requests/Requests/Avis Camp.docx', selected: false},
+    {name: 'value2', fileName:'Avis Sortie', filePath: '../Requests/Requests/Avis Sortie.docx', selected: false},
     {name: 'value3', fileName:'Demande Certificats', filePath: '../Requests/Requests/Demande Certificats.docx', selected: false},
-    {name: 'value4', fileName:'Permission Act Fin', filePath: '../Requests/Requests/Permission Act Fin.docx', selected: true},
-    {name: 'value5', fileName:'Permission Camp', filePath: '../Requests/Requests/Permission Camp.docx', selected: true},
+    {name: 'value4', fileName:'Permission Act Fin', filePath: '../Requests/Requests/Permission Act Fin.docx', selected: false},
+    {name: 'value5', fileName:'Permission Camp', filePath: '../Requests/Requests/Permission Camp.docx', selected: false},
     {name: 'value6', fileName:'Permission Soiree', filePath: '../Requests/Requests/Permission Soiree.docx', selected: false},
     {name: 'value7', fileName:'Permission Sortie', filePath: '../Requests/Requests/Permission Sortie.docx', selected: false},
     {name: 'value8', fileName:'Programme Annuel', filePath: '../Requests/Requests/Programme Annuel.docx', selected: false},

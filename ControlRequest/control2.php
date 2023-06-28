@@ -8,8 +8,8 @@ $conn=connection();
 
 
 
-if (isset($_COOKIE['request_id'])) {
-  $selectedRequestId = $_COOKIE['request_id'];
+if (isset($_GET['request_id'])) {
+  $selectedRequestId = $_GET['request_id'];
 
   // Retrieve data related to the selected request_id
   $query = "SELECT * FROM requests WHERE request_id = $selectedRequestId";

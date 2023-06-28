@@ -13,7 +13,7 @@ $smtpPassword = 'vxckeqmkjwjyvnok'; // get this from APP Paswords in google secu
 // Email content
 $subject = "National Scouts and Guides";
 $message = "A new request has been sent to you!\n\n";
-$message .= "After the approval of the General Commissioner, the request has been redirect to you. Check pending requests section for more details.\n\n";
+$message .= "After the approval of the General Commissioner, the request has been redirected to you. Check pending requests section for more details.\n\n";
 $message .= "Best regards,\nNational Scouts and Guides";
 
 // Send email using PHPMailer library
