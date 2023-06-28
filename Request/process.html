@@ -19,27 +19,27 @@
 <script>
   // Check if the current page is process.html
 if (window.location.href.includes("process.html")) {
-  showNotification();
+  //showNotification();
 }
 
-function showNotification() {
-  if (!("Notification" in window)) {
-    console.log("This browser does not support desktop notifications.");
-    return;
-  }
+// function showNotification() {
+//   if (!("Notification" in window)) {
+//     console.log("This browser does not support desktop notifications.");
+//     return;
+//   }
 
-  Notification.requestPermission().then(function (permission) {
-    if (permission === "granted") {
-      var notification = new Notification("Hello!", {
-        body: "A request has been sent to you.",
-      });
+//   Notification.requestPermission().then(function (permission) {
+//     if (permission === "granted") {
+//       var notification = new Notification("Hello!", {
+//         body: "A request has been sent to you.",
+//       });
 
-      notification.onclick = function () {
-        console.log("Notification clicked.");
-      };
-    }
-  });
-}
+//       notification.onclick = function () {
+//         console.log("Notification clicked.");
+//       };
+//     }
+//   });
+// }
 
 </script>
 </html>
