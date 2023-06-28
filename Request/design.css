@@ -177,6 +177,10 @@ section {
     background: rgb(143, 219, 143);
 }
 
+.required {
+    color: red;
+  }
+
   
 
 

@@ -3,11 +3,14 @@
 include ("../common.inc.php");
 include ("../utility.php");
 $conn=connection();
+
+
 include("../ControlRequest/sidebarTest.php"); ?>
 <!DOCTYPE html>
 <html>
 <head>
   <title>History of rejected requests</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     .container {
       display: flex;
@@ -145,6 +148,23 @@ color: #333;
     background: rgb(143, 219, 143);
 }
 
+.icon-container {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+}
+
+.icon {
+      font-size: 20px;
+      color: #555;
+      margin-right: 5px;
+}
+
+.icon-link {
+      text-decoration: none; 
+      color: inherit; 
+}
+
   </style>
 </head>
 
@@ -155,6 +175,14 @@ color: #333;
             <h2 style="color:red;">Requests Rejected</h2>
         </div>
     </div>
+
+    <div class="icon-container">
+    <a href="controlReqGenCom.php" class="icon-link">
+      <i class="fa fa-reply icon" aria-hidden="true"></i>
+    </a>
+    </div>
+
+
 
     <div class="filter">
       <form action="" method="POST">

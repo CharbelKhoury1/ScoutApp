@@ -6,6 +6,7 @@ include ("../common.inc.php");
 include ("../utility.php");
 $conn=connection();
 
+
 if (isset($_COOKIE['request_id'])) {
   $selectedRequestId = $_COOKIE['request_id'];
 
@@ -41,6 +42,26 @@ mysqli_close($conn);
 <!DOCTYPE html>
 <head>
 <link rel = "stylesheet" href = "test1.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  .icon-container {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+}
+
+.icon {
+      font-size: 20px;
+      color: #555;
+      margin-right: 5px;
+}
+
+.icon-link {
+      text-decoration: none; 
+      color: inherit; 
+}
+
+</style>
 <script>
   function viewFile(){
     window.location.href = "../ControlRequest/viewFile.php";
@@ -73,6 +94,12 @@ mysqli_close($conn);
 </head>
 
 <tbody>
+
+    <div class="icon-container">
+    <a href="requests_approved_GenCom.php" class="icon-link">
+      <i class="fa fa-reply icon" aria-hidden="true"></i>
+    </a>
+    </div>
 
 
     <div>

@@ -290,6 +290,7 @@ function calculateDaysDifference($dddd) {
 
       <form action="" method="POST" enctype="multipart/form-data">
         <h2>Request Details</h2>
+        <span class="required">Fields having '*' are required!</span>
 
         <!--<div class="container">-->
           <div class="container1">
@@ -302,12 +303,12 @@ function calculateDaysDifference($dddd) {
             </tr>
             <tr>
               <div id="message"></div>
-              <td><label for="date">Select Event Date:</label></td>
+              <td><label for="date">Select Event Date:<span class="required">*</span></label></td>
               <td><input type="date" name="dateN" id="date" required></td>
             </tr>
             <tr>
 
-              <td><label for="user">Receiver:</label></td>
+              <td><label for="user">Receiver:<span class="required">*</span></label></td>
               <td><select name="receiverN" id="receiver">
               <option value="General Commissioner (مفوض عام)">General Commissioner (مفوض عام)</option>
               <option value="General Commissioner and General Commander (مفوض عام و رئيس)">General Commissioner and General Commander (مفوض عام و رئيس)</option>
