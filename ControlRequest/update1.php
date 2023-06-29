@@ -8,8 +8,8 @@ include ("../common.inc.php");
 include ("../utility.php");
 $conn=connection();
 
-if (isset($_GET['request_id'])) {
-  $selectedRequestId = $_GET['request_id'];
+if (isset($_COOKIE['request_id'])) {
+  $selectedRequestId = $_COOKIE['request_id'];
   $query = "UPDATE `requeststatus` SET `date`=SYSDATE(),`statusCode`='2' WHERE request_id= $selectedRequestId";
   $result = mysqli_query($conn, $query);
 

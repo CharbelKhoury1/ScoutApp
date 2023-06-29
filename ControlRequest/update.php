@@ -8,8 +8,8 @@ include ("../common.inc.php");
 include ("../utility.php");
 $conn=connection();
 
-if (isset($_GET['request_id'])) {
-  $selectedRequestId = $_GET['request_id'];
+if (isset($_COOKIE['request_id'])) {
+  $selectedRequestId = $_COOKIE['request_id'];
   
   $slt = "SELECT approver FROM requests WHERE request_id = $selectedRequestId";
   $res = mysqli_query($conn, $slt);
