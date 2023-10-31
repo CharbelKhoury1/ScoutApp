@@ -62,22 +62,22 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
                         echo '<button onclick="window.location.href=\'../Request/request.php\'">';
                         echo '<img src="../Icons/git-pull-request-svgrepo-com.svg">Requests';
                         echo '</button>';
-                    } elseif ($featureName === "make transaction") {
-                        // Check if "view transaction" has already been displayed
-                        if (!$transactionButtonDisplayed) {
-                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
-                            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
-                            echo '</button>';
-                            $transactionButtonDisplayed = true; // Set the flag to true
-                        }
-                    } elseif ($featureName === "view transaction") {
-                        // Check if "make transaction" has already been displayed
-                        if (!$transactionButtonDisplayed) {
-                            echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
-                            echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
-                            echo '</button>';
-                            $transactionButtonDisplayed = true; // Set the flag to true
-                        }
+                    // } elseif ($featureName === "make transaction") {
+                    //     // Check if "view transaction" has already been displayed
+                    //     if (!$transactionButtonDisplayed) {
+                    //         echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
+                    //         echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
+                    //         echo '</button>';
+                    //         $transactionButtonDisplayed = true; // Set the flag to true
+                    //     }
+                    // } elseif ($featureName === "view transaction") {
+                    //     // Check if "make transaction" has already been displayed
+                    //     if (!$transactionButtonDisplayed) {
+                    //         echo '<button onclick="window.location.href=\'../views/transactionView.php\'">';
+                    //         echo '<img src="../Icons/finance-currency-dollar-svgrepo-com.svg">Finance';
+                    //         echo '</button>';
+                    //         $transactionButtonDisplayed = true; // Set the flag to true
+                    //     }
                     } elseif ($featureName === "change required days") {
                         echo '<button onclick="window.location.href=\'../ScoutManagementSystem/changeDays.php\'">';
                         echo '<img src="../Icons/history-svgrepo-com.svg">Change Required Days';
@@ -98,12 +98,12 @@ $con=mysqli_connect("127.0.0.1","root","","scoutproject") or die( "Failed to con
             }
         ?>
         <!-- Add other static buttons here -->
-        <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
+        <!-- <button onclick="redirectToHomeAndScrollToSection('scoutGallery1')">
             <img src="../Icons/world-1-svgrepo-com.svg">Social Media
         </button>
         <button onclick="redirectToHomeAndScrollToSection('testimonial1')">
             <img src="../Icons/system-help-svgrepo-com.svg">About Us
-        </button>
+        </button> -->
         <button class="active" onclick="window.location.href='../views/contactUsView.php'">
             <img src="../Icons/phone-svgrepo-com.svg">Contact Us
         </button>
