@@ -25,7 +25,6 @@ $con = connection();
 </head>
 
 <body>
-  <!-- facebook embedd -->
 
   <div class="sidebar">
     <div class="logo">
