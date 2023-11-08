@@ -9,7 +9,9 @@ $con = connection();
 
 <!DOCTYPE html>
 <html>
-
+<!-- L tables bl db l ma ha n3ouzon
+event, eventimage, forms, requests, requestsetting, requeststatus, status, transaction, 
+ transactioncurrency, transactiontype,  -->
 <head>
   <title>My Website</title>
   <meta charset="UTF-8">
