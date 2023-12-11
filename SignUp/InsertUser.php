@@ -105,7 +105,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['SignUp2'])) {
     // Update the 'user' table
     $sqlUpdate = "UPDATE user SET
                     scoutAdmission_date = '$affiliationDate',
-                    scoutOath_date = '$oathDate',
+                    scoutOath_date = IFNULL('$oathDate', NULL),
                     scoutTitle = '$scoutTitle',
                     scoutTitle_date = '$dateOfTheTitle',
                     scoutTitle_place = '$placeOfTheTitle'             

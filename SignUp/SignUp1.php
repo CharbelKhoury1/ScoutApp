@@ -62,8 +62,8 @@ if (isset($_GET['code']) && isset($_GET['password'])) {
         <option value="AB-">AB-</option>
       </select>
 
-      <label for="landline">LandLine<span class="required">*</span>:</label>
-      <input type="tel" id="landline" name="landline" required>
+      <label for="landline">LandLine:</label>
+      <input type="tel" id="landline" name="landline">
 
       <label for="phonenumber">Phone Number:</label>
       <input type="tel" id="phonenumber" name="mobile" pattern="^(03|70|71|76|78|79)\d{6}$" onkeypress="return isNumberKey(event)">
